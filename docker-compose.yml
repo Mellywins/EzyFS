@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  main:
+    container_name: ${APP_NAME}
+    build:
+      context: .
+      target: development
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - ${PORT}:${PORT}
+    command: npm run start:dev
+    env_file:
+      - .env
+    networks:
+      - webnet
+    depends_on:
+      - postgres
+  postgres:
+    container_name: postgres
+    image: postgres:12
+    networks:
+      - webnet
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+networks:
+  webnet:
+volumes:
+  pgdata:
