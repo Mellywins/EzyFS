@@ -1,9 +1,14 @@
+const {off} = require('process');
+
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: 'tsconfig.json',
     ecmaVersion: 2018,
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: false,
+    },
   },
   plugins: ['@typescript-eslint/eslint-plugin'],
   extends: [
@@ -17,8 +22,8 @@ module.exports = {
   env: {
     node: true,
     jest: true,
-    browser:true,
-    es6:true
+    browser: true,
+    es6: true,
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
@@ -26,6 +31,8 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'import/extensions': 'off',
+    'react/jsx-filename-extension': 'off',
     'no-unused-vars': [
       'error',
       {
