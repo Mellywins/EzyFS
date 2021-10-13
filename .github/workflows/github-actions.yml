@@ -24,4 +24,8 @@ jobs:
       run: |
         npm install
         gulp
+    - name: Test
+      run: |
+        npm install
+        npm run test
 
