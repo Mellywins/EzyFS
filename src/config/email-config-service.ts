@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import {ConfigService} from '@nestjs/config';
-import {EnvironmentVariables} from '../../common/EnvironmentVariables';
+import {EnvironmentVariables} from '../common/EnvironmentVariables';
 
 require('dotenv').config();
 
