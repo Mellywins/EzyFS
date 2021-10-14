@@ -4,7 +4,7 @@ import {Injectable} from '@nestjs/common';
 // eslint-disable-next-line import/extensions
 import {ConfigService} from '@nestjs/config';
 import {TypeOrmModuleOptions} from '@nestjs/typeorm';
-import {parse} from 'pg-connection-string';
+// import {parse} from 'pg-connection-string';
 import {EnvironmentVariables} from '../../common/EnvironmentVariables';
 
 const os = require('os');
@@ -27,22 +27,20 @@ class DatabaseConfigService {
       delimiter = '/';
     }
     const path = __dirname.split(delimiter);
-    const entitiesPath = path.splice(0, path.length - 1).join(delimiter);
-    const host = this.configService.get<string>('HOST');
+    const entitiesPath = path.splice(0, path.length - 2).join(delimiter);
     const port = this.configService.get<number>('DB_PORT');
     const username = this.configService.get<string>('POSTGRES_USER');
     const password = this.configService.get<string>('POSTGRES_PASSWORD');
     const database = this.configService.get<string>('POSTGRES_DB');
-    const url = `postgres://${username}:${password}@${host}:${port}/${database}`;
-    const config = parse(url);
+    // const config = parse(url);
     return {
       type: 'postgres',
-      url,
-      username: config.user,
-      password: config.password,
-      database: config.database,
-      host: config.host,
-      port: config.port as unknown as number,
+      // url,
+      username,
+      password,
+      database,
+      host: 'postgres',
+      port,
       entities: [`${entitiesPath}/**/*.entity{.ts,.js}`],
       // logging:true,
       synchronize: true,
