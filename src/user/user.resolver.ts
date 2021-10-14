@@ -11,8 +11,8 @@ import {Auth} from '../shared/decorators/auth.decorator';
 import {EmailVerificationInput} from '../email/dto/email-verification.input';
 import {ResetPasswordEmailInput} from '../email/dto/reset-password-email.input';
 import {ResetPasswordInput} from './dto/reset-password.input';
-import {FirstStageDTOInput} from './dto/first-stage-dto.input';
-import {SecondStageDTOInput} from './dto/second-stage-dto.input';
+import {FirstStageUserInput} from './dto/first-stage-user.input';
+import {SecondStageDTOInput} from './dto/second-stage-user.input';
 import {TokenModel} from '../auth/dto/token.model';
 
 @Resolver((of) => User)

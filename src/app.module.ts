@@ -9,8 +9,7 @@ import {databaseConfigService} from './config/database-config-service/database-c
 import {UserModule} from './user/user.module';
 import {AuthModule} from './auth/auth.module';
 import {RedisCacheModule} from './redis-cache/redis-cache.module';
-import { MailModule } from './mail/mail.module';
-import { EmailModule } from './email/email.module';
+import {EmailModule} from './email/email.module';
 
 @Module({
   imports: [
@@ -26,7 +25,6 @@ import { EmailModule } from './email/email.module';
     }),
     AuthModule,
     RedisCacheModule,
-    MailModule,
     EmailModule,
   ],
   controllers: [AppController],
