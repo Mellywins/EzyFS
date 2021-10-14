@@ -26,9 +26,9 @@ export class UserResolver {
 
   @Mutation((returns) => User)
   firstStageSignUp(
-    @Args('firstStageDTOInput') firstStageDTOInput: FirstStageDTOInput,
+    @Args('firstStageUserInput') firstStageUserInput: FirstStageUserInput,
   ) {
-    return this.userService.firstStageSignUp(firstStageDTOInput);
+    return this.userService.firstStageSignUp(firstStageUserInput);
   }
 
   @Mutation((returns) => User)

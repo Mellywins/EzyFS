@@ -12,7 +12,7 @@ import {Gender} from '../entities/gender';
 // import {FirstStageUserInput} from './first-stage-user.input';
 // import {SecondStageDTOInput} from './second-stage-user.input';
 
-// type a = FirstStageDTOInput | SecondStageDTOInput;
+// type a = firstStageUserInput | SecondStageDTOInput;
 @InputType()
 export class CreateUserInput {
   @Field((type) => Int, {nullable: true})
