@@ -20,16 +20,16 @@ services:
       - postgres
   postgres:
     container_name: postgres
-    image: postgres:12
+    image: postgres
     healthcheck:
-      test: ['CMD', 'pg_isready', '-q', '-d', 'postgres', '-U', 'root']
+      test: ['CMD', 'pg_isready', '-q', '-d', 'postgres', '-U', 'postgres']
       timeout: 45s
       interval: 10s
       retries: 10
     environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=project
       # - APP_DB_USER=docker
       # - APP_DB_PASS=docker
       # - APP_DB_NAME=docker
