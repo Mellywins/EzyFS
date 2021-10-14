@@ -2,6 +2,29 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Email {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+  id: Int
+  sentDate: DateTime!
+  emailType: EmailTypeEnum!
+  sender: User!
+  token: String!
+  verificationToken: String!
+  isExpired: Boolean
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum EmailTypeEnum {
+  CONFIRMATION
+  RESET_PASSWORD
+}
+
 type User {
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -16,12 +39,21 @@ type User {
   localization: String
   telNumber: String
   isConfirmed: Boolean!
+  sentEmails: [Email!]
+  lowerCasedUsername: String!
+  gender: Gender
+  roles: [UserRoleEnum!]!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum UserRoleEnum {
+  ADMIN
+  USER
+}
 
 type TokenModel {
   access_token: String!
@@ -30,26 +62,71 @@ type TokenModel {
 }
 
 type Query {
-  user(id: Int!): User!
+  users: [User!]!
+  user(id: Float!): User!
+  existByEmail(email: String!): Boolean!
+  existByUsername(username: String!): Boolean!
+  email: [Email!]!
+  emails(id: Int!): Email!
   refreshToken(refreshToken: String!): TokenModel!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  firstStageSignUp(firstStageUserInput: FirstStageUserInput!): User!
+  secondStageSignUp(secondStageDTOInput: SecondStageDTOInput!): User!
+  update(updateUserInput: UpdateUserInput!): User!
+  remove(id: Float!): User!
+  confirmEmail(emailVerificationInput: EmailVerificationInput!): TokenModel!
+  sendResetPasswordEmail(ResetPasswordEmailInput: ResetPasswordEmailInput!): Boolean!
+  resetPassword(ResetPasswordInput: ResetPasswordInput!): Boolean!
   login(credentialsInput: CredentialsInput!): TokenModel!
 }
 
-input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+input FirstStageUserInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input SecondStageDTOInput {
+  id: Float!
+  localization: String!
+  telNumber: String!
+  firstname: String!
+  lastname: String!
+  age: Float!
+  gender: Float!
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
   id: Int!
+  username: String
+  firstname: String
+  lastname: String
+  age: Float
+  email: String
+  localization: String
+  telNumber: String
+  password: String
+  roles: [String!]
+  gender: Float
+}
+
+input EmailVerificationInput {
+  token: String!
+  verificationToken: String!
+  userId: Float!
+}
+
+input ResetPasswordEmailInput {
+  email: String!
+}
+
+input ResetPasswordInput {
+  token: String!
+  verificationToken: String!
+  email: String!
+  password: String!
 }
 
 input CredentialsInput {
