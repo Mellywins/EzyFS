@@ -35,6 +35,7 @@ module.exports = {
     'react/jsx-filename-extension': 'off',
     'import/prefer-default-export': 'off',
     'no-useless-constructor': 'off',
+    'no-empty-function': 'off',
     'no-unused-vars': [
       'error',
       {
