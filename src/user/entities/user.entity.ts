@@ -1,8 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {ObjectType, Field, Int, HideField} from '@nestjs/graphql';
-import {Entity, PrimaryGeneratedColumn, Column, BeforeInsert} from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BeforeInsert,
+  OneToMany,
+} from 'typeorm';
 import {IsEmail, IsPhoneNumber} from 'class-validator';
 import * as bcrypt from 'bcrypt';
 import {TimestampEntites} from '../../generics/timestamp.entity';
+// eslint-disable-next-line import/no-cycle
+import {Email} from '../../email/entities/email.entity';
 
 @Entity()
 @ObjectType()
@@ -56,6 +65,10 @@ export class User extends TimestampEntites {
   @Column({default: false})
   @Field()
   isConfirmed: boolean;
+
+  @OneToMany(() => Email, (email) => email.sender)
+  @Field((type) => [Email], {nullable: true})
+  sentEmails: [Email];
 
   @BeforeInsert()
   async hashPassword() {

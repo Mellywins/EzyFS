@@ -1,30 +1,28 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {MailerModule, MailerService} from '@nestjs-modules/mailer';
 import {HandlebarsAdapter} from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import {Test, TestingModule} from '@nestjs/testing';
 import {getRepositoryToken} from '@nestjs/typeorm';
 import {join} from 'path';
+import {QueryBuilder, QueryRunner, SelectQueryBuilder} from 'typeorm';
 import {User} from '../user/entities/user.entity';
-import {emailCredentials} from '../config/EmailConfigService';
+import {emailCredentials} from '../config/email-config-service';
 import {CreateEmailInput} from './dto/create-email.input';
 import {EmailService} from './email.service';
 import {EmailTypeEnum} from './entities/email-type.enum';
 import {Email} from './entities/email.entity';
-import {QueryBuilder, QueryRunner, SelectQueryBuilder} from 'typeorm';
 
 describe('EmailService', () => {
   let service: EmailService;
   const mockEmailRepository = {
-    create: jest.fn().mockImplementation((dto) => {
-      return Promise.resolve({id: 1, ...dto});
-    }),
-    save: jest.fn().mockImplementation((email) => {
-      return Promise.resolve(email);
-    }),
+    create: jest
+      .fn()
+      .mockImplementation((dto) => Promise.resolve({id: 1, ...dto})),
+    save: jest.fn().mockImplementation((email) => Promise.resolve(email)),
   };
   const mailerServiceMock = {
-    sendMail: jest.fn().mockImplementation((dto) => {
-      return Promise.resolve(dto);
-    }),
+    sendMail: jest.fn().mockImplementation((dto) => Promise.resolve(dto)),
   };
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -43,7 +41,7 @@ describe('EmailService', () => {
             auth: emailCredentials,
           },
           defaults: {
-            from: 'karpully.tech@gmail.com',
+            from: 'project.tech@gmail.com',
           },
           template: {
             dir: join(process.cwd(), 'src/templates'),

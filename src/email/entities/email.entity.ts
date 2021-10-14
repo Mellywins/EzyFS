@@ -21,9 +21,9 @@ export class Email extends TimestampEntites implements EmailBuilder {
   @Field((type) => EmailTypeEnum)
   emailType: EmailTypeEnum;
 
-  // @ManyToOne(() => User, (user) => user.sentEmails)
-  // @Field((type) => User)
-  // sender: User;
+  @ManyToOne(() => User, (user) => user.sentEmails)
+  @Field((type) => User)
+  sender: User;
 
   @Field()
   @Column({type: 'uuid'})
@@ -37,10 +37,10 @@ export class Email extends TimestampEntites implements EmailBuilder {
   @Column({type: 'boolean', default: false})
   isExpired: boolean;
 
-  // setSender(user: User): Email {
-  //   this.sender = user;
-  //   return this;
-  // }
+  setSender(user: User): Email {
+    this.sender = user;
+    return this;
+  }
 
   setDate(date: Date): Email {
     this.sentDate = date;

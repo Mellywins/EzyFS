@@ -7,13 +7,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
-import {User} from '../user/entities/user.entity';
-import {Repository, ConnectionManager} from 'typeorm';
-import {Email} from './entities/email.entity';
-import {EmailTypeEnum} from './entities/email-type.enum';
+import {Repository} from 'typeorm';
 import {join} from 'path';
 import {v4 as uuidv4} from 'uuid';
 import * as dotenv from 'dotenv';
+import {EmailTypeEnum} from './entities/email-type.enum';
+import {Email} from './entities/email.entity';
+import {User} from '../user/entities/user.entity';
 import {DatesOperations} from '../utils/dates-operation';
 import {
   CONFIRMATION_EMAIL_SUBJECT,
@@ -24,6 +24,7 @@ import {
   RESET_PASSWORD_EMAIL_TEMPLATE_NAME,
   SENDING_EMAIL_ERROR_MESSAGE,
 } from '../utils/constants';
+
 dotenv.config();
 @Injectable()
 export class EmailService {
@@ -32,28 +33,30 @@ export class EmailService {
     private readonly emailRepository: Repository<Email>,
     private readonly mailerService: MailerService,
   ) {}
+
   async create(createEmailInput: Email): Promise<Email> {
     const email = this.emailRepository.create(createEmailInput);
-    return await this.emailRepository.save(email);
+    return this.emailRepository.save(email);
   }
 
   async findAll(): Promise<Email[]> {
-    return await this.emailRepository.find();
+    return this.emailRepository.find();
   }
 
   async findOne(id: number): Promise<Email> {
-    return await this.emailRepository.findOne({where: {id}});
+    return this.emailRepository.findOne({where: {id}});
   }
 
   async findAllByUserId(userId: number): Promise<Email[]> {
-    return await this.emailRepository
+    return this.emailRepository
       .createQueryBuilder('email')
       .where('email.sender.id = :userId', {userId})
       .getMany();
   }
 
-  async sendEmail(user: User, emailType: EmailTypeEnum): Promise<Boolean> {
-    let subject, templateName;
+  async sendEmail(user: User, emailType: EmailTypeEnum): Promise<boolean> {
+    let subject;
+    let templateName;
 
     switch (emailType) {
       case EmailTypeEnum.CONFIRMATION:
@@ -78,30 +81,21 @@ export class EmailService {
 
     await this.create(email);
     const {token, verificationToken} = email;
-    const url =
-      process.env.FRONT_END_BASE_URL +
-      '?sign_up_token=' +
-      token +
-      '&sign_up_verification_token=' +
-      verificationToken +
-      '&sign_up_user_id=' +
-      user.id;
+    const url = `${process.env.FRONT_END_BASE_URL}?sign_up_token=${token}&sign_up_verification_token=${verificationToken}&sign_up_user_id=${user.id}`;
     // build the email and send it
     this.mailerService
       .sendMail({
         to: user.email,
-        subject: subject,
-        template: join(process.cwd(), 'src/templates/' + templateName),
+        subject,
+        template: join(process.cwd(), `src/templates/${templateName}`),
         context: {
           userId: user.id,
-          token: token,
-          verificationToken: verificationToken,
+          token,
+          verificationToken,
           url,
         },
       })
-      .then(() => {
-        return true;
-      })
+      .then(() => true)
       .catch((err) => {
         Logger.log(err, 'SENDING EMAIL ERROR!');
         throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
