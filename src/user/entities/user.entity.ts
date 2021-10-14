@@ -53,6 +53,10 @@ export class User extends TimestampEntites {
   @HideField()
   password: string;
 
+  @Column({default: false})
+  @Field()
+  isConfirmed: boolean;
+
   @BeforeInsert()
   async hashPassword() {
     this.salt = await bcrypt.genSalt();
