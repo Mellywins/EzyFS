@@ -8,7 +8,7 @@ import {AppService} from './app.service';
 import {databaseConfigService} from './config/database-config-service/database-config-service.service';
 import {UserModule} from './user/user.module';
 import {AuthModule} from './auth/auth.module';
-import { RedisCacheModule } from './redis-cache/redis-cache.module';
+import {RedisCacheModule} from './redis-cache/redis-cache.module';
 
 @Module({
   imports: [

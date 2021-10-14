@@ -1,19 +1,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable default-case */
 import {
-  CACHE_MANAGER,
-  Inject,
   Injectable,
-  Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import {JwtService, JwtSignOptions} from '@nestjs/jwt';
+import {JwtService} from '@nestjs/jwt';
 import {InjectRepository} from '@nestjs/typeorm';
-import {CredentialsInput} from 'src/auth/dto/credentials.input';
 import {Repository} from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
+import {CredentialsInput} from './dto/credentials.input';
 import {User} from '../user/entities/user.entity';
 import {PayloadInterface} from './dto/payload.interface';
 import {TokenModel} from './dto/token.model';
@@ -42,6 +39,7 @@ export class AuthService {
     return null;
   }
 
+  // eslint-disable-next-line consistent-return
   async generateJwtToken(payload: PayloadInterface, tokenType: TokenTypeEnum) {
     switch (tokenType) {
       case TokenTypeEnum.ACCESS:
@@ -126,8 +124,6 @@ export class AuthService {
         );
         // add the new refresh token to the cache
         await this.redisCacheService.set(user.username, refreshToken);
-        // register the connection
-        this.registerConnection(user);
         // return result
         return {
           access_token: accessToken,
@@ -138,24 +134,5 @@ export class AuthService {
       // if the password is not equal to user.password that means that the credentials are not true
       throw new NotFoundException(PASSWORD_LOGIN_MISSMATCH_ERROR_MESSAGE);
     }
-  }
-
-  async registerConnection(user: User) {
-    const {id} = user;
-    // fetch the connection historic of the user (by user id)
-
-    let connectionHistoric: ConnectionHistoric =
-      await this.connectionHistoricService.findOneByUserId(id);
-    if (!connectionHistoric) {
-      connectionHistoric = await this.connectionHistoricService.create(user);
-    }
-
-    // create new connection entity
-    const connection = await this.connectionService.create(connectionHistoric);
-
-    // save the historic
-    await this.connectionHistoricService.updateConnectionHistoric(
-      connectionHistoric,
-    );
   }
 }
