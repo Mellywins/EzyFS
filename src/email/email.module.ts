@@ -6,8 +6,8 @@ import {join} from 'path';
 import {EmailService} from './email.service';
 import {EmailResolver} from './email.resolver';
 import {Email} from './entities/email.entity';
-import {UserService} from '../user/user.service';
-import {emailCredentials} from '../config/database-config-service/email-config-service';
+// import {UserService} from '../user/user.service';
+import {emailCredentials} from '../config/email-config-service';
 
 @Module({
   providers: [EmailResolver, EmailService],
