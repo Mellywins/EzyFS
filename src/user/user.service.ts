@@ -1,16 +1,21 @@
-import {ProfileImgUpload} from './../profile-img-upload/entities/profile-img-upload.entity';
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-unused-vars */
 import {
   BadRequestException,
   HttpException,
   HttpStatus,
   Injectable,
   InternalServerErrorException,
-  Logger,
+  // Logger,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
-import {Repository, UpdateResult} from 'typeorm';
+import {Repository} from 'typeorm';
+import * as bcrypt from 'bcrypt';
+import {ResetPasswordEmailInput} from '../email/dto/reset-password-email.input';
+import {TokenModel} from '../auth/dto/token.model';
+// import {ProfileImgUpload} from '../profile-img-upload/entities/profile-img-upload.entity';
 import {CreateUserInput} from './dto/create-user.input';
 import {UpdateUserInput} from './dto/update-user.input';
 import {User} from './entities/user.entity';
@@ -22,16 +27,14 @@ import {
   SENDING_EMAIL_ERROR_MESSAGE,
   USER_NOT_FOUND_ERROR_MESSAGE,
 } from '../utils/constants';
-import {ResetPasswordEmailInput} from 'src/email/dto/reset-password-email.input';
 import {ResetPasswordInput} from './dto/reset-password.input';
-import * as bcrypt from 'bcrypt';
-import {FirstStageDTOInput} from './dto/first-stage-dto.input';
-import {SecondStageDTOInput} from './dto/second-stage-dto.input';
+import {FirstStageUserInput} from './dto/first-stage-user.input';
+import {SecondStageDTOInput} from './dto/second-stage-user.input';
 import {RedisCacheService} from '../redis-cache/redis-cache.service';
 import {AuthService} from '../auth/auth.service';
 import {TokenTypeEnum} from '../auth/dto/token-type.enum';
 import {PayloadInterface} from '../auth/dto/payload.interface';
-import {TokenModel} from 'src/auth/dto/token.model';
+
 @Injectable()
 export class UserService {
   constructor(
@@ -41,7 +44,7 @@ export class UserService {
     private readonly authService: AuthService,
   ) {}
 
-  async userExistByEmail(email: string): Promise<Boolean> {
+  async userExistByEmail(email: string): Promise<boolean> {
     const user = await this.userRepository.findOne({
       where: {email},
     });
@@ -51,7 +54,7 @@ export class UserService {
     return false;
   }
 
-  async userExistByUsernam(username: string): Promise<Boolean> {
+  async userExistByUsernam(username: string): Promise<boolean> {
     const user = await this.userRepository.findOne({
       where: {username},
     });
@@ -60,20 +63,22 @@ export class UserService {
     }
     return false;
   }
-  async updateImage(user: number, imageId: ProfileImgUpload): Promise<string> {
-    const response = await this.userRepository
-      .update(user, {profileImage: imageId})
-      .catch((e) => console.log)
-      .then(
-        (_) =>
-          `Successfully updated ${user} profile picture with image id ${imageId}`,
-      );
-    return response;
-  }
+  // TODO:image upload config
+  // async updateImage(user: number, imageId: ProfileImgUpload): Promise<string> {
+  //   const response = await this.userRepository
+  //     .update(user, {profileImage: imageId})
+  //     .catch((e) => console.log)
+  //     .then(
+  //       (_) =>
+  //         `Successfully updated ${user} profile picture with image id ${imageId}`,
+  //     );
+  //   return response;
+  // }
+
   // THIS FUNCTION IS NOT USED IN RESOLVERS INSTEAD IT IS USED IN TESTS TO CREATE AND POPULATE DATA
   async create(createUserInput: CreateUserInput): Promise<User> {
     // check if the user is unique or not
-    let checkUser = await this.userRepository.findOne({
+    const checkUser = await this.userRepository.findOne({
       where: [
         {
           lowerCasedUsername: createUserInput.username.toLowerCase(),
@@ -86,15 +91,14 @@ export class UserService {
       user.lowerCasedUsername = user.username.toLowerCase();
       await this.userRepository.save(user);
       // send a confirmation to the user
-      const isEmailSent: Boolean = await this.emailService.sendEmail(
+      const isEmailSent: boolean = await this.emailService.sendEmail(
         user,
         EmailTypeEnum.CONFIRMATION,
       );
       if (isEmailSent) {
         return user;
-      } else {
-        throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
       }
+      throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
     } else {
       // if the user has the same username or email with someone else we throw an exception
       throw new HttpException(
@@ -104,9 +108,9 @@ export class UserService {
     }
   }
 
-  async firstStageSignUp(firstStageDTO: FirstStageDTOInput) {
+  async firstStageSignUp(firstStageDTO: FirstStageUserInput) {
     // check if the user is unique or not
-    let checkUser = await this.userRepository.findOne({
+    const checkUser = await this.userRepository.findOne({
       where: [
         {
           lowerCasedUsername: firstStageDTO.username.toLowerCase(),
@@ -120,15 +124,14 @@ export class UserService {
       user.completedSignUp = false;
       await this.userRepository.save(user);
       // send a confirmation to the user
-      const isEmailSent: Boolean = await this.emailService.sendEmail(
+      const isEmailSent: boolean = await this.emailService.sendEmail(
         user,
         EmailTypeEnum.CONFIRMATION,
       );
       if (isEmailSent) {
         return user;
-      } else {
-        throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
       }
+      throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
     } else {
       // if the user has the same username or email with someone else we throw an exception
       throw new HttpException(
@@ -151,27 +154,25 @@ export class UserService {
       user.telNumber = telNumber;
       user.gender = gender;
 
-      return await this.userRepository.save(user);
-    } else {
-      throw new BadRequestException();
+      return this.userRepository.save(user);
     }
+    throw new BadRequestException();
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userRepository.find();
+    return this.userRepository.find();
   }
 
   async findOne(user: User, id: number): Promise<User> {
     if (this.checkAuthorities(user, id)) {
-      return await this.userRepository.findOne({where: {id}});
-    } else {
-      throw new UnauthorizedException();
+      return this.userRepository.findOne({where: {id}});
     }
+    throw new UnauthorizedException();
   }
 
   // this function is for internal use
   async internalFindOne(id: number): Promise<User> {
-    return await this.userRepository.findOne({where: {id}});
+    return this.userRepository.findOne({where: {id}});
   }
 
   async update(
@@ -180,7 +181,7 @@ export class UserService {
     updateUserInput: UpdateUserInput,
   ): Promise<User> {
     // this will throw an error if the current user does not have the right to update.
-    let user = await this.findOne(currentUser, userId);
+    const user = await this.findOne(currentUser, userId);
 
     // we check if the user is not found in the database we couldn't update so we throw an exception
     if (!user) {
@@ -190,7 +191,7 @@ export class UserService {
       await this.userRepository
         .update(userId, data)
         .then((updatedUser) => updatedUser.raw[0]);
-      return await this.findOne(currentUser, userId);
+      return this.findOne(currentUser, userId);
     }
   }
 
@@ -201,7 +202,7 @@ export class UserService {
   }
 
   async findByUsername(username: string): Promise<User> {
-    return await this.userRepository.findOne({where: {username}});
+    return this.userRepository.findOne({where: {username}});
   }
 
   // a method which check the authority of a user
@@ -209,10 +210,9 @@ export class UserService {
     // If the user is admin he has all authorities
     if (user.roles.indexOf(UserRoleEnum.ADMIN) > -1) {
       return true;
-    } else {
-      // else we check if the user who demand to find userById correspond to the actual user in database or not.
-      return user.id === id;
     }
+    // else we check if the user who demand to find userById correspond to the actual user in database or not.
+    return user.id === id;
   }
 
   /*
@@ -220,6 +220,7 @@ export class UserService {
     so we should update the user and make his confirmation attribute to true
     else we should delete him from database so he could make another registration with the same data (email, username etc..)
   */
+  // eslint-disable-next-line consistent-return
   async validUserConfirmation(
     emailVerificationInput: EmailVerificationInput,
   ): Promise<TokenModel> {
@@ -236,11 +237,10 @@ export class UserService {
         user.isConfirmed = true;
         await this.userRepository.save(user);
         return this.generateTokenModel(user);
-      } else {
-        // if the user account is not confirmed we should delete his account so he can try another registration
-        if (user.isConfirmed === false) {
-          await this.userRepository.delete(userId);
-        }
+      }
+      // if the user account is not confirmed we should delete his account so he can try another registration
+      if (user.isConfirmed === false) {
+        await this.userRepository.delete(userId);
       }
     } else {
       throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
@@ -249,19 +249,18 @@ export class UserService {
 
   async sendResetPasswordEmail(
     resetPasswordEmail: ResetPasswordEmailInput,
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     const {email} = resetPasswordEmail;
     const user: User = await this.userRepository.findOne({where: {email}});
     if (user) {
-      const isEmailSent: Boolean = await this.emailService.sendEmail(
+      const isEmailSent: boolean = await this.emailService.sendEmail(
         user,
         EmailTypeEnum.RESET_PASSWORD,
       );
       if (isEmailSent) {
         return isEmailSent;
-      } else {
-        throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
       }
+      throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
     } else {
       throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
     }
@@ -282,9 +281,8 @@ export class UserService {
         await this.userRepository.save(user);
       }
       return emailConfirmation;
-    } else {
-      throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
     }
+    throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
   }
 
   async generateTokenModel(user: User): Promise<TokenModel> {
@@ -303,19 +301,5 @@ export class UserService {
     // add the new refresh token to the cache
     await this.redisCacheService.set(user.username, refreshToken);
     return {user, access_token: accessToken, refresh_token: refreshToken};
-  }
-
-  async addFriend(userId: number, friendId: number) {
-    const user: User = await this.internalFindOne(userId);
-    const friend: User = await this.internalFindOne(friendId);
-
-    if (!user || !friend) {
-      throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
-    } else {
-      const userFriends: User[] = await user.friends;
-      userFriends.push(friend);
-      user.friends = Promise.resolve(userFriends);
-      return await this.userRepository.save(user);
-    }
   }
 }

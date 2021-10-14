@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {Test, TestingModule} from '@nestjs/testing';
 import {EmailResolver} from './email.resolver';
 import {EmailService} from './email.service';

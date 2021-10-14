@@ -12,6 +12,8 @@ import * as bcrypt from 'bcrypt';
 import {TimestampEntites} from '../../generics/timestamp.entity';
 // eslint-disable-next-line import/no-cycle
 import {Email} from '../../email/entities/email.entity';
+import {Gender} from './gender';
+import {UserRoleEnum} from './user-role.enum';
 
 @Entity()
 @ObjectType()
@@ -69,6 +71,24 @@ export class User extends TimestampEntites {
   @OneToMany(() => Email, (email) => email.sender)
   @Field((type) => [Email], {nullable: true})
   sentEmails: [Email];
+
+  @Column({unique: true})
+  @Field()
+  lowerCasedUsername: string;
+
+  @Column({nullable: true})
+  @Field((type) => Gender, {nullable: true})
+  gender: Gender;
+
+  @Column({
+    type: 'enum',
+    enum: UserRoleEnum,
+    default: [UserRoleEnum.USER],
+    array: true,
+    nullable: true,
+  })
+  @Field((type) => [UserRoleEnum])
+  roles: string[];
 
   @BeforeInsert()
   async hashPassword() {
