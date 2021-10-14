@@ -21,6 +21,18 @@ services:
   postgres:
     container_name: postgres
     image: postgres:12
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-q', '-d', 'postgres', '-U', 'root']
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      # - APP_DB_USER=docker
+      # - APP_DB_PASS=docker
+      # - APP_DB_NAME=docker
     networks:
       - webnet
     env_file:
