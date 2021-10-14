@@ -29,6 +29,18 @@ services:
       - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
+  redis:
+    container_name: ${REDIS_HOST}
+    image: 'redis:alpine'
+    command:
+      - redis-server
+    networks:
+      - webnet
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    volumes:
+      - ./redis-data:/var/lib/redis
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
 
 networks:
   webnet:

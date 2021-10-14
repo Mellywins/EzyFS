@@ -33,6 +33,8 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'import/extensions': 'off',
     'react/jsx-filename-extension': 'off',
+    'import/prefer-default-export': 'off',
+    'no-useless-constructor': 'off',
     'no-unused-vars': [
       'error',
       {

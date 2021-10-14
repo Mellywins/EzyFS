@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-empty-function */
 import {Injectable} from '@nestjs/common';
 // eslint-disable-next-line import/extensions
 import {ConfigService} from '@nestjs/config';
 import {TypeOrmModuleOptions} from '@nestjs/typeorm';
-import os from 'os';
 import {parse} from 'pg-connection-string';
 import {EnvironmentVariables} from '../../common/EnvironmentVariables';
+
+const os = require('os');
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
