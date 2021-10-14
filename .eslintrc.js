@@ -37,6 +37,7 @@ module.exports = {
     'no-useless-constructor': 'off',
     'no-empty-function': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'import/no-cycle': 'off',
     'no-unused-vars': [
       'error',
       {

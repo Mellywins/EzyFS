@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import {User} from '../../user/entities/user.entity';
 import {EmailTypeEnum} from './email-type.enum';
 
