@@ -1,10 +1,10 @@
 import {Module} from '@nestjs/common';
 import {BullModule} from '@nestjs/bull';
+import {join} from 'path';
 import {SchedulerService} from './scheduler.service';
 import {SchedulerResolver} from './scheduler.resolver';
 import {QueueType} from '../shared/enums/Queue.enum';
 import {ProcessorType} from '../shared/enums/Processor-types.enum';
-import {join} from 'path';
 
 @Module({
   providers: [SchedulerResolver, SchedulerService],
