@@ -30,6 +30,7 @@
     "@nestjs/jwt": "^8.0.0",
     "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/schedule": "^1.0.1",
     "@nestjs/typeorm": "^8.0.2",
     "apollo-server-express": "^3.4.0",
     "bcrypt": "^5.0.1",
