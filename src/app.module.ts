@@ -10,6 +10,7 @@ import {UserModule} from './user/user.module';
 import {AuthModule} from './auth/auth.module';
 import {RedisCacheModule} from './redis-cache/redis-cache.module';
 import {EmailModule} from './email/email.module';
+import { SchedulerModule } from './scheduler/scheduler.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import {EmailModule} from './email/email.module';
     AuthModule,
     RedisCacheModule,
     EmailModule,
+    SchedulerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
