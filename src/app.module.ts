@@ -3,6 +3,7 @@ import {ConfigModule} from '@nestjs/config';
 import {GraphQLModule} from '@nestjs/graphql';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {join} from 'path';
+import {BullModule} from '@nestjs/bull';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {databaseConfigService} from './config/database-config-service/database-config-service.service';
@@ -10,7 +11,7 @@ import {UserModule} from './user/user.module';
 import {AuthModule} from './auth/auth.module';
 import {RedisCacheModule} from './redis-cache/redis-cache.module';
 import {EmailModule} from './email/email.module';
-import { SchedulerModule } from './scheduler/scheduler.module';
+import {SchedulerModule} from './scheduler/scheduler.module';
 
 @Module({
   imports: [
@@ -28,6 +29,12 @@ import { SchedulerModule } from './scheduler/scheduler.module';
     RedisCacheModule,
     EmailModule,
     SchedulerModule,
+    BullModule.forRoot({
+      redis: {
+        host: 'redis',
+        port: 6379,
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
