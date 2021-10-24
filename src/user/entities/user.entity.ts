@@ -14,7 +14,7 @@ import {TimestampEntites} from '../../generics/timestamp.entity';
 import {Email} from '../../email/entities/email.entity';
 import {Gender} from './gender';
 import {UserRoleEnum} from './user-role.enum';
-import {QueuedJob} from 'src/scheduler/entities/Job.entity';
+import {QueuedJob} from '../../scheduler/entities/Job.entity';
 
 @Entity()
 @ObjectType()

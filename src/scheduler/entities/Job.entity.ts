@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {ObjectType, Field, Int} from '@nestjs/graphql';
-import {User} from 'src/user/entities/user.entity';
 import {Column, Entity, PrimaryColumn} from 'typeorm';
+import {User} from '../../user/entities/user.entity';
 import {TimestampEntites} from '../../generics/timestamp.entity';
 import {ProcessorType} from '../../shared/enums/Processor-types.enum';
 import {SourceTypeEnum} from '../../shared/enums/Source-Type.enum';

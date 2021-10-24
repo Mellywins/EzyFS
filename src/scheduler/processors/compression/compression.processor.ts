@@ -1,10 +1,10 @@
 import fs from 'fs';
-import {Job, DoneCallback} from 'bull';
+import {DoneCallback} from 'bull';
 import tar from 'tar';
 import {QueuedJob} from '../../entities/Job.entity';
 
-export default async function (job: QueuedJob, cb: DoneCallback) {
-  const {sourcePath, sourceType, outputPath} = job;
+export default async (job: QueuedJob, cb: DoneCallback) => {
+  const {sourcePath, outputPath} = job;
   tar
     .c(
       {
@@ -14,4 +14,4 @@ export default async function (job: QueuedJob, cb: DoneCallback) {
     )
     .pipe(fs.createWriteStream(outputPath));
   cb(null, 'It works');
-}
+};
