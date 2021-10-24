@@ -22,6 +22,13 @@ import {QueuedJob} from './entities/Job.entity';
             '/processors/compression/compression.processor.js',
           ),
         },
+        {
+          name: ProcessorType.DECOMPRESSION,
+          path: join(
+            __dirname,
+            '/processors/decompression/decompression.processor.js',
+          ),
+        },
       ],
     }),
     BullModule.registerQueue({
