@@ -14,6 +14,7 @@ import {TimestampEntites} from '../../generics/timestamp.entity';
 import {Email} from '../../email/entities/email.entity';
 import {Gender} from './gender';
 import {UserRoleEnum} from './user-role.enum';
+import {QueuedJob} from 'src/scheduler/entities/Job.entity';
 
 @Entity()
 @ObjectType()
@@ -71,6 +72,10 @@ export class User extends TimestampEntites {
   @OneToMany(() => Email, (email) => email.sender)
   @Field((type) => [Email], {nullable: true})
   sentEmails: [Email];
+
+  @OneToMany(() => QueuedJob, (queuedJob) => queuedJob.owner)
+  @Field((type) => [User], {nullable: true})
+  Jobs: [QueuedJob];
 
   @Column({unique: true})
   @Field()
