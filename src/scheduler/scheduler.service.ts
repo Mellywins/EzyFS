@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import {Queue} from 'bull';
+import {JobOptions, Queue} from 'bull';
 import {InjectQueue} from '@nestjs/bull';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
@@ -22,7 +22,15 @@ export class SchedulerService {
 
   async create(createJobInput: CreateJobInput): Promise<QueuedJob> {
     const user = await this.userRepository.findOne({id: createJobInput.userId});
-    this.compressionQueue.add(ProcessorType.COMPRESSION, {repeat: {}});
+    const jobOpts: JobOptions = {
+      attempts: 2,
+      repeat: {
+        cron: createJobInput.cronString,
+        startDate: createJobInput.startDate,
+        endDate: createJobInput.endDate,
+      },
+    };
+    this.compressionQueue.add({}, jobOpts);
     return Promise.resolve(new QueuedJob());
   }
 }

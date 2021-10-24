@@ -149,4 +149,6 @@ input CreateJobInput {
   sourceType: Float!
   cronString: String!
   userId: Float!
+  startDate: DateTime!
+  endDate: DateTime!
 }

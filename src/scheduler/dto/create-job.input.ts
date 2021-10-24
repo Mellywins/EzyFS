@@ -30,4 +30,10 @@ export class CreateJobInput {
 
   @Field({nullable: false})
   userId: number;
+
+  @Field({nullable: false})
+  startDate: Date;
+
+  @Field({nullable: false})
+  endDate: Date;
 }

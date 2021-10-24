@@ -56,11 +56,11 @@ export class QueuedJob extends TimestampEntites {
 
   @Field({nullable: true})
   @Column({nullable: true})
-  startDate?: string;
+  startDate?: Date;
 
   @Field({nullable: true})
   @Column({nullable: true})
-  endDate?: string;
+  endDate?: Date;
 
   @Field({nullable: true})
   @Column({nullable: true})
