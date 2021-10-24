@@ -42,4 +42,12 @@ export class QueuedJob extends TimestampEntites {
   @Field()
   @Column()
   cronString: string;
+
+  @Field()
+  @Column()
+  lastExecutionDate: Date;
+
+  @Field()
+  @Column()
+  lastExecutionStatus: ExecutionStatusEnum;
 }
