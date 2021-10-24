@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {ObjectType, Field, Int} from '@nestjs/graphql';
-import {Column, Entity, PrimaryColumn} from 'typeorm';
+import {Column, Entity, ManyToOne, PrimaryColumn} from 'typeorm';
 import {User} from '../../user/entities/user.entity';
 import {TimestampEntites} from '../../generics/timestamp.entity';
 import {ProcessorType} from '../../shared/enums/Processor-types.enum';
 import {SourceTypeEnum} from '../../shared/enums/Source-Type.enum';
+import {ExecutionStatusEnum} from '../../shared/enums/Execution-status.enum';
 
 @ObjectType()
 @Entity()
@@ -13,7 +14,7 @@ export class QueuedJob extends TimestampEntites {
   @PrimaryColumn()
   id: number;
 
-  @Field((type) => [ProcessorType])
+  @Field((type) => ProcessorType)
   @Column({
     type: 'enum',
     enum: ProcessorType,
@@ -23,31 +24,43 @@ export class QueuedJob extends TimestampEntites {
   })
   jobType: ProcessorType;
 
-  @Field()
-  @Column()
+  @Field({nullable: true})
+  @Column({nullable: true})
   sourcePath: string;
 
-  @Field()
-  @Column()
+  @Field({nullable: true})
+  @Column({nullable: true})
   outputPath: string;
 
-  @Field()
-  @Column()
+  @Field((type) => SourceTypeEnum, {nullable: true})
+  @Column({
+    type: 'enum',
+    enum: SourceTypeEnum,
+    default: null,
+    array: false,
+    nullable: true,
+  })
   sourceType: SourceTypeEnum;
 
-  @Field()
-  @Column()
+  @ManyToOne(() => User, (user) => user.Jobs)
+  @Field((type) => User)
   owner: User;
 
-  @Field()
-  @Column()
-  cronString: string;
+  @Field({nullable: true})
+  @Column({nullable: true})
+  cronString?: string;
 
-  @Field()
-  @Column()
+  @Field({nullable: true})
+  @Column({nullable: true})
   lastExecutionDate: Date;
 
-  @Field()
-  @Column()
+  @Field((type) => ExecutionStatusEnum, {nullable: true})
+  @Column({
+    type: 'enum',
+    enum: ExecutionStatusEnum,
+    default: null,
+    array: false,
+    nullable: true,
+  })
   lastExecutionStatus: ExecutionStatusEnum;
 }

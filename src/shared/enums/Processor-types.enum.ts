@@ -1,3 +1,5 @@
+import {registerEnumType} from '@nestjs/graphql';
+
 /* eslint-disable no-shadow */
 export enum ProcessorType {
   ENCRYPTION = 'ENCRYPTION',
@@ -5,3 +7,6 @@ export enum ProcessorType {
   COMPRESSION = 'COMPRESSION',
   DECOMPRESSION = 'DECOMPRESSION',
 }
+registerEnumType(ProcessorType, {
+  name: 'ProcessorType',
+});

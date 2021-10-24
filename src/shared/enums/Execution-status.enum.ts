@@ -1,3 +1,5 @@
+import {registerEnumType} from '@nestjs/graphql';
+
 /* eslint-disable no-shadow */
 export enum ExecutionStatusEnum {
   SUCCESS,
@@ -6,3 +8,6 @@ export enum ExecutionStatusEnum {
   PAUSED,
   CANCELED,
 }
+registerEnumType(ExecutionStatusEnum, {
+  name: 'ExecutionStatusEnum',
+});
