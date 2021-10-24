@@ -14,6 +14,10 @@ export class QueuedJob extends TimestampEntites {
   @PrimaryColumn()
   id: number;
 
+  @Field()
+  @Column()
+  description: string;
+
   @Field((type) => ProcessorType)
   @Column({
     type: 'enum',
@@ -49,6 +53,14 @@ export class QueuedJob extends TimestampEntites {
   @Field({nullable: true})
   @Column({nullable: true})
   cronString?: string;
+
+  @Field({nullable: true})
+  @Column({nullable: true})
+  startDate?: string;
+
+  @Field({nullable: true})
+  @Column({nullable: true})
+  endDate?: string;
 
   @Field({nullable: true})
   @Column({nullable: true})

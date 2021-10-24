@@ -1,26 +1,28 @@
-import { Injectable } from '@nestjs/common';
-import { CreateSchedulerInput } from './dto/create-scheduler.input';
-import { UpdateSchedulerInput } from './dto/update-scheduler.input';
+import {Injectable} from '@nestjs/common';
+import {Queue} from 'bull';
+import {InjectQueue} from '@nestjs/bull';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Repository} from 'typeorm';
+import {QueueType} from '../shared/enums/Queue.enum';
+
+import {CreateJobInput} from './dto/create-job.input';
+// import {UpdateSchedulerInput} from './dto/update-scheduler.input';
+import {QueuedJob} from './entities/Job.entity';
+import {User} from '../user/entities/user.entity';
+import {ProcessorType} from '../shared/enums/Processor-types.enum';
 
 @Injectable()
 export class SchedulerService {
-  create(createSchedulerInput: CreateSchedulerInput) {
-    return 'This action adds a new scheduler';
-  }
+  constructor(
+    @InjectQueue(QueueType.COMPRESSION) private compressionQueue: Queue,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(QueuedJob)
+    private readonly jobRepository: Repository<QueuedJob>,
+  ) {}
 
-  findAll() {
-    return `This action returns all scheduler`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} scheduler`;
-  }
-
-  update(id: number, updateSchedulerInput: UpdateSchedulerInput) {
-    return `This action updates a #${id} scheduler`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} scheduler`;
+  async create(createJobInput: CreateJobInput): Promise<QueuedJob> {
+    const user = await this.userRepository.findOne({id: createJobInput.userId});
+    this.compressionQueue.add(ProcessorType.COMPRESSION, {repeat: {}});
+    return Promise.resolve(new QueuedJob());
   }
 }

@@ -40,6 +40,7 @@ type User {
   telNumber: String
   isConfirmed: Boolean!
   sentEmails: [Email!]
+  Jobs: [User!]
   lowerCasedUsername: String!
   gender: Gender
   roles: [UserRoleEnum!]!
@@ -61,6 +62,11 @@ type TokenModel {
   user: User!
 }
 
+type Scheduler {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
   users: [User!]!
   user(id: Float!): User!
@@ -80,6 +86,7 @@ type Mutation {
   sendResetPasswordEmail(ResetPasswordEmailInput: ResetPasswordEmailInput!): Boolean!
   resetPassword(ResetPasswordInput: ResetPasswordInput!): Boolean!
   login(credentialsInput: CredentialsInput!): TokenModel!
+  createJob(createJobInput: CreateJobInput!): Scheduler!
 }
 
 input FirstStageUserInput {
@@ -132,4 +139,14 @@ input ResetPasswordInput {
 input CredentialsInput {
   username: String!
   password: String!
+}
+
+input CreateJobInput {
+  jobType: String!
+  description: String!
+  sourcePath: String!
+  outputPath: String!
+  sourceType: Float!
+  cronString: String!
+  userId: Float!
 }
