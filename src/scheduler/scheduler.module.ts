@@ -22,6 +22,35 @@ import {QueuedJob} from './entities/Job.entity';
             '/processors/compression/compression.processor.js',
           ),
         },
+      ],
+    }),
+    BullModule.registerQueue({
+      name: QueueType.DECRYPTION,
+      processors: [
+        {
+          name: ProcessorType.DECRYPTION,
+          path: join(
+            __dirname,
+            '/processors/decryption/decryption.processor.js',
+          ),
+        },
+      ],
+    }),
+    BullModule.registerQueue({
+      name: QueueType.ENCRYPTION,
+      processors: [
+        {
+          name: ProcessorType.ENCRYPTION,
+          path: join(
+            __dirname,
+            '/processors/encryption/encryption.processor.js',
+          ),
+        },
+      ],
+    }),
+    BullModule.registerQueue({
+      name: QueueType.DECOMPRESSION,
+      processors: [
         {
           name: ProcessorType.DECOMPRESSION,
           path: join(
@@ -30,9 +59,6 @@ import {QueuedJob} from './entities/Job.entity';
           ),
         },
       ],
-    }),
-    BullModule.registerQueue({
-      name: QueueType.ENCRYPTION,
     }),
     TypeOrmModule.forFeature([User, QueuedJob]),
   ],
