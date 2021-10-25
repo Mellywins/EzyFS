@@ -10,6 +10,7 @@ import {CreateJobInput} from './dto/create-job.input';
 import {QueuedJob} from './entities/Job.entity';
 import {User} from '../user/entities/user.entity';
 import {ProcessorType} from '../shared/enums/Processor-types.enum';
+import {EncryptionJobPayload} from './interfaces/EncryptionJobPayload.interface';
 
 @Injectable()
 export class SchedulerService {
@@ -30,7 +31,11 @@ export class SchedulerService {
         endDate: createJobInput.endDate,
       },
     };
-    this.compressionQueue.add({}, jobOpts);
+    const payload: EncryptionJobPayload = {
+      sourcePath: createJobInput.sourcePath,
+      outputPath: createJobInput.outputPath,
+    };
+    await this.compressionQueue.add(payload, jobOpts);
     return Promise.resolve(new QueuedJob());
   }
 }

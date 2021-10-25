@@ -4,9 +4,11 @@ import {registerEnumType} from '@nestjs/graphql';
 export enum ExecutionStatusEnum {
   SUCCESS,
   FAILED,
-  ONGOING,
   PAUSED,
   CANCELED,
+  DELAYED,
+  WAITING,
+  ACTIVE,
 }
 registerEnumType(ExecutionStatusEnum, {
   name: 'ExecutionStatusEnum',

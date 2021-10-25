@@ -75,4 +75,24 @@ export class QueuedJob extends TimestampEntites {
     nullable: true,
   })
   lastExecutionStatus: ExecutionStatusEnum;
+
+  @Field({nullable: true})
+  @Column({nullable: true})
+  attemptsMade: number;
+
+  @Field({nullable: true})
+  @Column({nullable: true})
+  failedReason: any;
+
+  @Field({nullable: true})
+  @Column({nullable: true})
+  stacktrace: string[] | null;
+
+  @Field({nullable: true})
+  @Column({nullable: true})
+  finishedOn: number | null;
+
+  @Field({nullable: true})
+  @Column({nullable: true})
+  processedOn: number | null;
 }

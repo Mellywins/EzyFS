@@ -1,17 +1,21 @@
 import fs from 'fs';
-import {DoneCallback} from 'bull';
+import {DoneCallback, Job} from 'bull';
 import tar from 'tar';
-import {QueuedJob} from '../../entities/Job.entity';
+import {EncryptionJobPayload} from '../../interfaces/EncryptionJobPayload.interface';
 
-export default async (job: QueuedJob, cb: DoneCallback) => {
-  const {sourcePath, outputPath} = job;
+export default async (job: Job<EncryptionJobPayload>, cb: DoneCallback) => {
+  const {sourcePath, outputPath, gzip} = job.data;
+  console.log(`[${process.pid}] Attempting Compression delegated by ${job.id}`);
   tar
     .c(
       {
         gzip: true,
       },
       [sourcePath],
+      (er) => cb(er, null),
     )
     .pipe(fs.createWriteStream(outputPath));
-  cb(null, 'It works');
+  cb(null, {
+    ...job,
+  });
 };
