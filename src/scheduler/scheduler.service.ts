@@ -34,6 +34,7 @@ export class SchedulerService {
     const payload: EncryptionJobPayload = {
       sourcePath: createJobInput.sourcePath,
       outputPath: createJobInput.outputPath,
+      ownerId: user.id,
     };
     await this.compressionQueue.add(payload, jobOpts);
     return Promise.resolve(new QueuedJob());
