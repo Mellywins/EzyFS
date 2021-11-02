@@ -82,17 +82,17 @@ export class QueuedJob extends TimestampEntites {
 
   @Field({nullable: true})
   @Column({nullable: true})
-  failedReason: any;
+  failedReason: string | null;
+
+  @Field({nullable: true})
+  @Column({type: 'string', nullable: true, array: true})
+  stacktrace: string | null;
 
   @Field({nullable: true})
   @Column({nullable: true})
-  stacktrace: string[] | null;
+  finishedOn: number | null | Date;
 
   @Field({nullable: true})
   @Column({nullable: true})
-  finishedOn: number | null;
-
-  @Field({nullable: true})
-  @Column({nullable: true})
-  processedOn: number | null;
+  processedOn: number | null | Date;
 }

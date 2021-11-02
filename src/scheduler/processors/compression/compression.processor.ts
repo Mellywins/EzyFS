@@ -4,7 +4,7 @@ import tar from 'tar';
 import {EncryptionJobPayload} from '../../interfaces/EncryptionJobPayload.interface';
 
 export default async (job: Job<EncryptionJobPayload>, cb: DoneCallback) => {
-  const {sourcePath, outputPath, gzip} = job.data;
+  const {sourcePath, outputPath} = job.data;
   console.log(`[${process.pid}] Attempting Compression delegated by ${job.id}`);
   tar
     .c(
