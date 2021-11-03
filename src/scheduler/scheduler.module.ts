@@ -62,5 +62,6 @@ import {QueuedJob} from './entities/Job.entity';
     }),
     TypeOrmModule.forFeature([User, QueuedJob]),
   ],
+  exports: [BullModule],
 })
 export class SchedulerModule {}
