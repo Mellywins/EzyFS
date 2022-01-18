@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {ObjectType, Field, Int} from '@nestjs/graphql';
-import {Column, Entity, ManyToOne, PrimaryColumn} from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import {User} from '../../user/entities/user.entity';
 import {TimestampEntites} from '../../generics/timestamp.entity';
 import {ProcessorType} from '../../shared/enums/Processor-types.enum';
@@ -11,7 +17,7 @@ import {ExecutionStatusEnum} from '../../shared/enums/Execution-status.enum';
 @Entity()
 export class QueuedJob extends TimestampEntites {
   @Field(() => Int, {nullable: false})
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Field()
@@ -36,11 +42,11 @@ export class QueuedJob extends TimestampEntites {
   @Column({nullable: true})
   outputPath: string;
 
-  @Field((type) => SourceTypeEnum, {nullable: true})
+  @Field((type) => SourceTypeEnum)
   @Column({
     type: 'enum',
     enum: SourceTypeEnum,
-    default: null,
+    default: SourceTypeEnum.FILE,
     array: false,
     nullable: true,
   })

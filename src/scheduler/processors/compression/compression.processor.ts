@@ -1,21 +1,26 @@
-import fs from 'fs';
+import {createReadStream, createWriteStream} from 'fs';
 import {DoneCallback, Job} from 'bull';
-import tar from 'tar';
+import {createGzip} from 'zlib';
+import {pipeline} from 'stream';
 import {EncryptionJobPayload} from '../../interfaces/EncryptionJobPayload.interface';
-
-export default async (job: Job<EncryptionJobPayload>, cb: DoneCallback) => {
+import {formattedDate} from '../../../utils/formatted-date';
+export default function (job: Job<EncryptionJobPayload>, cb: DoneCallback) {
   const {sourcePath, outputPath} = job.data;
   console.log(`[${process.pid}] Attempting Compression delegated by ${job.id}`);
-  tar
-    .c(
-      {
-        gzip: true,
-      },
-      [sourcePath],
-      (er) => cb(er, null),
-    )
-    .pipe(fs.createWriteStream(outputPath));
-  cb(null, {
-    ...job,
+  const gzip = createGzip();
+  const source = createReadStream(sourcePath);
+  const currentDate = formattedDate();
+  const destination = createWriteStream(outputPath + '-' + currentDate + '.gz');
+  pipeline(source, gzip, destination, (err) => {
+    if (err) {
+      console.error('An Error occured in the Compression Processor:', err);
+      process.exitCode = 1;
+      cb(new Error((job as Job).stacktrace[0]));
+    }
   });
-};
+
+  console.log('Finished writing file to Disk!');
+  return new Date().getTime();
+  // console.log('CHILD ', process.pid);
+  // cb(null, 'It works');
+}

@@ -1,11 +1,11 @@
 import {InputType, Int, Field} from '@nestjs/graphql';
-import {isNotEmpty, IsNotEmpty} from 'class-validator';
+import {isNotEmpty, IsNotEmpty, IsOptional} from 'class-validator';
 import {ProcessorType} from '../../shared/enums/Processor-types.enum';
 import {SourceTypeEnum} from '../../shared/enums/Source-Type.enum';
 
 @InputType()
 export class CreateJobInput {
-  @Field()
+  @Field(() => ProcessorType)
   @IsNotEmpty()
   jobType: ProcessorType;
 
@@ -21,11 +21,11 @@ export class CreateJobInput {
   @IsNotEmpty()
   outputPath: string;
 
-  @Field()
+  @Field(() => SourceTypeEnum)
   @IsNotEmpty()
   sourceType: SourceTypeEnum;
 
-  @Field()
+  @Field({nullable: true})
   cronString?: string;
 
   @Field({nullable: false})
@@ -34,6 +34,7 @@ export class CreateJobInput {
   @Field({nullable: false})
   startDate: Date;
 
-  @Field({nullable: false})
-  endDate: Date;
+  @Field({nullable: true})
+  @IsOptional()
+  endDate?: Date;
 }

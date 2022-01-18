@@ -25,6 +25,51 @@ enum EmailTypeEnum {
   RESET_PASSWORD
 }
 
+type QueuedJob {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+  id: Int!
+  description: String!
+  jobType: ProcessorType!
+  sourcePath: String
+  outputPath: String
+  sourceType: SourceTypeEnum!
+  owner: User!
+  cronString: String
+  startDate: DateTime
+  endDate: DateTime
+  lastExecutionDate: DateTime
+  lastExecutionStatus: ExecutionStatusEnum
+  attemptsMade: Float
+  failedReason: String
+  stacktrace: String
+  finishedOn: Float
+  processedOn: Float
+}
+
+enum ProcessorType {
+  ENCRYPTION
+  DECRYPTION
+  COMPRESSION
+  DECOMPRESSION
+}
+
+enum SourceTypeEnum {
+  FILE
+  DIRECTORY
+}
+
+enum ExecutionStatusEnum {
+  SUCCESS
+  FAILED
+  PAUSED
+  CANCELED
+  DELAYED
+  WAITING
+  ACTIVE
+}
+
 type User {
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -62,11 +107,6 @@ type TokenModel {
   user: User!
 }
 
-type Scheduler {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 type Query {
   users: [User!]!
   user(id: Float!): User!
@@ -86,7 +126,7 @@ type Mutation {
   sendResetPasswordEmail(ResetPasswordEmailInput: ResetPasswordEmailInput!): Boolean!
   resetPassword(ResetPasswordInput: ResetPasswordInput!): Boolean!
   login(credentialsInput: CredentialsInput!): TokenModel!
-  createJob(createJobInput: CreateJobInput!): Scheduler!
+  createJob(createJobInput: CreateJobInput!): QueuedJob!
 }
 
 input FirstStageUserInput {
@@ -142,13 +182,13 @@ input CredentialsInput {
 }
 
 input CreateJobInput {
-  jobType: String!
+  jobType: ProcessorType!
   description: String!
   sourcePath: String!
   outputPath: String!
-  sourceType: Float!
-  cronString: String!
+  sourceType: SourceTypeEnum!
+  cronString: String
   userId: Float!
   startDate: DateTime!
-  endDate: DateTime!
+  endDate: DateTime
 }

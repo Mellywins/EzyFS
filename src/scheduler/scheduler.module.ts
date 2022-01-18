@@ -16,10 +16,9 @@ import {QueuedJob} from './entities/Job.entity';
       name: QueueType.COMPRESSION,
       processors: [
         {
-          name: ProcessorType.COMPRESSION,
           path: join(
             __dirname,
-            '/processors/compression/compression.processor.js',
+            'processors/compression/compression.processor.js',
           ),
         },
       ],
@@ -28,7 +27,6 @@ import {QueuedJob} from './entities/Job.entity';
       name: QueueType.DECRYPTION,
       processors: [
         {
-          name: ProcessorType.DECRYPTION,
           path: join(
             __dirname,
             '/processors/decryption/decryption.processor.js',
@@ -40,7 +38,6 @@ import {QueuedJob} from './entities/Job.entity';
       name: QueueType.ENCRYPTION,
       processors: [
         {
-          name: ProcessorType.ENCRYPTION,
           path: join(
             __dirname,
             '/processors/encryption/encryption.processor.js',
@@ -52,7 +49,6 @@ import {QueuedJob} from './entities/Job.entity';
       name: QueueType.DECOMPRESSION,
       processors: [
         {
-          name: ProcessorType.DECOMPRESSION,
           path: join(
             __dirname,
             '/processors/decompression/decompression.processor.js',

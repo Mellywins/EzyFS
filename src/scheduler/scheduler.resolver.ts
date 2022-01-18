@@ -1,14 +1,14 @@
 import {Resolver, Query, Mutation, Args, Int} from '@nestjs/graphql';
 import {SchedulerService} from './scheduler.service';
-import {Scheduler} from './entities/scheduler.entity';
 import {CreateJobInput} from './dto/create-job.input';
 import {UpdateSchedulerInput} from './dto/update-scheduler.input';
+import {QueuedJob} from './entities/Job.entity';
 
-@Resolver(() => Scheduler)
+@Resolver('Scheduler')
 export class SchedulerResolver {
   constructor(private readonly schedulerService: SchedulerService) {}
 
-  @Mutation(() => Scheduler)
+  @Mutation(() => QueuedJob)
   createJob(@Args('createJobInput') createJobInput: CreateJobInput) {
     return this.schedulerService.create(createJobInput);
   }
