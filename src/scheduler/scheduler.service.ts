@@ -39,6 +39,7 @@ export class SchedulerService {
       sourcePath: createJobInput.sourcePath,
       outputPath: createJobInput.outputPath,
       ownerId: user.id,
+      sourceType:createJobInput.sourceType
     };
     const jId = uuidv4();
     await this.compressionQueue.add(
