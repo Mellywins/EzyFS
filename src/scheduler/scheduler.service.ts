@@ -13,6 +13,8 @@ import {prefixFileWithDate} from '../utils/operation-filename-prefix';
 import {EncryptionJobPayload} from './interfaces/EncryptionJobPayload.interface';
 import {ExecutionStatusEnum} from 'src/shared/enums/Execution-status.enum';
 import {v4 as uuidv4} from 'uuid';
+import successfulJobExecutor from './helpers/successful-job-executor';
+import failedJobExecutor from './helpers/failed-job-executor';
 
 @Injectable()
 export class SchedulerService {
@@ -45,7 +47,6 @@ export class SchedulerService {
         jobId: jId,
       },
     );
-    console.log(prefixFileWithDate(createJobInput.outputPath));
     const startTimestamp: Date = new Date();
     const {userId, ...jobInfo} = createJobInput;
     const createdJob: QueuedJob = this.jobRepository.create({
@@ -56,36 +57,10 @@ export class SchedulerService {
       startDate: startTimestamp,
       owner: user,
     });
-    const processedJob: Job<any> = await this.compressionQueue.getJob(jId);
+    // const processedJob: Job<any> = await this.compressionQueue.getJob(jId);
     await this.jobRepository.save(createdJob);
-    this.compressionQueue.on('completed',(job: Job,result:JobExecutionResult)=>{
-      console.log('I am inside the job completed listener');
-      console.log(job)
-      this.jobRepository.update(job.opts.jobId,{
-        lastExecutionDate:new Date(job.processedOn),
-        lastExecutionStatus:ExecutionStatusEnum.SUCCESS,
-        attemptsMade:job.attemptsMade,
-        processedOn:new Date(job.processedOn),
-        finishedOn:new Date(job.finishedOn),
-      })
-    })
-    this.compressionQueue.on('failed',(job:Job,result:any)=>{
-      console.log('inside Comp Q error event')
-      console.log("result: ",result)
-      this.jobRepository.update(job.opts.jobId,{
-        lastExecutionDate:new Date(job.processedOn),
-        lastExecutionStatus:ExecutionStatusEnum.FAILED,
-        attemptsMade:job.attemptsMade,
-        failedReason:job.failedReason,
-        processedOn:new Date(job.processedOn),
-        finishedOn:new Date(job.finishedOn),
-        stacktrace:(job.stacktrace as any as string)
-      })
-    })
-    // TODO: fix the teturn result when the job has finished its execution.
-    // We must obtain the timestamp when the job is done processing and persist it in the DB, So we can  later on push notifications to the users of when the job is completed, failed or rescheduled!
-    // console.log(processedJob);
-
+    successfulJobExecutor(this.compressionQueue,this.jobRepository);
+    failedJobExecutor(this.compressionQueue,this.jobRepository);
     return createdJob;
   }
 }
