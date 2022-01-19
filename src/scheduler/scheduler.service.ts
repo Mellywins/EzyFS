@@ -20,7 +20,7 @@ export class SchedulerService {
     private readonly jobRepository: Repository<QueuedJob>,
   ) {}
 
-  async create(createJobInput: CreateJobInput): Promise<QueuedJob> {
+  async create(createJobInput: CreateJobInput): Promise<void | QueuedJob> {
     return jobCreatorFactory(createJobInput.jobType)(createJobInput,this.userRepository,this.jobRepository,this.compressionQueue)
   }
 }
