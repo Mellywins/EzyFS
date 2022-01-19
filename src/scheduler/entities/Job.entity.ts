@@ -6,19 +6,21 @@ import {
   ManyToOne,
   PrimaryColumn,
   PrimaryGeneratedColumn,
+  Timestamp,
 } from 'typeorm';
 import {User} from '../../user/entities/user.entity';
 import {TimestampEntites} from '../../generics/timestamp.entity';
 import {ProcessorType} from '../../shared/enums/Processor-types.enum';
 import {SourceTypeEnum} from '../../shared/enums/Source-Type.enum';
 import {ExecutionStatusEnum} from '../../shared/enums/Execution-status.enum';
+import { truncate } from 'fs';
 
 @ObjectType()
 @Entity()
 export class QueuedJob extends TimestampEntites {
-  @Field(() => Int, {nullable: false})
-  @PrimaryGeneratedColumn()
-  id: number;
+  @Field({nullable: false})
+  @PrimaryColumn()
+  JobId: string;
 
   @Field()
   @Column()
@@ -91,14 +93,17 @@ export class QueuedJob extends TimestampEntites {
   failedReason: string | null;
 
   @Field({nullable: true})
-  @Column({nullable: true, array: true})
-  stacktrace: string | null;
+  @Column({
+    array:true,
+    nullable:true
+  })
+  stacktrace: string;
 
   @Field({nullable: true})
-  @Column({nullable: true})
-  finishedOn: number | null;
+  @Column({nullable:true})
+  finishedOn: Date ;
 
   @Field({nullable: true})
-  @Column({nullable: true})
-  processedOn: number | null;
+  @Column({nullable:true})
+  processedOn: Date;
 }

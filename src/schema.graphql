@@ -29,7 +29,7 @@ type QueuedJob {
   createdAt: DateTime!
   updatedAt: DateTime!
   deletedAt: DateTime!
-  id: Int!
+  JobId: String!
   description: String!
   jobType: ProcessorType!
   sourcePath: String
@@ -44,8 +44,8 @@ type QueuedJob {
   attemptsMade: Float
   failedReason: String
   stacktrace: String
-  finishedOn: Float
-  processedOn: Float
+  finishedOn: DateTime
+  processedOn: DateTime
 }
 
 enum ProcessorType {
