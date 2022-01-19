@@ -13,7 +13,6 @@ import {TimestampEntites} from '../../generics/timestamp.entity';
 import {ProcessorType} from '../../shared/enums/Processor-types.enum';
 import {SourceTypeEnum} from '../../shared/enums/Source-Type.enum';
 import {ExecutionStatusEnum} from '../../shared/enums/Execution-status.enum';
-import { truncate } from 'fs';
 
 @ObjectType()
 @Entity()

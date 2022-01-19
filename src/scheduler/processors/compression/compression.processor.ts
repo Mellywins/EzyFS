@@ -21,14 +21,6 @@ export default function (job: Job<EncryptionJobPayload>, cb: DoneCallback) {
   pipeline(source, gzip, destination, (err) => {
     if (err) {
       console.error('An Error occured in the Compression Processor:', err);
-      const result = {
-        processedOn: job.processedOn,
-        failedReason: `${err.code}: ${job.failedReason}`,
-        executionStatus: ExecutionStatusEnum.FAILED,
-        attemptsMade: job.attemptsMade,
-        delay: job.opts.delay,
-      };
-      process.exitCode = 1;
       cb(new Error((job as Job).stacktrace[0]), result);
     }
   });
@@ -39,8 +31,6 @@ export default function (job: Job<EncryptionJobPayload>, cb: DoneCallback) {
       gzip:true
     },[sourcePath]).pipe(createWriteStream(outputPath+'.tgz'))
   }
-  // console.log(job);
-
   const result: JobExecutionResult = {
     processedOn: new Date(),
     executionStatus: ExecutionStatusEnum.SUCCESS,
