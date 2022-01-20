@@ -8,9 +8,10 @@ import {QueueType} from '../shared/enums/Queue.enum';
 import {ProcessorType} from '../shared/enums/Processor-types.enum';
 import {User} from '../user/entities/user.entity';
 import {QueuedJob} from './entities/Job.entity';
+import { QueueInventory } from './inventories/Queue-inventory';
 
 @Module({
-  providers: [SchedulerResolver, SchedulerService],
+  providers: [SchedulerResolver, SchedulerService,QueueInventory],
   imports: [
     BullModule.registerQueue({
       name: QueueType.COMPRESSION,

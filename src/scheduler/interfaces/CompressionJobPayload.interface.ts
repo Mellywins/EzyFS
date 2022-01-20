@@ -1,6 +1,6 @@
 import { SourceTypeEnum } from "src/shared/enums/Source-Type.enum";
 
-export interface EncryptionJobPayload {
+export interface CompressionJobPayload {
   sourcePath: string;
   outputPath: string;
   ownerId: number;

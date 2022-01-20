@@ -1,12 +1,12 @@
 import {BullModule} from '@nestjs/bull';
 import {Test, TestingModule} from '@nestjs/testing';
-import {EncryptionJobPayload} from './interfaces/EncryptionJobPayload.interface';
+import {CompressionJobPayload} from './interfaces/CompressionJobPayload.interface';
 import {SchedulerResolver} from './scheduler.resolver';
 import {SchedulerService} from './scheduler.service';
 
 describe('SchedulerResolver', () => {
   let resolver: SchedulerResolver;
-  // const mockQueue: Queue<EncryptionJobPayload> | Array<EncryptionJobPayload> =
+  // const mockQueue: Queue<CompressionJobPayload> | Array<CompressionJobPayload> =
   //   [];
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

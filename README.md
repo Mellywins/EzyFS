@@ -4,5 +4,10 @@ EzyFS( Easy File System ) is an application that facilitates File system operati
 ## Multi-threadded? YES!
 Compression And encryption come in really handy, but they also consume alot of computation power when used on large files. This may lead performance issues in NodeJs APPs. NodeJs is a single threaded engine. So to make use of multiple CPUs cores, EzyFS introduced Parallel Processors.
 
-How it works:
+### How it works:
 ![Image](under_the_hood.png)
+
+## Supported Processors
+
+* Compression: `.tgz`
+* Encryption: SoonTM

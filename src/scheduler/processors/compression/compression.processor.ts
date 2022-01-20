@@ -2,13 +2,15 @@ import {createReadStream, createWriteStream} from 'fs';
 import {DoneCallback, Job} from 'bull';
 import {createGzip} from 'zlib';
 import {pipeline} from 'stream';
-import {EncryptionJobPayload} from '../../interfaces/EncryptionJobPayload.interface';
+import {CompressionJobPayload} from '../../interfaces/CompressionJobPayload.interface';
 import {prefixFileWithDate} from '../../../utils/operation-filename-prefix';
 import {ExecutionStatusEnum} from 'src/shared/enums/Execution-status.enum';
 import { JobExecutionResult } from 'src/scheduler/interfaces/JobExecutionResult.interface';
 import { SourceTypeEnum } from 'src/shared/enums/Source-Type.enum';
+import {c} from 'tar'
+import { basename, dirname } from 'path';
 const tar=require('tar')
-export default function (job: Job<EncryptionJobPayload>, cb: DoneCallback) {
+export default function (job: Job<CompressionJobPayload>, cb: DoneCallback) {
   const {sourcePath, outputPath} = job.data;
   console.log(
     `[${process.pid}] Attempting Compression delegated to job with UUID:  ${job.id}`,
@@ -27,9 +29,11 @@ export default function (job: Job<EncryptionJobPayload>, cb: DoneCallback) {
   job.progress(100);
 }
   else {
-    tar.c({
+    c({
+      cwd:dirname(sourcePath),
       gzip:true
-    },[sourcePath]).pipe(createWriteStream(outputPath+'.tgz'))
+    },[basename(sourcePath)])
+    .pipe(createWriteStream(outputPath+'.tgz'))
   }
   const result: JobExecutionResult = {
     processedOn: new Date(),
