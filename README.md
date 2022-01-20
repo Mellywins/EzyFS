@@ -13,7 +13,8 @@ Compression And encryption come in really handy, but they also consume alot of c
 * Encryption/Decryption: Coming soon (Will support multiple encoding types and ciphers).
 
 ## What EzyFS offers to you!
-EzyFS will offer an easy to use interface to schedule Encryption/Compression jobs. 
+EzyFS will offer an easy to use interface to schedule Encryption/Compression jobs. But also, needless to say, the ability to Decrypt/Decompress!
+* A GraphQL API to interact with the Backend services. 
 * You can schedule periodic jobs (you can define them with CRON strings).
 * You can update/pause/delete/restart your ongoing jobs.
 * You can secure ur backups and sensitive files with EzyFS Asymmetic encryption. You'll be granted your private Key, and the job you launch, delete or do will have your fingerprint on them.
