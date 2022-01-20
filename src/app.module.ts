@@ -31,7 +31,7 @@ import {SchedulerModule} from './scheduler/scheduler.module';
     SchedulerModule,
     BullModule.forRoot({
       redis: {
-        host: 'redis',
+        host: 'localhost',
         port: 6379,
       },
     }),

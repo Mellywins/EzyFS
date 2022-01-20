@@ -32,6 +32,7 @@ class DatabaseConfigService {
     const username = this.configService.get<string>('POSTGRES_USER');
     const password = this.configService.get<string>('POSTGRES_PASSWORD');
     const database = this.configService.get<string>('POSTGRES_DB');
+    const host = this.configService.get<string>('HOST');
     // const config = parse(url);
     return {
       type: 'postgres',
@@ -39,7 +40,7 @@ class DatabaseConfigService {
       username,
       password,
       database,
-      host: 'postgres',
+      host,
       port,
       entities: [`${entitiesPath}/**/*.entity{.ts,.js}`],
       // logging:true,
