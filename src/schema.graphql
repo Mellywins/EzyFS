@@ -107,9 +107,10 @@ type TokenModel {
   user: User!
 }
 
-type Crypto {
-  """Example field (placeholder)"""
-  exampleField: Int!
+type AsymKey {
+  keyId: Float!
+  publicKey: String!
+  privateKey: String!
 }
 
 type Query {
@@ -120,7 +121,6 @@ type Query {
   email: [Email!]!
   emails(id: Int!): Email!
   refreshToken(refreshToken: String!): TokenModel!
-  crypto(id: Int!): Crypto!
 }
 
 type Mutation {
@@ -133,9 +133,7 @@ type Mutation {
   resetPassword(ResetPasswordInput: ResetPasswordInput!): Boolean!
   login(credentialsInput: CredentialsInput!): TokenModel!
   createJob(createJobInput: CreateJobInput!): QueuedJob!
-  createCrypto(createCryptoInput: CreateCryptoInput!): Crypto!
-  updateCrypto(updateCryptoInput: UpdateCryptoInput!): Crypto!
-  removeCrypto(id: Int!): Crypto!
+  createKeyPair(createKeyPairInput: CreateKeyPairInput!): AsymKey!
 }
 
 input FirstStageUserInput {
@@ -202,13 +200,20 @@ input CreateJobInput {
   endDate: DateTime
 }
 
-input CreateCryptoInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+input CreateKeyPairInput {
+  algorithm: EncryptionAlgorithmEnum!
+  publicKeyEncodingType: String!
+  privateKeyEncodingType: String!
+  pirvateKeyPassphrase: String!
 }
 
-input UpdateCryptoInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+enum EncryptionAlgorithmEnum {
+  RSA
+  DSA
+  ED25519
+  X448
+  X25519
+  EC
+  ED448
+  RSAPSS
 }
