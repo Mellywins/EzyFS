@@ -12,4 +12,7 @@ export class CreateKeyPairInput {
   privateKeyEncodingType: 'pkcs1' | 'pkcs8';
   @Field()
   pirvateKeyPassphrase: string;
+
+  @Field()
+  ownerId: number;
 }

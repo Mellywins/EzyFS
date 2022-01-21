@@ -4,28 +4,19 @@ import {CreateKeyPairInput} from './dto/createKeyPair.input';
 
 @Injectable()
 export class CryptoService {
-  createKeyPair(createCryptoInput: CreateKeyPairInput) {
-    return keyBuilder(createCryptoInput.algorithm)({
-      type: createCryptoInput.publicKeyEncodingType,
+  async createKeyPair(createCryptoInput: CreateKeyPairInput) {
+    const {
+      algorithm,
+      publicKeyEncodingType,
+      privateKeyEncodingType,
+      pirvateKeyPassphrase,
+      ownerId,
+    } = createCryptoInput;
+    return await keyBuilder(algorithm)({
+      type: publicKeyEncodingType,
     })({
-      type: createCryptoInput.privateKeyEncodingType,
-      passphrase: createCryptoInput.pirvateKeyPassphrase,
+      type: privateKeyEncodingType,
+      passphrase: pirvateKeyPassphrase,
     });
   }
-
-  // findAll() {
-  //   return `This action returns all crypto`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} crypto`;
-  // }
-
-  // update(id: number, updateCryptoInput: UpdateCryptoInput) {
-  //   return `This action updates a #${id} crypto`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} crypto`;
-  // }
 }

@@ -205,6 +205,7 @@ input CreateKeyPairInput {
   publicKeyEncodingType: String!
   privateKeyEncodingType: String!
   pirvateKeyPassphrase: String!
+  ownerId: Float!
 }
 
 enum EncryptionAlgorithmEnum {
