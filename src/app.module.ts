@@ -1,5 +1,5 @@
 import {Module} from '@nestjs/common';
-import {ConfigModule} from '@nestjs/config';
+import {ConfigModule, ConfigService} from '@nestjs/config';
 import {GraphQLModule} from '@nestjs/graphql';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {join} from 'path';
@@ -29,11 +29,16 @@ import {SchedulerModule} from './scheduler/scheduler.module';
     RedisCacheModule,
     EmailModule,
     SchedulerModule,
-    BullModule.forRoot({
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
+    BullModule.forRootAsync({
+      useFactory: async (configService: ConfigService) =>({
+        redis:{
+          host:configService.get<string>('REDIS_HOST'),
+          port:configService.get<number>('REDIS_PORT')
+        }
+      }),
+      inject:[ConfigService],
+      imports:[ConfigModule]
+      
     }),
   ],
   controllers: [AppController],
