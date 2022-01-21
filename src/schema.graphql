@@ -107,6 +107,11 @@ type TokenModel {
   user: User!
 }
 
+type Crypto {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
   users: [User!]!
   user(id: Float!): User!
@@ -115,6 +120,7 @@ type Query {
   email: [Email!]!
   emails(id: Int!): Email!
   refreshToken(refreshToken: String!): TokenModel!
+  crypto(id: Int!): Crypto!
 }
 
 type Mutation {
@@ -127,6 +133,9 @@ type Mutation {
   resetPassword(ResetPasswordInput: ResetPasswordInput!): Boolean!
   login(credentialsInput: CredentialsInput!): TokenModel!
   createJob(createJobInput: CreateJobInput!): QueuedJob!
+  createCrypto(createCryptoInput: CreateCryptoInput!): Crypto!
+  updateCrypto(updateCryptoInput: UpdateCryptoInput!): Crypto!
+  removeCrypto(id: Int!): Crypto!
 }
 
 input FirstStageUserInput {
@@ -191,4 +200,15 @@ input CreateJobInput {
   userId: Float!
   startDate: DateTime!
   endDate: DateTime
+}
+
+input CreateCryptoInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCryptoInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

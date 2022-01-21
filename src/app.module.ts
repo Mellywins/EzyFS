@@ -12,6 +12,7 @@ import {AuthModule} from './auth/auth.module';
 import {RedisCacheModule} from './redis-cache/redis-cache.module';
 import {EmailModule} from './email/email.module';
 import {SchedulerModule} from './scheduler/scheduler.module';
+import { CryptoModule } from './crypto/crypto.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import {SchedulerModule} from './scheduler/scheduler.module';
       imports:[ConfigModule]
       
     }),
+    CryptoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
