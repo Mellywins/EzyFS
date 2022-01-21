@@ -18,3 +18,5 @@ export const EMAIL_EXPIRED_ERROR_MESSAGE = 'Email Expired!';
 export const FAILURE_UPON_PROFILE_IMAGE_UPDATE =
   'Failed to update user Profile Image.';
 export const MESSAGE_BASE_TOPIC_NAME = 'MESSAGE_QUEUE_';
+export const USER_ALREADY_OWNS_KEY =
+  'You must revoke your current Key before you submit a request for a new one.';

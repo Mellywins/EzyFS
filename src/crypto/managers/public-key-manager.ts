@@ -7,17 +7,15 @@ import {fingerprint} from '../helpers/fingerprint.helper';
 
 export class PublicKeyManager {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(AsymKey)
     private readonly keyRepository: Repository<AsymKey>,
   ) {}
-  persistPublicKey = async (ownerId: number, publicKey: string) => {
+  persistPublicKey = async (owner: User, publicKey: string) => {
     const fingprint = await fingerprint(publicKey);
-    const user = await this.userRepository.findOne(ownerId);
     const keyEntity = this.keyRepository.create({
       fingerprint: fingprint,
       publicKey: publicKey,
-      owner: user,
+      owner,
     });
     await this.keyRepository.save(keyEntity);
     return keyEntity;

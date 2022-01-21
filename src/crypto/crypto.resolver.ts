@@ -1,13 +1,21 @@
-import {Resolver, Query, Mutation, Args, Int} from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  PartialType,
+} from '@nestjs/graphql';
 import {CryptoService} from './crypto.service';
 import {AsymKey} from './entities/AsymKey.entity';
 import {CreateKeyPairInput} from './dto/createKeyPair.input';
+import {CreateKeyPairOutput} from './dto/createKeyPair.output';
 
 @Resolver(() => AsymKey)
 export class CryptoResolver {
   constructor(private readonly cryptoService: CryptoService) {}
 
-  @Mutation(() => AsymKey)
+  @Mutation(() => CreateKeyPairOutput)
   createKeyPair(
     @Args('createKeyPairInput') createCryptoInput: CreateKeyPairInput,
   ) {

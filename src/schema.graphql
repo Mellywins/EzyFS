@@ -107,14 +107,9 @@ type TokenModel {
   user: User!
 }
 
-type AsymKey {
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  deletedAt: DateTime!
-  keyId: Float!
-  publicKey: String!
+type CreateKeyPairOutput {
+  privateKey: String!
   fingerprint: String!
-  owner: User!
 }
 
 type Query {
@@ -137,7 +132,7 @@ type Mutation {
   resetPassword(ResetPasswordInput: ResetPasswordInput!): Boolean!
   login(credentialsInput: CredentialsInput!): TokenModel!
   createJob(createJobInput: CreateJobInput!): QueuedJob!
-  createKeyPair(createKeyPairInput: CreateKeyPairInput!): AsymKey!
+  createKeyPair(createKeyPairInput: CreateKeyPairInput!): CreateKeyPairOutput!
 }
 
 input FirstStageUserInput {
