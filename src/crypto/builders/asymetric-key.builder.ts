@@ -26,7 +26,6 @@ export const keyBuilder =
         },
         (err: Error | null, publicKey: string, privateKey: string) => {
           if (err) reject(err);
-          console.log('keys: ', publicKey, privateKey);
           return resolve({publicKey, privateKey});
         },
       );

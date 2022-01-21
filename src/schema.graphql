@@ -108,9 +108,13 @@ type TokenModel {
 }
 
 type AsymKey {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
   keyId: Float!
   publicKey: String!
-  privateKey: String!
+  fingerprint: String!
+  owner: User!
 }
 
 type Query {
