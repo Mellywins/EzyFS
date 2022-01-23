@@ -5,4 +5,4 @@ import { QueueInventory } from "src/scheduler/inventories/Queue-inventory";
 import { User } from "src/user/entities/user.entity";
 import { Repository } from "typeorm";
 
-export const createEncryptionJob=async (createJobInput: CreateJobInput, userRepo:Repository<User>,jobRepo:Repository<QueuedJob>,QI:QueueInventory)=>{}
+export const createEncryptionJob=async (createJobInput: CreateJobInput, userRepo:Repository<User>,jobRepo:Repository<QueuedJob>,QI:QueueInventory)=>{ }
