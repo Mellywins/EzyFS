@@ -1,5 +1,4 @@
-import {EncryptionAlgorithmEnum} from '../enums/enc-algorithms.enum';
-import {generateKeyPair, KeyObject} from 'crypto';
+import {generateKeyPair} from 'crypto';
 import {PublicKeyEncoding} from './interfaces/PublicKeyEncoding.interface';
 import {PrivateKeyEncoding} from './interfaces/PrivateKeyEncoding.interface';
 export const keyBuilder =
