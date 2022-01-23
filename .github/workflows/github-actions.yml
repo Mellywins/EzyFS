@@ -21,7 +21,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Cache node modules
-      id: cache-deps
       uses: actions/cache@v2
       env:
         cache-name: cache-node-${{ matrix.node-version }}-modules
@@ -31,7 +30,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
     - name: Install Dependencies
-      if: steps.cache-deps.outputs.cache-hit != 'true'
       run: npm ci
     - name: Build
       run: npm run build
