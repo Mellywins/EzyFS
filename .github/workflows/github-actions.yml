@@ -1,4 +1,4 @@
-name: GitHub Actions
+name: Multi-version Node build
 on:
   push:
     branches: [ master ]
@@ -21,6 +21,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Cache node modules
+      id: cache-deps
       uses: actions/cache@v2
       env:
         cache-name: cache-node-${{ matrix.node-version }}-modules
@@ -29,9 +30,8 @@ jobs:
         key: ${{ runner.os }}-build-${{env.cache-name}}-${{ hashFiles('**/package-lock.json')}}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{runner.os }}-
     - name: Install Dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
       run: npm ci
     - name: Build
       run: npm run build
