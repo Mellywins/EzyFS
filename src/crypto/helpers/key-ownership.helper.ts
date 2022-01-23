@@ -5,7 +5,6 @@ import {AsymKey} from '../entities/AsymKey.entity';
 
 export class KeyOwnershipHelper {
   constructor(
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(AsymKey)
     private readonly keyRepository: Repository<AsymKey>,
   ) {}
