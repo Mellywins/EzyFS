@@ -37,4 +37,7 @@ export class CreateJobInput {
   @Field({nullable: true})
   @IsOptional()
   endDate?: Date;
+  @Field({nullable: true})
+  @IsOptional()
+  privateKey?: string;
 }

@@ -197,6 +197,7 @@ input CreateJobInput {
   userId: Float!
   startDate: DateTime!
   endDate: DateTime
+  privateKey: String
 }
 
 input CreateKeyPairInput {

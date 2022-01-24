@@ -11,7 +11,7 @@ export const keyBuilder =
       generateKeyPair(
         algo,
         {
-          modulusLength: 4096,
+          modulusLength: 2048,
           publicKeyEncoding: {
             type: pubEnc.type,
             format: 'pem',
@@ -20,7 +20,7 @@ export const keyBuilder =
             type: privEnc.type,
             format: 'pem',
             cipher: 'aes-256-cbc',
-            passphrase: privEnc.passphrase,
+            passphrase: '',
           },
         },
         (err: Error | null, publicKey: string, privateKey: string) => {
