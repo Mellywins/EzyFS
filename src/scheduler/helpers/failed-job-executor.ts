@@ -8,6 +8,7 @@ export default function failedJobExecutor(
   repository: Repository<QueuedJob>,
 ) {
   Q.on('failed', (job: Job, result: any) => {
+    console.log('failed job: ', job);
     repository.update(job.opts.jobId, {
       lastExecutionDate: new Date(job.processedOn),
       lastExecutionStatus: ExecutionStatusEnum.FAILED,

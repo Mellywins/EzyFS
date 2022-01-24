@@ -25,7 +25,7 @@ export class AsymKey extends TimestampEntites {
   @JoinColumn()
   @Field(() => User)
   owner: User;
-  @Column()
+  @Column({nullable: true})
   @Field()
   publicKeyEncoding: string;
 }

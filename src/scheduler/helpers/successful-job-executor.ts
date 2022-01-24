@@ -9,6 +9,7 @@ export default function successfulJobExecutor(
   repository: Repository<QueuedJob>,
 ) {
   Q.on('completed', (job: Job, result: JobExecutionResult) => {
+    console.log('completed job: ', job);
     repository.update(job.opts.jobId, {
       lastExecutionDate: new Date(job.processedOn),
       lastExecutionStatus: ExecutionStatusEnum.SUCCESS,

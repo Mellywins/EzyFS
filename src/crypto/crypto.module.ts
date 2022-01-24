@@ -6,6 +6,7 @@ import {AsymKey} from './entities/AsymKey.entity';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {User} from '../user/entities/user.entity';
 import {KeyOwnershipHelper} from './helpers/key-ownership.helper';
+import {UserModule} from 'src/user/user.module';
 
 @Module({
   providers: [
@@ -14,6 +15,7 @@ import {KeyOwnershipHelper} from './helpers/key-ownership.helper';
     PublicKeyManager,
     KeyOwnershipHelper,
   ],
-  imports: [TypeOrmModule.forFeature([User, AsymKey])],
+  imports: [TypeOrmModule.forFeature([User, AsymKey]), UserModule],
+  exports: [CryptoService],
 })
 export class CryptoModule {}

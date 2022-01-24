@@ -8,10 +8,12 @@ import {QueueType} from '../shared/enums/Queue.enum';
 import {ProcessorType} from '../shared/enums/Processor-types.enum';
 import {User} from '../user/entities/user.entity';
 import {QueuedJob} from './entities/Job.entity';
-import { QueueInventory } from './inventories/Queue-inventory';
+import {QueueInventory} from './inventories/Queue-inventory';
+import {UserModule} from 'src/user/user.module';
+import {CryptoModule} from 'src/crypto/crypto.module';
 
 @Module({
-  providers: [SchedulerResolver, SchedulerService,QueueInventory],
+  providers: [SchedulerResolver, SchedulerService, QueueInventory],
   imports: [
     BullModule.registerQueue({
       name: QueueType.COMPRESSION,
@@ -58,6 +60,8 @@ import { QueueInventory } from './inventories/Queue-inventory';
       ],
     }),
     TypeOrmModule.forFeature([User, QueuedJob]),
+    UserModule,
+    CryptoModule,
   ],
   exports: [BullModule],
 })

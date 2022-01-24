@@ -192,7 +192,7 @@ input CreateJobInput {
   description: String!
   sourcePath: String!
   outputPath: String!
-  sourceType: SourceTypeEnum!
+  sourceType: SourceTypeEnum = FILE
   cronString: String
   userId: Float!
   startDate: DateTime!

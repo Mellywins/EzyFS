@@ -10,12 +10,17 @@ export class PublicKeyManager {
     @InjectRepository(AsymKey)
     private readonly keyRepository: Repository<AsymKey>,
   ) {}
-  persistPublicKey = async (owner: User, publicKey: string) => {
+  persistPublicKey = async (
+    owner: User,
+    publicKey: string,
+    publicKeyEncoding: string,
+  ) => {
     const fingprint = await fingerprint(publicKey);
     const keyEntity = this.keyRepository.create({
       fingerprint: fingprint,
       publicKey: publicKey,
       owner,
+      publicKeyEncoding,
     });
     await this.keyRepository.save(keyEntity);
     return keyEntity;

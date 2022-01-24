@@ -11,22 +11,26 @@ import {QueuedJob} from './entities/Job.entity';
 import {User} from '../user/entities/user.entity';
 import jobCreatorFactory from './factories/abstract/job-factory';
 import {QueueInventory} from './inventories/Queue-inventory';
+import {UserService} from '../user/user.service';
+import {CryptoService} from '../crypto/crypto.service';
 
 @Injectable()
 export class SchedulerService {
   constructor(
-    private readonly queueInventory: QueueInventory,
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly userService: UserService,
+    private readonly cryptoService: CryptoService,
     @InjectRepository(QueuedJob)
     private readonly jobRepository: Repository<QueuedJob>,
+    private readonly QI: QueueInventory,
   ) {}
 
-  async create(createJobInput: CreateJobInput): Promise<void | QueuedJob> {
+  async create(createJobInput: CreateJobInput): Promise<QueuedJob> {
     return jobCreatorFactory(createJobInput.jobType)(
       createJobInput,
-      this.userRepository,
+      this.userService,
       this.jobRepository,
-      this.queueInventory,
+      this.QI,
+      this.cryptoService,
     );
   }
 }

@@ -21,7 +21,7 @@ export class CreateJobInput {
   @IsNotEmpty()
   outputPath: string;
 
-  @Field(() => SourceTypeEnum)
+  @Field(() => SourceTypeEnum, {defaultValue: SourceTypeEnum.FILE})
   @IsNotEmpty()
   sourceType: SourceTypeEnum;
 

@@ -9,14 +9,19 @@ import {ExecutionStatusEnum} from '../../../shared/enums/Execution-status.enum';
 import {User} from '../../../user/entities/user.entity';
 import {Repository} from 'typeorm';
 import {v4 as uuidv4} from 'uuid';
+import {CryptoService} from '../../../crypto/crypto.service';
+import {UserService} from '../../../user/user.service';
+import {ProcessorType} from '../../../shared/enums/Processor-types.enum';
 
 export const createCompressionJob = async (
   createJobInput: CreateJobInput,
-  userRepo: Repository<User>,
+  userService: UserService,
   jobRepo: Repository<QueuedJob>,
   QI: QueueInventory,
+  cryptoService: CryptoService,
 ) => {
-  const user = await userRepo.findOne({id: createJobInput.userId});
+  const user = await userService.internalFindOne(createJobInput.userId);
+  console.log(user);
   const Q = QI.get(createJobInput.jobType);
   const payload: CompressionJobPayload = {
     sourcePath: createJobInput.sourcePath,
@@ -39,6 +44,7 @@ export const createCompressionJob = async (
     lastExecutionStatus: ExecutionStatusEnum.WAITING,
     startDate: startTimestamp,
     owner: user,
+    jobType: ProcessorType.COMPRESSION,
   });
   // const processedJob: Job<any> = await this.compressionQueue.getJob(jId);
   await jobRepo.save(createdJob);

@@ -8,12 +8,16 @@ import {CreateKeyPairInput} from './dto/createKeyPair.input';
 import {AsymKey} from './entities/AsymKey.entity';
 import {KeyOwnershipHelper} from './helpers/key-ownership.helper';
 import {PublicKeyManager} from './managers/public-key-manager';
+import {UserService} from '../user/user.service';
 @Injectable()
 export class CryptoService {
   constructor(
     private readonly publicKeyManager: PublicKeyManager,
     private readonly keyOwnershipHelper: KeyOwnershipHelper,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(AsymKey)
+    private readonly keyRepository: Repository<AsymKey>,
+    private readonly userService: UserService,
   ) {}
   async createKeyPair(
     createCryptoInput: CreateKeyPairInput,
@@ -25,7 +29,7 @@ export class CryptoService {
       pirvateKeyPassphrase,
       ownerId,
     } = createCryptoInput;
-    const user = await this.userRepository.findOne(ownerId);
+    const user = await this.userService.internalFindOne(ownerId);
     const userOwnsKey = await this.keyOwnershipHelper.hasKey(user);
     if (userOwnsKey) {
       return new ConflictException(USER_ALREADY_OWNS_KEY);
@@ -39,7 +43,11 @@ export class CryptoService {
     const pubKeyData = await this.publicKeyManager.persistPublicKey(
       user,
       publicKey,
+      publicKeyEncodingType,
     );
     return {privateKey, fingerprint: pubKeyData.fingerprint};
+  }
+  async getUserKey(owner: User): Promise<AsymKey> {
+    return await this.keyRepository.findOneOrFail({where: {owner}});
   }
 }
