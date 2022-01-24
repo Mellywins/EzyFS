@@ -8,11 +8,15 @@ describe('SchedulerResolver', () => {
   let resolver: SchedulerResolver;
   // const mockQueue: Queue<CompressionJobPayload> | Array<CompressionJobPayload> =
   //   [];
+  const mockSchedulerService = {};
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SchedulerResolver, SchedulerService, BullModule],
+      providers: [SchedulerResolver, SchedulerService],
       // imports: [BullModule],
-    }).compile();
+    })
+      .overrideProvider(SchedulerService)
+      .useValue(mockSchedulerService)
+      .compile();
 
     resolver = module.get<SchedulerResolver>(SchedulerResolver);
   });

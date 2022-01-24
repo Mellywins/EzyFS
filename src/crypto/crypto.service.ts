@@ -1,7 +1,7 @@
 import {ConflictException, Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
-import {User} from 'src/user/entities/user.entity';
-import {USER_ALREADY_OWNS_KEY} from 'src/utils/constants';
+import {User} from '../user/entities/user.entity';
+import {USER_ALREADY_OWNS_KEY} from '../utils/constants';
 import {Repository} from 'typeorm';
 import {keyBuilder} from './builders/asymetric-key.builder';
 import {CreateKeyPairInput} from './dto/createKeyPair.input';

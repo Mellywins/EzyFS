@@ -1,6 +1,6 @@
 import {ObjectType, Field, Int} from '@nestjs/graphql';
-import {TimestampEntites} from 'src/generics/timestamp.entity';
-import {User} from 'src/user/entities/user.entity';
+import {TimestampEntites} from '../../generics/timestamp.entity';
+import {User} from '../../user/entities/user.entity';
 import {
   Column,
   Entity,
@@ -27,6 +27,5 @@ export class AsymKey extends TimestampEntites {
   owner: User;
   @Column()
   @Field()
-  publicKeyEncoding:string;
-  
+  publicKeyEncoding: string;
 }

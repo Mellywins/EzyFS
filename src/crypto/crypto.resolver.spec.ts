@@ -1,14 +1,17 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { CryptoResolver } from './crypto.resolver';
-import { CryptoService } from './crypto.service';
+import {Test, TestingModule} from '@nestjs/testing';
+import {CryptoResolver} from './crypto.resolver';
+import {CryptoService} from './crypto.service';
 
 describe('CryptoResolver', () => {
   let resolver: CryptoResolver;
-
+  const mockCryptoService = {};
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [CryptoResolver, CryptoService],
-    }).compile();
+    })
+      .overrideProvider(CryptoService)
+      .useValue(mockCryptoService)
+      .compile();
 
     resolver = module.get<CryptoResolver>(CryptoResolver);
   });

@@ -10,7 +10,7 @@ import {CreateJobInput} from './dto/create-job.input';
 import {QueuedJob} from './entities/Job.entity';
 import {User} from '../user/entities/user.entity';
 import jobCreatorFactory from './factories/abstract/job-factory';
-import { QueueInventory } from './inventories/Queue-inventory';
+import {QueueInventory} from './inventories/Queue-inventory';
 
 @Injectable()
 export class SchedulerService {
@@ -22,6 +22,11 @@ export class SchedulerService {
   ) {}
 
   async create(createJobInput: CreateJobInput): Promise<void | QueuedJob> {
-    return jobCreatorFactory(createJobInput.jobType)(createJobInput,this.userRepository,this.jobRepository,this.queueInventory)
+    return jobCreatorFactory(createJobInput.jobType)(
+      createJobInput,
+      this.userRepository,
+      this.jobRepository,
+      this.queueInventory,
+    );
   }
 }
