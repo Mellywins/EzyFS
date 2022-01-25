@@ -1,4 +1,5 @@
 import {InputType, Int, Field} from '@nestjs/graphql';
+import {IsOptional} from 'class-validator';
 import {EncryptionAlgorithmEnum} from '../enums/enc-algorithms.enum';
 
 @InputType()
@@ -6,12 +7,9 @@ export class CreateKeyPairInput {
   @Field(() => EncryptionAlgorithmEnum)
   algorithm: EncryptionAlgorithmEnum;
 
-  @Field()
-  publicKeyEncodingType: 'spki' | 'pkcs1';
-  @Field()
-  privateKeyEncodingType: 'pkcs1' | 'pkcs8';
-  @Field()
-  pirvateKeyPassphrase: string;
+  @IsOptional()
+  @Field({nullable: true})
+  passphrase?: string;
 
   @Field()
   ownerId: number;

@@ -22,28 +22,20 @@ export class CryptoService {
   async createKeyPair(
     createCryptoInput: CreateKeyPairInput,
   ): Promise<{privateKey: string; fingerprint: string} | ConflictException> {
-    const {
-      algorithm,
-      publicKeyEncodingType,
-      privateKeyEncodingType,
-      pirvateKeyPassphrase,
-      ownerId,
-    } = createCryptoInput;
+    const {algorithm, passphrase, ownerId} = createCryptoInput;
     const user = await this.userService.internalFindOne(ownerId);
     const userOwnsKey = await this.keyOwnershipHelper.hasKey(user);
     if (userOwnsKey) {
       return new ConflictException(USER_ALREADY_OWNS_KEY);
     }
-    const {publicKey, privateKey} = await keyBuilder(algorithm)({
-      type: publicKeyEncodingType,
-    })({
-      type: privateKeyEncodingType,
-      passphrase: pirvateKeyPassphrase,
+    const {publicKey, privateKey} = await keyBuilder({
+      type: algorithm,
+      user,
+      passphrase,
     });
     const pubKeyData = await this.publicKeyManager.persistPublicKey(
       user,
       publicKey,
-      publicKeyEncodingType,
     );
     return {privateKey, fingerprint: pubKeyData.fingerprint};
   }

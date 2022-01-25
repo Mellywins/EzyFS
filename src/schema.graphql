@@ -198,23 +198,17 @@ input CreateJobInput {
   startDate: DateTime!
   endDate: DateTime
   privateKey: String
+  signWithEncryption: Boolean
+  passphrase: String
 }
 
 input CreateKeyPairInput {
   algorithm: EncryptionAlgorithmEnum!
-  publicKeyEncodingType: String!
-  privateKeyEncodingType: String!
-  pirvateKeyPassphrase: String!
+  passphrase: String
   ownerId: Float!
 }
 
 enum EncryptionAlgorithmEnum {
   RSA
-  DSA
-  ED25519
-  X448
-  X25519
-  EC
-  ED448
-  RSAPSS
+  ECC
 }

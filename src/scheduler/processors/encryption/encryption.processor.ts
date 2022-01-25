@@ -7,22 +7,25 @@ import {promisify} from 'util';
 import {Readable} from 'stream';
 import {EncryptionJobPayload} from '../../../scheduler/interfaces/EncryptionJobPayload.interface';
 import NodeRSA = require('node-rsa');
-export default function (job: Job<EncryptionJobPayload>, cb: DoneCallback) {
+import * as opengpg from 'openpgp';
+export default async function (
+  job: Job<EncryptionJobPayload>,
+  cb: DoneCallback,
+) {
   console.log(
     `[${process.pid}] Attempting Encryption delegated to job with UUID:  ${job.id}`,
   );
-  const rawKey = job.data.publicKey;
-  const key: NodeRSA = new NodeRSA(rawKey);
-  promisify(pipeline)(
-    key.encrypt(createReadStream(job.data.sourcePath), 'binary'),
-    createWriteStream(job.data.outputPath + '.enc'),
-  )
-    .then(() => {
-      console.log('Encryption done successfully');
-      cb(null, 'Success');
-    })
-    .catch((err) => {
-      console.log('Encryption failed');
-      cb(err, null);
-    });
+  const {privateKey, publicKey, signWithEncryption, sourcePath, outputPath} =
+    job.data;
+  const pubKey = await opengpg.readKey({armoredKey: publicKey});
+  const sourceStream = createReadStream(sourcePath);
+  const encrypted = await opengpg.encrypt({
+    message: await opengpg.createMessage({text: sourceStream}),
+    encryptionKeys: pubKey,
+    // signingKeys: signWithEncryption ? privKey : null,
+  });
+  encrypted
+    .pipe(createWriteStream(outputPath + '.enc'))
+    .on('end', cb(null, 'SUCCESS'))
+    .on('error', cb(new Error(), 'FAILED'));
 }

@@ -40,4 +40,12 @@ export class CreateJobInput {
   @Field({nullable: true})
   @IsOptional()
   privateKey?: string;
+
+  @Field({nullable: true})
+  @IsOptional()
+  signWithEncryption: boolean;
+
+  @Field({nullable: true})
+  @IsOptional()
+  passphrase?: string;
 }

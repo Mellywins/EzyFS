@@ -1,31 +1,16 @@
 import {generateKeyPair} from 'crypto';
+import {generateKey} from 'openpgp';
 import {PublicKeyEncoding} from './interfaces/PublicKeyEncoding.interface';
 import {PrivateKeyEncoding} from './interfaces/PrivateKeyEncoding.interface';
-export const keyBuilder =
-  (algo) =>
-  (pubEnc: PublicKeyEncoding) =>
-  (
-    privEnc: PrivateKeyEncoding,
-  ): Promise<{publicKey: string; privateKey: string}> =>
-    new Promise((resolve, reject) => {
-      generateKeyPair(
-        algo,
-        {
-          modulusLength: 2048,
-          publicKeyEncoding: {
-            type: pubEnc.type,
-            format: 'pem',
-          },
-          privateKeyEncoding: {
-            type: privEnc.type,
-            format: 'pem',
-            cipher: 'aes-256-cbc',
-            passphrase: '',
-          },
-        },
-        (err: Error | null, publicKey: string, privateKey: string) => {
-          if (err) reject(err);
-          return resolve({publicKey, privateKey});
-        },
-      );
-    });
+import {KeyBuildingBlock} from './interfaces/KeyBuildingBlock.interface';
+export const keyBuilder = (
+  payload: KeyBuildingBlock,
+): Promise<{publicKey: string; privateKey: string; revocationCertificate}> =>
+  generateKey({
+    type: payload.type, // Type of the key, defaults to ECC
+    curve: payload.type === 'ecc' ? 'curve25519' : null, // ECC curve name, defaults to curve25519
+    rsaBits: payload.type === 'ecc' ? null : 4096,
+    userIDs: [{name: payload.user.username, email: payload.user.email}], // you can pass multiple user IDs
+    passphrase: payload.passphrase, // protects the private key
+    format: 'armored', // output key format, defaults to 'armored' (other options: 'binary' or 'object')
+  });

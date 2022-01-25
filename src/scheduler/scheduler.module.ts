@@ -45,6 +45,7 @@ import {CryptoModule} from 'src/crypto/crypto.module';
             __dirname,
             '/processors/encryption/encryption.processor.js',
           ),
+          concurrency: 3,
         },
       ],
     }),

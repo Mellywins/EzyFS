@@ -15,7 +15,6 @@ export default function failedJobExecutor(
       attemptsMade: job.attemptsMade,
       failedReason: job.failedReason,
       processedOn: new Date(job.processedOn),
-      finishedOn: new Date(job.finishedOn),
       stacktrace: job.stacktrace as any as string,
     });
   });

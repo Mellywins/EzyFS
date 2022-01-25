@@ -3,4 +3,7 @@ export interface EncryptionJobPayload {
   outputPath: string;
   ownerId: number;
   publicKey: string;
+  privateKey: string;
+  signWithEncryption?: boolean;
+  passphrase?: string;
 }

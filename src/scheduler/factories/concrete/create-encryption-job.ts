@@ -27,6 +27,8 @@ export const createEncryptionJob = async (
     outputPath: createJobInput.outputPath,
     ownerId: user.id,
     publicKey,
+    privateKey: createJobInput.privateKey,
+    signWithEncryption: createJobInput.signWithEncryption,
   };
   const jId = uuidv4();
   await Q.add({...payload}, {jobId: jId});
