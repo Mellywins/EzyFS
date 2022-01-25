@@ -1,6 +1,8 @@
 export interface DecryptionJobPayload {
-  outputPath: string;
   sourcePath: string;
-  privateKey: string;
+  outputPath: string;
   ownerId: number;
+  publicKey?: string;
+  privateKey: string;
+  passphrase?: string;
 }

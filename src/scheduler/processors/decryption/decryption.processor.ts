@@ -13,7 +13,30 @@ export default async function (
   cb: DoneCallback,
 ) {
   console.log(
-    `[${process.pid}] Attempting Encryption delegated to job with UUID:  ${job.id}`,
+    `[${process.pid}] Attempting Decryption delegated to job with UUID:  ${job.id}`,
   );
-  const {privateKey} = job.data;
+  const {privateKey, sourcePath, outputPath} = job.data;
+  const pKey = await opengpg.readPrivateKey({armoredKey: privateKey});
+  const sourceStream = createReadStream(sourcePath);
+  opengpg
+    .readMessage({
+      armoredMessage: sourceStream,
+    })
+    .then((M) => {
+      opengpg
+        .decrypt({
+          message: M,
+          decryptionKeys: pKey,
+        })
+        .then((e) => {
+          e.data
+            .pipe(createWriteStream(outputPath))
+            .on('end', () => cb(null, 'SUCCESS'))
+            .on('error', () => cb(new Error('Error Occured'), 'FAILED'));
+        })
+        .catch((err) => cb(err, 'FAILED'));
+    })
+    .catch((err) => {
+      cb(err, 'FAILED READING THE MESSAGE FROM STREAM');
+    });
 }

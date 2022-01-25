@@ -2,9 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
+      "type": "docker",
       "request": "launch",
       "name": "Debug Nest Framework",
+      "preLaunchTask": "npm: start:debug",
+      "platform": "node",
       "args": ["${workspaceFolder}/src/main.ts"],
       "runtimeArgs": [
         "--nolazy",
