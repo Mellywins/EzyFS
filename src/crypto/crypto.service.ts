@@ -9,6 +9,8 @@ import {AsymKey} from './entities/AsymKey.entity';
 import {KeyOwnershipHelper} from './helpers/key-ownership.helper';
 import {PublicKeyManager} from './managers/public-key-manager';
 import {UserService} from '../user/user.service';
+import {createCipheriv, createHash, publicEncrypt, randomBytes} from 'crypto';
+import {encrypt, PublicKey} from 'openpgp';
 @Injectable()
 export class CryptoService {
   constructor(
@@ -41,5 +43,17 @@ export class CryptoService {
   }
   async getUserKey(owner: User): Promise<AsymKey> {
     return await this.keyRepository.findOneOrFail({where: {owner}});
+  }
+  // generate a 32 byte key
+  generateSymmetricKey(): Buffer {
+    const r = (Math.random() * 100000000).toString(25);
+
+    return createHash('sha256').update(r).digest();
+  }
+  generateInitVector(): Buffer {
+    return randomBytes(16);
+  }
+  encryptBuffer(data: Buffer, pubKey: string) {
+    return publicEncrypt(pubKey, data);
   }
 }

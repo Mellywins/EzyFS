@@ -42,6 +42,11 @@ export const createEncryptionJob = async (
     owner: user,
     jobType: ProcessorType.ENCRYPTION,
   });
+  // const symKey = cryptoService.generateSymmetricKey();
+  // const iv = cryptoService.generateInitVector();
+  // const encSymKey = cryptoService.encryptBuffer(symKey, publicKey);
+  // console.log(publicKey);
+  // console.log('symmetric key', symKey, 'encrypted SymKey', encSymKey);
   await jobRepo.save(createdJob);
   successfulJobExecutor(Q, jobRepo);
   failedJobExecutor(Q, jobRepo);

@@ -16,10 +16,11 @@ export default async function (
   const encrypted = await opengpg.encrypt({
     message: await opengpg.createMessage({text: sourceStream}),
     encryptionKeys: pubKey,
+    format: 'binary',
     // signingKeys: signWithEncryption ? privKey : null,
   });
   encrypted
     .pipe(createWriteStream(outputPath + '.enc'))
-    .on('end', cb(null, 'SUCCESS'))
-    .on('error', cb(new Error(), 'FAILED'));
+    .on('end', () => cb(null, 'SUCCESS'))
+    .on('error', () => cb(new Error(), 'FAILED'));
 }
