@@ -1,21 +1,25 @@
 import {Queue} from 'bull';
-import {CryptoService} from '../../../crypto/crypto.service';
-import {CreateJobInput} from '../../../scheduler/dto/create-job.input';
-import {QueuedJob} from '../../../scheduler/entities/Job.entity';
-import failedJobExecutor from '../../../scheduler/helpers/failed-job-executor';
-import successfulJobExecutor from '../../../scheduler/helpers/successful-job-executor';
-import {EncryptionJobPayload} from '../../../scheduler/interfaces/EncryptionJobPayload.interface';
-import {QueueInventory} from '../../../scheduler/inventories/Queue-inventory';
-import {ExecutionStatusEnum} from '../../../shared/enums/Execution-status.enum';
-import {ProcessorType} from '../../../shared/enums/Processor-types.enum';
-import {UserService} from '../../../user/user.service';
+import {CryptoService} from '../../../../crypto/crypto.service';
+import {CreateJobInput} from '../../../dto/create-job.input';
+import {QueuedJob} from '../../../entities/Job.entity';
+import failedJobExecutor from '../../../helpers/failed-job-executor';
+import successfulJobExecutor from '../../../helpers/successful-job-executor';
+import {EncryptionJobPayload} from '../../../interfaces/EncryptionJobPayload.interface';
+import {QueueInventory} from '../../../inventories/Queue-inventory';
+import {ExecutionStatusEnum} from '../../../../shared/enums/Execution-status.enum';
+import {ProcessorType} from '../../../../shared/enums/Processor-types.enum';
+import {UserService} from '../../../../user/user.service';
 import {Repository} from 'typeorm';
 import {v4 as uuidv4} from 'uuid';
+import {CryptographicJob} from '../../../entities/cryptographicJob.entity';
+import {EncDecType} from '../../../../shared/enums/enc-dec-type.enum';
+import {JobInventory} from '../../../inventories/Job-inventory';
+import {RepositoryConstants} from '../../../../shared/enums/Repository-inventory.enum';
 
-export const createEncryptionJob = async (
+export const createHybridEncryptionJob = async (
   createJobInput: CreateJobInput,
   userService: UserService,
-  jobRepo: Repository<QueuedJob>,
+  JI: JobInventory,
   QI: QueueInventory,
   cryptoService: CryptoService,
 ): Promise<QueuedJob> => {
@@ -40,9 +44,12 @@ export const createEncryptionJob = async (
     cipherKey: symKey,
     cipherIV: iv,
   };
+  const jobRepo = JI.get(
+    RepositoryConstants.CRYPTO,
+  ) as Repository<CryptographicJob>;
   await Q.add({...payload}, {jobId: jId});
   const startTimestamp: Date = new Date();
-  const {userId, ...jobInfo} = createJobInput;
+  const {userId, jobTypeSpec, ...jobInfo} = createJobInput;
   const createdJob: QueuedJob = jobRepo.create({
     JobId: jId,
     ...jobInfo,
@@ -52,6 +59,7 @@ export const createEncryptionJob = async (
     jobType: ProcessorType.ENCRYPTION,
     iv: iv.toString('hex'),
     secret: encSymKey,
+    jobTypeSpec: jobTypeSpec as unknown as EncDecType,
   });
 
   await jobRepo.save(createdJob);

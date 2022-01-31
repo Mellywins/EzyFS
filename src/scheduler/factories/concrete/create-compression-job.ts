@@ -12,11 +12,15 @@ import {v4 as uuidv4} from 'uuid';
 import {CryptoService} from '../../../crypto/crypto.service';
 import {UserService} from '../../../user/user.service';
 import {ProcessorType} from '../../../shared/enums/Processor-types.enum';
+import {ArchiveJob} from '../../entities/archiveJob.entity';
+import {CompDecompType} from '../../../shared/enums/comp-decomp-type.enum';
+import {JobInventory} from '../../inventories/Job-inventory';
+import {RepositoryConstants} from '../../../shared/enums/Repository-inventory.enum';
 
 export const createCompressionJob = async (
   createJobInput: CreateJobInput,
   userService: UserService,
-  jobRepo: Repository<QueuedJob>,
+  JI: JobInventory,
   QI: QueueInventory,
   cryptoService: CryptoService,
 ) => {
@@ -36,16 +40,19 @@ export const createCompressionJob = async (
       jobId: jId,
     },
   );
+  const jobRepo = JI.get(RepositoryConstants.ARCHIVE) as Repository<ArchiveJob>;
   const startTimestamp: Date = new Date();
-  const {userId, ...jobInfo} = createJobInput;
-  const createdJob: QueuedJob = jobRepo.create({
+  const {userId, jobTypeSpec, ...jobInfo} = createJobInput;
+  const createdJob: ArchiveJob = jobRepo.create({
     JobId: jId,
     ...jobInfo,
     lastExecutionStatus: ExecutionStatusEnum.WAITING,
     startDate: startTimestamp,
     owner: user,
     jobType: ProcessorType.COMPRESSION,
+    jobTypeSpec: jobTypeSpec as unknown as CompDecompType,
   });
+
   // const processedJob: Job<any> = await this.compressionQueue.getJob(jId);
   await jobRepo.save(createdJob);
   successfulJobExecutor(Q, jobRepo);

@@ -11,9 +11,17 @@ import {QueuedJob} from './entities/Job.entity';
 import {QueueInventory} from './inventories/Queue-inventory';
 import {UserModule} from 'src/user/user.module';
 import {CryptoModule} from 'src/crypto/crypto.module';
+import {JobInventory} from './inventories/Job-inventory';
+import {ArchiveJob} from './entities/archiveJob.entity';
+import {CryptographicJob} from './entities/cryptographicJob.entity';
 
 @Module({
-  providers: [SchedulerResolver, SchedulerService, QueueInventory],
+  providers: [
+    SchedulerResolver,
+    SchedulerService,
+    QueueInventory,
+    JobInventory,
+  ],
   imports: [
     BullModule.registerQueue({
       name: QueueType.COMPRESSION,
@@ -60,7 +68,7 @@ import {CryptoModule} from 'src/crypto/crypto.module';
         },
       ],
     }),
-    TypeOrmModule.forFeature([User, QueuedJob]),
+    TypeOrmModule.forFeature([User, ArchiveJob, CryptographicJob]),
     UserModule,
     CryptoModule,
   ],

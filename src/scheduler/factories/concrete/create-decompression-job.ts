@@ -9,10 +9,14 @@ import {Repository} from 'typeorm';
 import {v4 as uuidv4} from 'uuid';
 import {CryptoService} from 'src/crypto/crypto.service';
 import {UserService} from 'src/user/user.service';
+import {ArchiveJob} from '../../entities/archiveJob.entity';
+import {CompDecompType} from '../../../shared/enums/comp-decomp-type.enum';
+import {JobInventory} from '../../inventories/Job-inventory';
+import {RepositoryConstants} from '../../../shared/enums/Repository-inventory.enum';
 export const createDecompressionJob = async (
   createJobInput: CreateJobInput,
   userService: UserService,
-  jobRepo: Repository<QueuedJob>,
+  JI: JobInventory,
   QI: QueueInventory,
   cryptoService: CryptoService,
 ) => {
@@ -30,13 +34,15 @@ export const createDecompressionJob = async (
       jobId: jId,
     },
   );
+  const jobRepo = JI.get(RepositoryConstants.ARCHIVE) as Repository<ArchiveJob>;
   const startTimestamp: Date = new Date();
-  const {userId, ...jobInfo} = createJobInput;
-  const createdJob: QueuedJob = jobRepo.create({
+  const {userId, jobTypeSpec, ...jobInfo} = createJobInput;
+  const createdJob: ArchiveJob = jobRepo.create({
     JobId: jId,
     ...jobInfo,
     startDate: startTimestamp,
     owner: user,
+    jobTypeSpec: jobTypeSpec as unknown as CompDecompType,
   });
   await jobRepo.save(createdJob);
   successfulJobExecutor(Q, jobRepo);

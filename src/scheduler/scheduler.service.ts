@@ -13,22 +13,25 @@ import jobCreatorFactory from './factories/abstract/job-factory';
 import {QueueInventory} from './inventories/Queue-inventory';
 import {UserService} from '../user/user.service';
 import {CryptoService} from '../crypto/crypto.service';
+import {JobInventory} from './inventories/Job-inventory';
 
 @Injectable()
 export class SchedulerService {
   constructor(
     private readonly userService: UserService,
     private readonly cryptoService: CryptoService,
-    @InjectRepository(QueuedJob)
-    private readonly jobRepository: Repository<QueuedJob>,
+    private readonly jobInventory: JobInventory,
     private readonly QI: QueueInventory,
   ) {}
 
   async create(createJobInput: CreateJobInput): Promise<QueuedJob> {
-    return jobCreatorFactory(createJobInput.jobType)(
+    return jobCreatorFactory(
+      createJobInput.jobType,
+      createJobInput.jobTypeSpec,
+    )(
       createJobInput,
       this.userService,
-      this.jobRepository,
+      this.jobInventory,
       this.QI,
       this.cryptoService,
     );

@@ -11,6 +11,18 @@ export default async function (
   );
   const {privateKey, publicKey, signWithEncryption, sourcePath, outputPath} =
     job.data;
+  console.log(publicKey);
+  if (
+    publicKey == undefined ||
+    sourcePath == undefined ||
+    outputPath == undefined
+  ) {
+    cb(
+      new Error(
+        'No public key passed to the worker OR sourcePath or outputPath is undefined',
+      ),
+    );
+  }
   const pubKey = await opengpg.readKey({armoredKey: publicKey});
   const sourceStream = createReadStream(sourcePath);
   const encrypted = await opengpg.encrypt({

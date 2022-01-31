@@ -1,14 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {ObjectType, Field, Int, HideField} from '@nestjs/graphql';
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-  Timestamp,
-} from 'typeorm';
+import {Column, Entity, ManyToOne, OneToMany, PrimaryColumn} from 'typeorm';
 import {User} from '../../user/entities/user.entity';
 import {TimestampEntites} from '../../generics/timestamp.entity';
 import {ProcessorType} from '../../shared/enums/Processor-types.enum';
@@ -17,7 +9,7 @@ import {ExecutionStatusEnum} from '../../shared/enums/Execution-status.enum';
 
 @ObjectType()
 @Entity()
-export class QueuedJob extends TimestampEntites {
+export abstract class QueuedJob extends TimestampEntites {
   @Field({nullable: false})
   @PrimaryColumn()
   JobId: string;
@@ -106,19 +98,4 @@ export class QueuedJob extends TimestampEntites {
   @Field({nullable: true})
   @Column({nullable: true})
   processedOn: Date;
-
-  @ManyToOne((type) => QueuedJob, (job) => job.childJobs)
-  @Field((type) => QueuedJob, {nullable: true})
-  ancestorJob: QueuedJob;
-  @OneToMany((type) => QueuedJob, (job) => job.ancestorJob)
-  @Field((type) => [QueuedJob], {nullable: true})
-  childJobs: QueuedJob[];
-
-  @HideField()
-  @Column({nullable: true})
-  iv: string;
-
-  @HideField()
-  @Column({nullable: true})
-  secret: string;
 }

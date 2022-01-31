@@ -46,8 +46,6 @@ type QueuedJob {
   stacktrace: String
   finishedOn: DateTime
   processedOn: DateTime
-  ancestorJob: QueuedJob
-  childJobs: [QueuedJob!]
 }
 
 enum ProcessorType {
@@ -107,6 +105,37 @@ type TokenModel {
   access_token: String!
   refresh_token: String!
   user: User!
+}
+
+type CryptographicJob {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+  JobId: String!
+  description: String!
+  jobType: ProcessorType!
+  sourcePath: String
+  outputPath: String
+  sourceType: SourceTypeEnum!
+  owner: User!
+  cronString: String
+  startDate: DateTime
+  endDate: DateTime
+  lastExecutionDate: DateTime
+  lastExecutionStatus: ExecutionStatusEnum
+  attemptsMade: Float
+  failedReason: String
+  stacktrace: String
+  finishedOn: DateTime
+  processedOn: DateTime
+  ancestorJob: CryptographicJob
+  childJobs: [CryptographicJob!]
+  jobTypeSpec: EncDecType!
+}
+
+enum EncDecType {
+  PGP
+  HYBRID
 }
 
 type CreateKeyPairOutput {
@@ -191,6 +220,7 @@ input CredentialsInput {
 
 input CreateJobInput {
   jobType: ProcessorType!
+  jobTypeSpec: GenericJobTypeSpec = null
   description: String!
   sourcePath: String!
   outputPath: String!
@@ -203,6 +233,12 @@ input CreateJobInput {
   signWithEncryption: Boolean
   passphrase: String
   ancestorJobId: String
+}
+
+enum GenericJobTypeSpec {
+  PGP
+  HYBRID
+  TGZ
 }
 
 input CreateKeyPairInput {
