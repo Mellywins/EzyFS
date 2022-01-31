@@ -10,7 +10,17 @@ import {KeyOwnershipHelper} from './helpers/key-ownership.helper';
 import {PublicKeyManager} from './managers/public-key-manager';
 import {UserService} from '../user/user.service';
 import {createCipheriv, createHash, publicEncrypt, randomBytes} from 'crypto';
-import {encrypt, PublicKey} from 'openpgp';
+import {
+  createMessage,
+  decrypt,
+  decryptKey,
+  encrypt,
+  PublicKey,
+  readCleartextMessage,
+  readKey,
+  readMessage,
+  readPrivateKey,
+} from 'openpgp';
 @Injectable()
 export class CryptoService {
   constructor(
@@ -45,15 +55,55 @@ export class CryptoService {
     return await this.keyRepository.findOneOrFail({where: {owner}});
   }
   // generate a 32 byte key
-  generateSymmetricKey(): Buffer {
+  generateSymmetricKey(): string {
     const r = (Math.random() * 100000000).toString(25);
 
-    return createHash('sha256').update(r).digest();
+    return createHash('sha256').update(r).digest('base64').substring(0, 32);
   }
   generateInitVector(): Buffer {
-    return randomBytes(16);
+    return randomBytes(8 * 2);
   }
-  encryptBuffer(data: Buffer, pubKey: string) {
-    return publicEncrypt(pubKey, data);
+  async encryptString(data: string, pubKey: string): Promise<string> {
+    const pKey = await readKey({armoredKey: pubKey});
+    const encrypted = await encrypt({
+      message: await createMessage({
+        text: data,
+      }),
+      encryptionKeys: pKey,
+    });
+    return encrypted;
+  }
+  async decryptString(data: string, privKey: string): Promise<string> {
+    // const privateKey = await decryptKey({
+    const privateKey = await readPrivateKey({armoredKey: privKey});
+    // });
+    var ret;
+    console.log(privKey);
+    console.log(data);
+    const msg = await readMessage({
+      armoredMessage: data,
+    });
+    const {data: decrypted, signatures} = await decrypt({
+      message: msg,
+      decryptionKeys: privateKey,
+    });
+    return decrypted;
+    // .then((message) => {
+    //   console.log('entered then: ', message);
+    //   decrypt({
+    //     message,
+    //     decryptionKeys: privateKey,
+    //   })
+    //     .then((decrypted) => {
+    //       ret = decrypted.data;
+    //     })
+    //     .catch((err) => {
+    //       console.log('failed to decrypt: ' + err);
+    //     });
+    // })
+    // .catch((e) => {
+    //   console.log('failed to read Message');
+    // });
+    return ret;
   }
 }

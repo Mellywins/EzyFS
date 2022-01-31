@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {ObjectType, Field, Int} from '@nestjs/graphql';
+import {ObjectType, Field, Int, HideField} from '@nestjs/graphql';
 import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryColumn,
   PrimaryGeneratedColumn,
   Timestamp,
@@ -93,16 +94,31 @@ export class QueuedJob extends TimestampEntites {
 
   @Field({nullable: true})
   @Column({
-    array:true,
-    nullable:true
+    array: true,
+    nullable: true,
   })
   stacktrace: string;
 
   @Field({nullable: true})
-  @Column({nullable:true})
-  finishedOn: Date ;
+  @Column({nullable: true})
+  finishedOn: Date;
 
   @Field({nullable: true})
-  @Column({nullable:true})
+  @Column({nullable: true})
   processedOn: Date;
+
+  @ManyToOne((type) => QueuedJob, (job) => job.childJobs)
+  @Field((type) => QueuedJob, {nullable: true})
+  ancestorJob: QueuedJob;
+  @OneToMany((type) => QueuedJob, (job) => job.ancestorJob)
+  @Field((type) => [QueuedJob], {nullable: true})
+  childJobs: QueuedJob[];
+
+  @HideField()
+  @Column({nullable: true})
+  iv: string;
+
+  @HideField()
+  @Column({nullable: true})
+  secret: string;
 }

@@ -22,6 +22,14 @@ export const createEncryptionJob = async (
   const user = await userService.internalFindOne(createJobInput.userId);
   const {publicKey, fingerprint} = await cryptoService.getUserKey(user);
   const Q = QI.get(createJobInput.jobType);
+
+  const jId = uuidv4();
+  const symKey = cryptoService.generateSymmetricKey();
+  const iv = cryptoService.generateInitVector();
+  console.log(symKey);
+  const encSymKey = await cryptoService.encryptString(symKey, publicKey);
+  console.log('key buffer length: ', symKey.length);
+  console.log('encrypted buffer: ', encSymKey);
   const payload: EncryptionJobPayload = {
     sourcePath: createJobInput.sourcePath,
     outputPath: createJobInput.outputPath,
@@ -29,8 +37,9 @@ export const createEncryptionJob = async (
     publicKey,
     privateKey: createJobInput.privateKey,
     signWithEncryption: createJobInput.signWithEncryption,
+    cipherKey: symKey,
+    cipherIV: iv,
   };
-  const jId = uuidv4();
   await Q.add({...payload}, {jobId: jId});
   const startTimestamp: Date = new Date();
   const {userId, ...jobInfo} = createJobInput;
@@ -41,12 +50,10 @@ export const createEncryptionJob = async (
     startDate: startTimestamp,
     owner: user,
     jobType: ProcessorType.ENCRYPTION,
+    iv: iv.toString('hex'),
+    secret: encSymKey,
   });
-  // const symKey = cryptoService.generateSymmetricKey();
-  // const iv = cryptoService.generateInitVector();
-  // const encSymKey = cryptoService.encryptBuffer(symKey, publicKey);
-  // console.log(publicKey);
-  // console.log('symmetric key', symKey, 'encrypted SymKey', encSymKey);
+
   await jobRepo.save(createdJob);
   successfulJobExecutor(Q, jobRepo);
   failedJobExecutor(Q, jobRepo);

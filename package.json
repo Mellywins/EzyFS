@@ -43,7 +43,6 @@
     "cache-manager-redis-store": "^2.0.0",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.2",
-    "csbinary": "^2.0.3",
     "dotenv": "^10.0.0",
     "eslint-config-airbnb": "^18.2.1",
     "fs": "^0.0.1-security",

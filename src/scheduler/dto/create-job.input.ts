@@ -48,4 +48,8 @@ export class CreateJobInput {
   @Field({nullable: true})
   @IsOptional()
   passphrase?: string;
+
+  @Field({nullable: true})
+  @IsOptional()
+  ancestorJobId: string;
 }

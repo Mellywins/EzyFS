@@ -21,12 +21,32 @@ export const createDecryptionJob = async (
 ): Promise<QueuedJob> => {
   const user = await userService.internalFindOne(createJobInput.userId);
   const Q = QI.get(createJobInput.jobType);
-  const {privateKey, outputPath, sourcePath} = createJobInput;
+  const {privateKey, outputPath, sourcePath, ancestorJobId} = createJobInput;
+
+  const ancestorJob = await jobRepo.findOneOrFail(ancestorJobId);
+  const decryptedKey = await cryptoService.decryptString(
+    ancestorJob.secret,
+    privateKey,
+  );
+  // const message = 'Hello world!';
+  // const encryptedMessage = await cryptoService.encryptBuffer(
+  //   message,
+  //   await (
+  //     await cryptoService.getUserKey(user)
+  //   ).publicKey,
+  // );
+  // console.log('encrypted message: ', encryptedMessage);
+  // const decryptedMessage = await cryptoService.decryptString(
+  //   encryptedMessage,
+  //   privateKey,
+  // );
+  // console.log('decrypted message: ', decryptedMessage);
   const payload: DecryptionJobPayload = {
     privateKey,
     outputPath,
     sourcePath,
     ownerId: user.id,
+    cipherKey: decryptedKey,
   };
   const jId = uuidv4();
   await Q.add({...payload}, {jobId: jId});
@@ -39,6 +59,7 @@ export const createDecryptionJob = async (
     startDate: startTimestamp,
     owner: user,
     jobType: ProcessorType.ENCRYPTION,
+    ancestorJob,
   });
   await jobRepo.save(createdJob);
   successfulJobExecutor(Q, jobRepo);

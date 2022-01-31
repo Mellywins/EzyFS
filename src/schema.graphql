@@ -46,6 +46,8 @@ type QueuedJob {
   stacktrace: String
   finishedOn: DateTime
   processedOn: DateTime
+  ancestorJob: QueuedJob
+  childJobs: [QueuedJob!]
 }
 
 enum ProcessorType {
@@ -200,6 +202,7 @@ input CreateJobInput {
   privateKey: String
   signWithEncryption: Boolean
   passphrase: String
+  ancestorJobId: String
 }
 
 input CreateKeyPairInput {

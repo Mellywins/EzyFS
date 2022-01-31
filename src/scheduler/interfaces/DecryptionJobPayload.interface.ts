@@ -5,4 +5,5 @@ export interface DecryptionJobPayload {
   publicKey?: string;
   privateKey: string;
   passphrase?: string;
+  cipherKey?: Buffer | string;
 }

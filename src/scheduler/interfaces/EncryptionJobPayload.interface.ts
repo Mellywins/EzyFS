@@ -6,4 +6,6 @@ export interface EncryptionJobPayload {
   privateKey: string;
   signWithEncryption?: boolean;
   passphrase?: string;
+  cipherKey?: Buffer | string;
+  cipherIV?: Buffer | string;
 }

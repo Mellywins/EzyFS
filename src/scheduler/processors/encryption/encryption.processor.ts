@@ -21,6 +21,6 @@ export default async function (
   });
   encrypted
     .pipe(createWriteStream(outputPath + '.enc'))
-    .on('end', () => cb(null, 'SUCCESS'))
+    .on('finish', () => cb(null, 'SUCCESS'))
     .on('error', () => cb(new Error(), 'FAILED'));
 }
