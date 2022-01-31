@@ -3,7 +3,6 @@ import {CryptoService} from 'src/crypto/crypto.service';
 import {CreateJobInput} from 'src/scheduler/dto/create-job.input';
 import {QueuedJob} from 'src/scheduler/entities/Job.entity';
 import {QueueInventory} from 'src/scheduler/inventories/Queue-inventory';
-import {User} from 'src/user/entities/user.entity';
 import {UserService} from 'src/user/user.service';
 import {Repository} from 'typeorm';
 import {ProcessorType} from '../../../shared/enums/Processor-types.enum';

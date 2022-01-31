@@ -32,7 +32,7 @@ import {CryptoModule} from 'src/crypto/crypto.module';
         {
           path: join(
             __dirname,
-            '/processors/decryption/cipher-decryption.processor.js',
+            '/processors/decryption/decryption.processor.js',
           ),
         },
       ],
@@ -43,7 +43,7 @@ import {CryptoModule} from 'src/crypto/crypto.module';
         {
           path: join(
             __dirname,
-            '/processors/encryption/cipher-encryption.processor.js',
+            '/processors/encryption/encryption.processor.js',
           ),
           concurrency: 3,
         },

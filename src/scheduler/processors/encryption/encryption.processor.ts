@@ -14,7 +14,7 @@ export default async function (
   const pubKey = await opengpg.readKey({armoredKey: publicKey});
   const sourceStream = createReadStream(sourcePath);
   const encrypted = await opengpg.encrypt({
-    message: await opengpg.createMessage({text: sourceStream}),
+    message: await opengpg.createMessage({binary: sourceStream}),
     encryptionKeys: pubKey,
     format: 'binary',
     // signingKeys: signWithEncryption ? privKey : null,
