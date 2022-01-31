@@ -6,11 +6,12 @@ import {QueuedJob} from './entities/Job.entity';
 import {QueueInventory} from './inventories/Queue-inventory';
 import {SchedulerService} from './scheduler.service';
 import {CryptoService} from '../crypto/crypto.service';
+import {JobInventory} from './inventories/Job-inventory';
 
 describe('SchedulerService', () => {
   let service: SchedulerService;
   const mockUserRepository = {};
-  const mockQueuedJobRepository = {};
+  const mockJobInventory = {};
   const mockQueueInventory = {};
   const mockUserService = {};
   const mockCryptoService = {};
@@ -21,10 +22,7 @@ describe('SchedulerService', () => {
         SchedulerService,
         CryptoService,
         QueueInventory,
-        {
-          provide: getRepositoryToken(QueuedJob),
-          useValue: mockQueuedJobRepository,
-        },
+        JobInventory,
         {provide: getRepositoryToken(User), useValue: mockUserRepository},
       ],
     })
@@ -34,6 +32,8 @@ describe('SchedulerService', () => {
       .useValue(mockUserService)
       .overrideProvider(CryptoService)
       .useValue(mockCryptoService)
+      .overrideProvider(JobInventory)
+      .useValue(mockJobInventory)
       .compile();
 
     service = module.get<SchedulerService>(SchedulerService);
