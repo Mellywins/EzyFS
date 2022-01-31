@@ -26,7 +26,7 @@ EzyFS implements a high security hybrid encryption system. Either `RSA-AES` or
 `ECC-AES`, depending on the user's choice! Here are the steps:
 
 1. A random Cihper key is generated then used to encrypt. It is then encrypted
-   with the owner's AES/RSA key and stored in our DB. Every job will have its
+   with the owner's ECC/RSA key and stored in our DB. Every job will have its
    own cipher key for obvious security reasons.
 2. A random initialazation vector is generated and streamed to the file.
 3. The file is then encrypted with AES256.
