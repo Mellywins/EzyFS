@@ -17,8 +17,21 @@ CPUs cores, EzyFS introduced Parallel Processors.
 ## Supported Processors
 
 - Compression/Decompression: `.tgz`
-- Encryption/Decryption:(Work in progress) Will have support for `rsa`, `dsa`,
-  `ed25519`,`ed448`,`rsa-pss`,`x25519`,`x448`,`ec` Encryption algorithms.
+- Encryption/Decryption: Will have support for `rsa`, `ECC`.
+  > Our encryption engine will have compression by default.
+
+## Hybrid Encryption System
+
+EzyFS implements a high security hybrid encryption system. Either `RSA-AES` or
+`ECC-AES`, depending on the user's choice! Here are the steps:
+
+1. A random Cihper key is generated then used to encrypt. It is then encrypted
+   with the owner's AES/RSA key and stored in our DB. Every job will have its
+   own cipher key for obvious security reasons.
+2. A random initialazation vector is generated and streamed to the file.
+3. The file is then encrypted with AES256.
+4. To decrypt, the owner must provide his private key to decrypt the cipherkey
+   first. Then it's used to decrypt the file.
 
 ## What EzyFS offers to you!
 
