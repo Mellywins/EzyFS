@@ -1,5 +1,3 @@
-# EzyFS
-
 <center>
 
 ![Image](.github/assets/ezyfs_black_wbg.png)
