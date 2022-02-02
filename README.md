@@ -1,5 +1,11 @@
 # EzyFS
 
+<center>
+
+![Image](.github/assets/ezyfs_black_wbg.png)
+
+</center>
+
 EzyFS( Easy File System ) is an application that facilitates File system
 operations, making them accessible to non technical users.
 
