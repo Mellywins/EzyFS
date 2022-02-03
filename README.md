@@ -37,7 +37,7 @@ EzyFS implements a high security hybrid encryption system. Either `RSA-AES` or
 4. To decrypt, the owner must provide his private key to decrypt the cipherkey
    first. Then it's used to decrypt the file.
 
-## Key Recovery
+## Key Recovery (WiP)
 
 EzyFS will offer you the option to use our Key Recovery System. From a security
 point of view it comes with risks. But its benefits have a real merit too. If
@@ -74,7 +74,6 @@ jobs. But also, needless to say, the ability to Decrypt/Decompress!
 
 ## Feature roadmap
 
-- Key Recovery after it has been lost
 - Key Restoration after it has been corrupt
 - Key Revokation
 - Reassign a User key to another after that user leaves the company
