@@ -74,12 +74,7 @@ export class CryptoService {
     return encrypted;
   }
   async decryptString(data: string, privKey: string): Promise<string> {
-    // const privateKey = await decryptKey({
     const privateKey = await readPrivateKey({armoredKey: privKey});
-    // });
-    var ret;
-    console.log(privKey);
-    console.log(data);
     const msg = await readMessage({
       armoredMessage: data,
     });
@@ -88,22 +83,6 @@ export class CryptoService {
       decryptionKeys: privateKey,
     });
     return decrypted;
-    // .then((message) => {
-    //   console.log('entered then: ', message);
-    //   decrypt({
-    //     message,
-    //     decryptionKeys: privateKey,
-    //   })
-    //     .then((decrypted) => {
-    //       ret = decrypted.data;
-    //     })
-    //     .catch((err) => {
-    //       console.log('failed to decrypt: ' + err);
-    //     });
-    // })
-    // .catch((e) => {
-    //   console.log('failed to read Message');
-    // });
-    return ret;
+
   }
 }

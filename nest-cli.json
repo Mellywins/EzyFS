@@ -1,8 +1,47 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/web-project/src",
   "options": {
-    "typeFileNameSuffix": [".input.ts", ".entity.ts", ".model.ts"],
+    "typeFileNameSuffix": [
+      ".input.ts",
+      ".entity.ts",
+      ".model.ts"
+    ],
     "introspectComments": true
+  },
+  "monorepo": true,
+  "root": "apps/web-project",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/web-project/tsconfig.app.json"
+  },
+  "projects": {
+    "web-project": {
+      "type": "application",
+      "root": "apps/web-project",
+      "entryFile": "main",
+      "sourceRoot": "apps/web-project/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/web-project/tsconfig.app.json"
+      }
+    },
+    "registration-authority": {
+      "type": "application",
+      "root": "apps/registration-authority",
+      "entryFile": "main",
+      "sourceRoot": "apps/registration-authority/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/registration-authority/tsconfig.app.json"
+      }
+    },
+    "crypto": {
+      "type": "library",
+      "root": "libs/crypto",
+      "entryFile": "index",
+      "sourceRoot": "libs/crypto/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/crypto/tsconfig.lib.json"
+      }
+    }
   }
 }

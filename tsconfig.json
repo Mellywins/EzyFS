@@ -16,6 +16,14 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@crypto/crypto": [
+        "libs/crypto/src"
+      ],
+      "@crypto/crypto/*": [
+        "libs/crypto/src/*"
+      ]
+    }
   }
 }
