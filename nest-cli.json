@@ -1,28 +1,24 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/web-project/src",
+  "sourceRoot": "apps/core/src",
   "options": {
-    "typeFileNameSuffix": [
-      ".input.ts",
-      ".entity.ts",
-      ".model.ts"
-    ],
+    "typeFileNameSuffix": [".input.ts", ".entity.ts", ".model.ts"],
     "introspectComments": true
   },
   "monorepo": true,
-  "root": "apps/web-project",
+  "root": "apps/core",
   "compilerOptions": {
-    "webpack": true,
-    "tsConfigPath": "apps/web-project/tsconfig.app.json"
+    "webpack": false,
+    "tsConfigPath": "apps/core/tsconfig.app.json"
   },
   "projects": {
-    "web-project": {
+    "core": {
       "type": "application",
-      "root": "apps/web-project",
+      "root": "apps/core",
       "entryFile": "main",
-      "sourceRoot": "apps/web-project/src",
+      "sourceRoot": "apps/core/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/web-project/tsconfig.app.json"
+        "tsConfigPath": "apps/core/tsconfig.app.json"
       }
     },
     "registration-authority": {

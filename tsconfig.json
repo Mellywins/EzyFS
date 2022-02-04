@@ -11,19 +11,17 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true,
     "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@crypto/crypto": [
-        "libs/crypto/src"
-      ],
-      "@crypto/crypto/*": [
-        "libs/crypto/src/*"
-      ]
+      "@crypto/crypto": ["libs/crypto/src"],
+      "@crypto/crypto/*": ["libs/crypto/src/*"]
     }
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }

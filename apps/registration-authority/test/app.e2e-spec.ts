@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import {Test, TestingModule} from '@nestjs/testing';
+import {INestApplication} from '@nestjs/common';
 import * as request from 'supertest';
-import { RegistrationAuthorityModule } from './../src/registration-authority.module';
+import {RegistrationAuthorityModule} from './../src/registration-authority.module';
 
 describe('RegistrationAuthorityController (e2e)', () => {
   let app: INestApplication;
