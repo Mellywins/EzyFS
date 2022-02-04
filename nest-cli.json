@@ -2,7 +2,11 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "apps/core/src",
   "options": {
-    "typeFileNameSuffix": [".input.ts", ".entity.ts", ".model.ts"],
+    "typeFileNameSuffix": [
+      ".input.ts",
+      ".entity.ts",
+      ".model.ts"
+    ],
     "introspectComments": true
   },
   "monorepo": true,
@@ -37,6 +41,15 @@
       "sourceRoot": "libs/crypto/src",
       "compilerOptions": {
         "tsConfigPath": "libs/crypto/tsconfig.lib.json"
+      }
+    },
+    "common": {
+      "type": "library",
+      "root": "libs/common",
+      "entryFile": "index",
+      "sourceRoot": "libs/common/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     }
   }

@@ -19,8 +19,10 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@crypto/crypto": ["libs/crypto/src"],
-      "@crypto/crypto/*": ["libs/crypto/src/*"]
+      "@ezyfs/crypto": ["libs/crypto/src"],
+      "@ezyfs/crypto/*": ["libs/crypto/src/*"],
+      "@ezyfs/common": ["libs/common/src"],
+      "@ezyfs/common/*": ["libs/common/src/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

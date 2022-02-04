@@ -123,7 +123,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@crypto/crypto(|/.*)$": "<rootDir>/libs/crypto/src/$1"
+      "^@crypto/crypto(|/.*)$": "<rootDir>/libs/crypto/src/$1",
+      "^@common/common(|/.*)$": "<rootDir>/libs/common/src/$1"
     }
   },
   "lint-staged": {
