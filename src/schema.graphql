@@ -193,7 +193,7 @@ input UpdateUserInput {
   telNumber: String
   password: String
   roles: [String!]
-  gender: Float
+  gender: Gender
 }
 
 input EmailVerificationInput {

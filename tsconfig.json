@@ -11,11 +11,19 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true,
     "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@ezyfs/crypto": ["libs/crypto/src"],
+      "@ezyfs/crypto/*": ["libs/crypto/src/*"],
+      "@ezyfs/common": ["libs/common/src"],
+      "@ezyfs/common/*": ["libs/common/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
 }

@@ -1,17 +1,34 @@
 version: '3.7'
 
 services:
-  main:
-    container_name: ${APP_NAME}
+  core:
+    container_name: ${APP_NAME}-CORE
     build:
       context: .
-      target: development
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      dockerfile: apps/core/Dockerfile
+    # volumes:
+    #   - .:/usr/src/app
+    #   - /usr/src/app/node_modules
     ports:
       - ${PORT}:${PORT}
-    command: npm run start:dev
+    # command: npx nest start --watch
+    env_file:
+      - .env
+    networks:
+      - webnet
+    depends_on:
+      - postgres
+  registration_authority:
+    container_name: ${APP_NAME}-REGISTRATION_AUTHORITY
+    build:
+      context: .
+      dockerfile: apps/registration-authority/Dockerfile
+    # volumes:
+    # - .:/usr/src/app
+    # - /usr/src/app/node_modules
+    ports:
+      - 3001:3001
+    # command: npx nest start --watch
     env_file:
       - .env
     networks:
