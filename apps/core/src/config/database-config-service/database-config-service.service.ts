@@ -5,7 +5,7 @@ import {Injectable} from '@nestjs/common';
 import {ConfigService} from '@nestjs/config';
 import {TypeOrmModuleOptions} from '@nestjs/typeorm';
 // import {parse} from 'pg-connection-string';
-import {EnvironmentVariables} from '../../common/EnvironmentVariables';
+import {EnvironmentVariables} from '@ezyfs/common/types';
 
 const os = require('os');
 
