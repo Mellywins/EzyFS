@@ -12,8 +12,8 @@ import * as bcrypt from 'bcrypt';
 import {TimestampEntites} from '../../generics/timestamp.entity';
 // eslint-disable-next-line import/no-cycle
 import {Email} from '../../email/entities/email.entity';
-import {Gender} from './gender';
-import {UserRoleEnum} from './user-role.enum';
+import {Gender} from '@ezyfs/common/enums/gender.enum';
+import {UserRoleEnum} from '@ezyfs/common/enums/user-role.enum';
 import {QueuedJob} from '../../scheduler/entities/Job.entity';
 
 @Entity()

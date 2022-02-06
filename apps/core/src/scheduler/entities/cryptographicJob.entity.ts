@@ -1,6 +1,6 @@
 import {Field, HideField, ObjectType} from '@nestjs/graphql';
 import {Column, Entity, ManyToOne, OneToMany} from 'typeorm';
-import {EncDecType} from '../../shared/enums/enc-dec-type.enum';
+import {EncDecType} from '@ezyfs/common/enums/enc-dec-type.enum';
 import {QueuedJob} from './Job.entity';
 
 @ObjectType()

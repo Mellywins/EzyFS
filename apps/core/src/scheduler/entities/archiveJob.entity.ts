@@ -1,6 +1,6 @@
 import {ObjectType} from '@nestjs/graphql';
 import {Column, Entity} from 'typeorm';
-import {CompDecompType} from '../../shared/enums/comp-decomp-type.enum';
+import {CompDecompType} from '@ezyfs/common/enums/comp-decomp-type.enum';
 import {QueuedJob} from './Job.entity';
 
 @ObjectType()

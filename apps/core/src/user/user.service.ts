@@ -19,7 +19,7 @@ import {TokenModel} from '../auth/dto/token.model';
 import {CreateUserInput} from './dto/create-user.input';
 import {UpdateUserInput} from './dto/update-user.input';
 import {User} from './entities/user.entity';
-import {UserRoleEnum} from './entities/user-role.enum';
+import {UserRoleEnum} from '@ezyfs/common/enums/user-role.enum';
 import {EmailService} from '../email/email.service';
 import {EmailTypeEnum} from '../email/entities/email-type.enum';
 import {EmailVerificationInput} from '../email/dto/email-verification.input';

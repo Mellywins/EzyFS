@@ -1,4 +1,4 @@
-import {SourceTypeEnum} from '../../shared/enums/Source-Type.enum';
+import {SourceTypeEnum} from '@ezyfs/common/enums/Source-Type.enum';
 
 export interface CompressionJobPayload {
   sourcePath: string;

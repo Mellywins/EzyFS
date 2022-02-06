@@ -3,9 +3,9 @@ import {ObjectType, Field, Int, HideField} from '@nestjs/graphql';
 import {Column, Entity, ManyToOne, OneToMany, PrimaryColumn} from 'typeorm';
 import {User} from '../../user/entities/user.entity';
 import {TimestampEntites} from '../../generics/timestamp.entity';
-import {ProcessorType} from '../../shared/enums/Processor-types.enum';
-import {SourceTypeEnum} from '../../shared/enums/Source-Type.enum';
-import {ExecutionStatusEnum} from '../../shared/enums/Execution-status.enum';
+import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
+import {SourceTypeEnum} from '@ezyfs/common/enums/Source-Type.enum';
+import {ExecutionStatusEnum} from '@ezyfs/common/enums/Execution-status.enum';
 
 @ObjectType()
 @Entity()

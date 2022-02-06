@@ -5,17 +5,17 @@ import failedJobExecutor from '../../../scheduler/helpers/failed-job-executor';
 import successfulJobExecutor from '../../../scheduler/helpers/successful-job-executor';
 import {CompressionJobPayload} from '../../../scheduler/interfaces/CompressionJobPayload.interface';
 import {QueueInventory} from '../../../scheduler/inventories/Queue-inventory';
-import {ExecutionStatusEnum} from '../../../shared/enums/Execution-status.enum';
+import {ExecutionStatusEnum} from '@ezyfs/common/enums/Execution-status.enum';
 import {User} from '../../../user/entities/user.entity';
 import {Repository} from 'typeorm';
 import {v4 as uuidv4} from 'uuid';
 import {CryptoService} from '../../../crypto/crypto.service';
 import {UserService} from '../../../user/user.service';
-import {ProcessorType} from '../../../shared/enums/Processor-types.enum';
+import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
 import {ArchiveJob} from '../../entities/archiveJob.entity';
-import {CompDecompType} from '../../../shared/enums/comp-decomp-type.enum';
+import {CompDecompType} from '@ezyfs/common/enums/comp-decomp-type.enum';
 import {JobInventory} from '../../inventories/Job-inventory';
-import {RepositoryConstants} from '../../../shared/enums/Repository-inventory.enum';
+import {RepositoryConstants} from '@ezyfs/common/enums/Repository-inventory.enum';
 
 export const createCompressionJob = async (
   createJobInput: CreateJobInput,

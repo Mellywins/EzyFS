@@ -6,10 +6,10 @@ import {QueueInventory} from '../../../../scheduler/inventories/Queue-inventory'
 import {UserService} from '../../../../user/user.service';
 import {Repository} from 'typeorm';
 import {v4 as uuidv4} from 'uuid';
-import {EncDecType} from '../../../../shared/enums/enc-dec-type.enum';
-import {ExecutionStatusEnum} from '../../../../shared/enums/Execution-status.enum';
-import {ProcessorType} from '../../../../shared/enums/Processor-types.enum';
-import {RepositoryConstants} from '../../../../shared/enums/Repository-inventory.enum';
+import {EncDecType} from '@ezyfs/common/enums/enc-dec-type.enum';
+import {ExecutionStatusEnum} from '@ezyfs/common/enums/Execution-status.enum';
+import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
+import {RepositoryConstants} from '@ezyfs/common/enums/Repository-inventory.enum';
 import {CryptographicJob} from '../../../entities/cryptographicJob.entity';
 import failedJobExecutor from '../../../helpers/failed-job-executor';
 import successfulJobExecutor from '../../../helpers/successful-job-executor';

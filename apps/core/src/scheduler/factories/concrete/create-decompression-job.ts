@@ -10,9 +10,9 @@ import {v4 as uuidv4} from 'uuid';
 import {CryptoService} from '../../../crypto/crypto.service';
 import {UserService} from '../../../user/user.service';
 import {ArchiveJob} from '../../entities/archiveJob.entity';
-import {CompDecompType} from '../../../shared/enums/comp-decomp-type.enum';
+import {CompDecompType} from '@ezyfs/common/enums/comp-decomp-type.enum';
 import {JobInventory} from '../../inventories/Job-inventory';
-import {RepositoryConstants} from '../../../shared/enums/Repository-inventory.enum';
+import {RepositoryConstants} from '@ezyfs/common/enums/Repository-inventory.enum';
 export const createDecompressionJob = async (
   createJobInput: CreateJobInput,
   userService: UserService,

@@ -1,7 +1,7 @@
-import {ExecutionStatusEnum} from '../../shared/enums/Execution-status.enum';
+import {ExecutionStatusEnum} from '@ezyfs/common/enums/Execution-status.enum';
 
 export interface JobExecutionResult {
-  processedOn:Date;
+  processedOn: Date;
   failedReason: string | null;
   executionStatus: ExecutionStatusEnum;
   attemptsMade: number;

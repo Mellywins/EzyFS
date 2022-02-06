@@ -5,15 +5,15 @@ import failedJobExecutor from '../../../../scheduler/helpers/failed-job-executor
 import successfulJobExecutor from '../../../../scheduler/helpers/successful-job-executor';
 import {EncryptionJobPayload} from '../../../../scheduler/interfaces/EncryptionJobPayload.interface';
 import {QueueInventory} from '../../../../scheduler/inventories/Queue-inventory';
-import {ExecutionStatusEnum} from '../../../../shared/enums/Execution-status.enum';
-import {ProcessorType} from '../../../../shared/enums/Processor-types.enum';
+import {ExecutionStatusEnum} from '@ezyfs/common/enums/Execution-status.enum';
+import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
 import {UserService} from '../../../../user/user.service';
 import {Repository} from 'typeorm';
 import {v4 as uuidv4} from 'uuid';
 import {CryptographicJob} from '../../../entities/cryptographicJob.entity';
-import {EncDecType} from '../../../../shared/enums/enc-dec-type.enum';
+import {EncDecType} from '@ezyfs/common/enums/enc-dec-type.enum';
 import {JobInventory} from '../../../inventories/Job-inventory';
-import {RepositoryConstants} from '../../../../shared/enums/Repository-inventory.enum';
+import {RepositoryConstants} from '@ezyfs/common/enums/Repository-inventory.enum';
 
 export const createPgpEncryptionJob = async (
   createJobInput: CreateJobInput,
