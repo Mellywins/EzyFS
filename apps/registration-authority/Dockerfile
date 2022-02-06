@@ -1,34 +1,36 @@
-FROM node:14.16.1-alpine3.11 As development
-
-LABEL maintainer="oussama.zouaghi@insat.ucar.tn"
-
-WORKDIR /usr/src/app
-
-COPY package.json ./
-
-RUN npm install 
-
-COPY . .
-
-
-RUN npx nest build registration-authority
-
-
-
-FROM node:14.16.1-alpine3.11 as production
+FROM node:14.16.1-alpine3.11 
+# As development
 
 LABEL maintainer="oussama.zouaghi@insat.ucar.tn"
 ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
-
+ENV NODE_ENV $NODE_ENV
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json .
+RUN npm install @nestjs/cli -g
+RUN npm install --production=false
 
-RUN npm install --only=production
-
+RUN nest build registration-authority
 COPY . .
+EXPOSE 3001
+# CMD ["node", "dist/apps/registration-authority/main.js"]
+CMD nest start registration-authority --watch
 
 
-COPY --from=development /usr/src/app/dist/ ./dist
-ENTRYPOINT [ "node","dist/apps/registration-authority/main.js" ]
+# FROM node:14.16.1-alpine3.11 as production
+
+# LABEL maintainer="oussama.zouaghi@insat.ucar.tn"
+# ARG NODE_ENV=production
+# ENV NODE_ENV=${NODE_ENV}
+
+# WORKDIR /usr/src/app
+
+# COPY package*.json ./
+
+# RUN npm install --only=production
+
+# COPY . .
+
+
+# COPY --from=development /usr/src/app/dist/ ./dist
+# ENTRYPOINT [ "node","dist/apps/registration-authority/main.js" ]

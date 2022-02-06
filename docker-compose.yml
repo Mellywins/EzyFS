@@ -6,12 +6,12 @@ services:
     build:
       context: .
       dockerfile: apps/core/Dockerfile
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+    # volumes:
+    #   - .:/usr/src/app
+    #   - /usr/src/app/node_modules
     ports:
       - ${PORT}:${PORT}
-    # command: npm run start:dev
+    # command: npx nest start --watch
     env_file:
       - .env
     networks:
@@ -23,12 +23,12 @@ services:
     build:
       context: .
       dockerfile: apps/registration-authority/Dockerfile
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+    # volumes:
+    # - .:/usr/src/app
+    # - /usr/src/app/node_modules
     ports:
       - 3001:3001
-    # command: npm run start:dev
+    # command: npx nest start --watch
     env_file:
       - .env
     networks:
