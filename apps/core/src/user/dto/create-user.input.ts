@@ -8,7 +8,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import {Gender} from '../entities/gender';
+import {Gender} from '@ezyfs/common/enums/gender.enum';
 // import {FirstStageUserInput} from './first-stage-user.input';
 // import {SecondStageDTOInput} from './second-stage-user.input';
 

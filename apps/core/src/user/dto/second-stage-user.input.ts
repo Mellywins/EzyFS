@@ -1,6 +1,6 @@
 import {Field, InputType} from '@nestjs/graphql';
 import {IsNotEmpty, IsPhoneNumber, Max, Min} from 'class-validator';
-import {Gender} from '../entities/gender';
+import {Gender} from '@ezyfs/common/enums/gender.enum';
 
 @InputType()
 export class SecondStageDTOInput {
