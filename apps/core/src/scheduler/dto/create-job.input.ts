@@ -1,10 +1,10 @@
 import {InputType, Int, Field} from '@nestjs/graphql';
 import {isNotEmpty, IsNotEmpty, IsOptional} from 'class-validator';
-import {CompDecompType} from '../../shared/enums/comp-decomp-type.enum';
-import {EncDecType} from '../../shared/enums/enc-dec-type.enum';
-import {ProcessorType} from '../../shared/enums/Processor-types.enum';
-import {SourceTypeEnum} from '../../shared/enums/Source-Type.enum';
-import {GenericJobTypeSpec} from '../../shared/enums/generic-jobtype-spec.type';
+import {CompDecompType} from '@ezyfs/common/enums/comp-decomp-type.enum';
+import {EncDecType} from '@ezyfs/common/enums/enc-dec-type.enum';
+import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
+import {SourceTypeEnum} from '@ezyfs/common/enums/Source-Type.enum';
+import {GenericJobTypeSpec} from '@ezyfs/common/enums/generic-jobtype-spec.type';
 @InputType()
 export class CreateJobInput {
   @Field(() => ProcessorType)

@@ -1,8 +1,8 @@
 import {InjectQueue} from '@nestjs/bull';
 import {Injectable} from '@nestjs/common';
 import {Queue} from 'bull';
-import {ProcessorType} from '../../shared/enums/Processor-types.enum';
-import {QueueType} from '../../shared/enums/Queue.enum';
+import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
+import {QueueType} from '@ezyfs/common/enums/Queue.enum';
 import {QueuedJob} from '../entities/Job.entity';
 
 @Injectable()

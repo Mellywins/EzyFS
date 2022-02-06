@@ -3,7 +3,7 @@ import {Job, JobOptions, Queue} from 'bull';
 import {InjectQueue} from '@nestjs/bull';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
-import {QueueType} from '../shared/enums/Queue.enum';
+import {QueueType} from '@ezyfs/common/enums/Queue.enum';
 import {JobExecutionResult} from '../scheduler/interfaces/JobExecutionResult.interface';
 import {CreateJobInput} from './dto/create-job.input';
 // import {UpdateSchedulerInput} from './dto/update-scheduler.input';
