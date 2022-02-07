@@ -7,8 +7,8 @@ services:
       context: .
       dockerfile: apps/core/Dockerfile
     image: ezyfs-core:latest
-    # volumes:
-    #   - .:/usr/src/app
+    volumes:
+      - .:/usr/src/app
     #   - /usr/src/app/node_modules
     ports:
       - ${PORT}:${PORT}
@@ -25,11 +25,11 @@ services:
       context: .
       dockerfile: apps/registration-authority/Dockerfile
     image: ezyfs-registration-authority:latest
-    # volumes:
-    # - .:/usr/src/app
+    volumes:
+      - .:/usr/src/app
     # - /usr/src/app/node_modules
     ports:
-      - 3001:3001
+      - 3001:3000
     # command: npx nest start --watch
     env_file:
       - .env
@@ -41,8 +41,8 @@ services:
       context: .
       dockerfile: apps/api-gateway/Dockerfile
     image: ezyfs-api-gateway:latest
-    # volumes:
-    # - .:/usr/src/app
+    volumes:
+      - .:/usr/src/app
     # - /usr/src/app/node_modules
     ports:
       - 3002:3000

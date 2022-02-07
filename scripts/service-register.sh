@@ -1,7 +1,7 @@
 #!/bin/bash
 # shellcheck disable=SC2207
 PROJECTS=$(jq -r '.projects[] | select(.type == "application") | .root' ./nest-cli.json)
-BOOTSTRAP_PATH=src/bootstrap-development.yaml
+BOOTSTRAP_PATH=src/consul.bootstrap.yml
 CONFIG_PATH=config.example
 
 echo "Service Registration system started"
@@ -22,7 +22,7 @@ for PROJECT_DIR in ${PROJECTS} ; do
 
     echo "**** ${PROJECT_DIR}"
 
-  consul kv put ultimatebackend/config/"${SVC_NAME}" \@./"${PROJECT_DIR}"/${CONFIG_PATH}
+  consul kv put ezyfs/config/"${SVC_NAME}" \@./"${PROJECT_DIR}"/${CONFIG_PATH}
 done
 
 echo "Service Registration system completed"

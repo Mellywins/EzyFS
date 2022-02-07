@@ -1,2 +1,2 @@
-export * from './internal.module';
-export * from './internal.service';
+export * from './interfaces';
+export * from './setup';

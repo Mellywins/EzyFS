@@ -36,6 +36,6 @@ lerna-debug.log*
 
 # ENV
 .env
-
+*/*.env
 # Test temp files
 test/test-files/*/*
