@@ -16,8 +16,6 @@ services:
     ports:
       - ${PORT}:${PORT}
     # command: npx nest start --watch
-    env_file:
-      - apps/core/.env
     networks:
       - webnet
     depends_on:
@@ -36,8 +34,6 @@ services:
     ports:
       - 3001:3000
     # command: npx nest start --watch
-    env_file:
-      - .env
     networks:
       - webnet
     extra_hosts: *host-gateway
@@ -55,8 +51,6 @@ services:
     ports:
       - 3002:3000
     # command: npx nest start --watch
-    env_file:
-      - .env
     networks:
       - webnet
 
