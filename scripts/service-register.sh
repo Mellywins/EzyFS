@@ -2,7 +2,7 @@
 # shellcheck disable=SC2207
 PROJECTS=$(jq -r '.projects[] | select(.type == "application") | .root' ./nest-cli.json)
 BOOTSTRAP_PATH=src/consul.bootstrap.yml
-CONFIG_PATH=config.example
+CONFIG_PATH=config.yaml
 
 echo "Service Registration system started"
 
@@ -12,7 +12,7 @@ for PROJECT_DIR in ${PROJECTS} ; do
     continue
   fi
 
-  SVC_NAME=$(yq r ./"${PROJECT_DIR}"/${BOOTSTRAP_PATH} 'service.name' )
+  SVC_NAME=$(yq eval '.service.name' ./"${PROJECT_DIR}"/${BOOTSTRAP_PATH}  )
   echo "Registering ${SVC_NAME}"
 
   if [ ! -f "./${PROJECT_DIR}/${CONFIG_PATH}" ]; then
@@ -21,7 +21,7 @@ for PROJECT_DIR in ${PROJECTS} ; do
   fi
 
     echo "**** ${PROJECT_DIR}"
-
+    echo " Saving config from path: ./${PROJECT_DIR}/${CONFIG_PATH} to ezyfs/config/${SVC_NAME} "
   consul kv put ezyfs/config/"${SVC_NAME}" \@./"${PROJECT_DIR}"/${CONFIG_PATH}
 done
 
