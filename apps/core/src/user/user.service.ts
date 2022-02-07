@@ -13,13 +13,14 @@ import {
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import * as bcrypt from 'bcrypt';
+// eslint-disable-next-line import/no-unresolved
+import {UserRoleEnum} from '@ezyfs/common/enums/user-role.enum';
 import {ResetPasswordEmailInput} from '../email/dto/reset-password-email.input';
 import {TokenModel} from '../auth/dto/token.model';
 // import {ProfileImgUpload} from '../profile-img-upload/entities/profile-img-upload.entity';
 import {CreateUserInput} from './dto/create-user.input';
 import {UpdateUserInput} from './dto/update-user.input';
 import {User} from './entities/user.entity';
-import {UserRoleEnum} from '@ezyfs/common/enums/user-role.enum';
 import {EmailService} from '../email/email.service';
 import {EmailTypeEnum} from '../email/entities/email-type.enum';
 import {EmailVerificationInput} from '../email/dto/email-verification.input';

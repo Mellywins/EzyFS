@@ -9,7 +9,7 @@ services:
     build:
       context: .
       dockerfile: apps/core/Dockerfile
-    image: ezyfs-core:latest
+    image: mellywins/ezyfs.01/ezyfs-core:latest
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -29,7 +29,7 @@ services:
     build:
       context: .
       dockerfile: apps/registration-authority/Dockerfile
-    image: ezyfs-registration-authority:latest
+    image: mellywins/ezyfs.01/ezyfs-registration-authority:latest
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -47,12 +47,11 @@ services:
     build:
       context: .
       dockerfile: apps/api-gateway/Dockerfile
-    image: ezyfs-api-gateway:latest
+    image: mellywins/ezyfs.01/ezyfs-api-gateway:latest
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    extra_hosts:
-      *host-gateway
+    extra_hosts: *host-gateway
     ports:
       - 3002:3000
     # command: npx nest start --watch
@@ -60,7 +59,6 @@ services:
       - .env
     networks:
       - webnet
-
 
   postgres:
     container_name: postgres
