@@ -12,7 +12,7 @@ RUN npm install @nestjs/cli -g
 RUN npm install --production=false
 
 RUN nest build api-gateway
-COPY . .
+# COPY . .
 EXPOSE 3000
 CMD nest start api-gateway --watch
 

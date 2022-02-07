@@ -3,8 +3,8 @@ import {GqlModuleOptions, GqlOptionsFactory} from '@nestjs/graphql';
 import {RedisCache} from 'apollo-server-cache-redis';
 import {corsApollOptions} from '@ezyfs/common';
 import {buildContext} from 'graphql-passport';
-import {ConsulConfig, InjectConfig} from '@nestcloud/config';
-import {GqlContext} from '@ezyfs/internal';
+import {ConsulService} from 'nestjs-consul';
+import {ConsulServiceKeys, GatewayConfig, GqlContext} from '@ezyfs/internal';
 // import {
 //   AccessTokenRpcClientService,
 //   AccountsRpcClientService,
@@ -15,27 +15,30 @@ import {GqlContext} from '@ezyfs/internal';
 //   WebhooksRpcClientService,
 // } from '@ultimatebackend/core';
 import {RedisOptions} from 'ioredis';
+import {join} from 'path';
 
 @Injectable()
 export class GqlConfigService implements GqlOptionsFactory {
   constructor(
-    @InjectConfig() private readonly config: ConsulConfig, // private readonly tenant: TenantsRpcClientService, // private readonly account: AccountsRpcClientService,
-  ) // private readonly accessToken: AccessTokenRpcClientService,
-  // private readonly role: RolesRpcClientService,
-  // private readonly billing: BillingsRpcClientService,
-  // private readonly webhook: WebhooksRpcClientService,
-  {}
+    private readonly consul: ConsulService<GatewayConfig>, // private readonly accessToken: AccessTokenRpcClientService, // private readonly role: RolesRpcClientService, // private readonly billing: BillingsRpcClientService, // private readonly webhook: WebhooksRpcClientService,
+  ) {}
 
-  createGqlOptions(): Promise<GqlModuleOptions> | GqlModuleOptions {
+  async createGqlOptions(): Promise<GqlModuleOptions> {
     /* Get redis config from consul */
-    const redisOptions = this.config.get<RedisOptions>('database.redis');
-    console.log(redisOptions);
+    const redisOptions: RedisOptions = await {
+      host: (
+        await this.consul.get<GatewayConfig>(`${ConsulServiceKeys.API_GATEWAY}`)
+      ).database.redis.host,
+      port: (
+        await this.consul.get<GatewayConfig>(`${ConsulServiceKeys.API_GATEWAY}`)
+      ).database.redis.port,
+    };
 
     /* initialize cache */
     const cache = new RedisCache(redisOptions);
     return {
-      autoSchemaFile: true,
-      path: 'graph',
+      autoSchemaFile: join(process.cwd(), 'src/schema.graphql'),
+
       cors: corsApollOptions,
       context: ({req, res, payload, connection}): GqlContext => {
         const bc = buildContext({req, res});
@@ -71,13 +74,9 @@ export class GqlConfigService implements GqlOptionsFactory {
       persistedQueries: {
         cache,
       },
-      playground: {
-        workspaceName: 'Admin Gateway',
-        settings: {
-          'editor.theme': 'dark',
-          'request.credentials': 'same-origin',
-        },
-      },
+      playground: true,
+      introspection: true,
+      installSubscriptionHandlers: true,
     };
   }
 }

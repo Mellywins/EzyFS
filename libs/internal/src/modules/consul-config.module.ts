@@ -14,11 +14,11 @@ import {ConsulServiceKeys} from '../enums';
         },
         {key: ConsulServiceKeys.API_GATEWAY as string},
       ],
-      updateCron: '* * * * * *',
+      updateCron: '1 * * * * *',
       connection: {
         protocol: 'http',
         port: 8500,
-        host: 'localhost',
+        host: 'consul-server',
         token: '',
       },
     }),

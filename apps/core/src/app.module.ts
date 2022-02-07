@@ -12,7 +12,7 @@ import {AuthModule} from './auth/auth.module';
 import {RedisCacheModule} from './redis-cache/redis-cache.module';
 import {EmailModule} from './email/email.module';
 import {SchedulerModule} from './scheduler/scheduler.module';
-import { CryptoModule } from './crypto/crypto.module';
+import {CryptoModule} from './crypto/crypto.module';
 
 @Module({
   imports: [
@@ -31,15 +31,14 @@ import { CryptoModule } from './crypto/crypto.module';
     EmailModule,
     SchedulerModule,
     BullModule.forRootAsync({
-      useFactory: async (configService: ConfigService) =>({
-        redis:{
-          host:configService.get<string>('REDIS_HOST'),
-          port:configService.get<number>('REDIS_PORT')
-        }
+      useFactory: async (configService: ConfigService) => ({
+        redis: {
+          host: configService.get<string>('REDIS_HOST'),
+          port: configService.get<number>('REDIS_PORT'),
+        },
       }),
-      inject:[ConfigService],
-      imports:[ConfigModule]
-      
+      inject: [ConfigService],
+      imports: [ConfigModule],
     }),
     CryptoModule,
   ],

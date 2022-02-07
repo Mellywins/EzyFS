@@ -1,0 +1,28 @@
+{
+  "app": {
+    "port": 3002,
+    "caching": {
+      "ttl": 5,
+      "max": 1000
+    },
+    "auth": {
+      "enableJwtAuth": false,
+      "enableSessionAuth": false,
+      "jwtSettings": {
+        "secret": "eyJhbGciOiJSUzI1NiIsImtpZCI6Im1hYXNfcHJvZF8yMDIwMDMyNiIsInR5cCI6IkpXVCJ9"
+      }
+    }
+  },
+  "database": {
+    "postgres": {
+      "uri": "mongodb://postgres:5432/",
+      "name": "ezyfs",
+      "options": ""
+    },
+    "redis": {
+      "host": "redis",
+      "port": "6379",
+      "password": ""
+    }
+  }
+}

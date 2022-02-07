@@ -1,5 +1,8 @@
 version: '3.7'
 
+x-host-gateway: &host-gateway
+  - host.docker.internal:host-gateway
+
 services:
   core:
     container_name: ${APP_NAME}-CORE
@@ -9,7 +12,7 @@ services:
     image: ezyfs-core:latest
     volumes:
       - .:/usr/src/app
-    #   - /usr/src/app/node_modules
+      - /usr/src/app/node_modules
     ports:
       - ${PORT}:${PORT}
     # command: npx nest start --watch
@@ -19,6 +22,8 @@ services:
       - webnet
     depends_on:
       - postgres
+    extra_hosts: *host-gateway
+
   registration_authority:
     container_name: ${APP_NAME}-REGISTRATION_AUTHORITY
     build:
@@ -27,7 +32,7 @@ services:
     image: ezyfs-registration-authority:latest
     volumes:
       - .:/usr/src/app
-    # - /usr/src/app/node_modules
+      - /usr/src/app/node_modules
     ports:
       - 3001:3000
     # command: npx nest start --watch
@@ -35,6 +40,8 @@ services:
       - .env
     networks:
       - webnet
+    extra_hosts: *host-gateway
+
   api-gateway:
     container_name: ${APP_NAME}-api-gateway
     build:
@@ -43,7 +50,9 @@ services:
     image: ezyfs-api-gateway:latest
     volumes:
       - .:/usr/src/app
-    # - /usr/src/app/node_modules
+      - /usr/src/app/node_modules
+    extra_hosts:
+      *host-gateway
     ports:
       - 3002:3000
     # command: npx nest start --watch
@@ -51,6 +60,8 @@ services:
       - .env
     networks:
       - webnet
+
+
   postgres:
     container_name: postgres
     image: postgres
@@ -86,6 +97,21 @@ services:
     volumes:
       - ./redis-data:/var/lib/redis
       - ./redis.conf:/usr/local/etc/redis/redis.conf
+  consul-server:
+    image: consul:1.9.3
+    container_name: consul-server
+    restart: always
+    # volumes:
+    #   - ./server1.json:/consul/config/server1.json:ro
+    #   - ./certs/:/consul/config/certs/:ro
+    networks:
+      - webnet
+    ports:
+      - '8500:8500'
+      - '8600:8600/tcp'
+      - '8600:8600/udp'
+    volumes:
+      - .:/usr/src/app
 
 networks:
   webnet:

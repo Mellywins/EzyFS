@@ -11,7 +11,7 @@ RUN npm install @nestjs/cli -g
 RUN npm install --production=false
 
 RUN nest build registration-authority
-COPY . .
+# COPY . .
 EXPOSE 3001
 # CMD ["node", "dist/apps/registration-authority/main.js"]
 CMD nest start registration-authority --watch

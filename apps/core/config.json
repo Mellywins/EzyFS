@@ -1,0 +1,17 @@
+{
+  "app": {
+    "port": 3000
+  },
+  "database": {
+    "postgres": {
+      "uri": "postgres://postgres:5432/",
+      "name": "ezyfs",
+      "options": ""
+    },
+    "redis": {
+      "host": "redis",
+      "port": 6379,
+      "password": ""
+    }
+  }
+}

@@ -5,18 +5,18 @@ import {Resolver, Query, Mutation, Args} from '@nestjs/graphql';
 import {CurrentUser} from '@ezyfs/common/decorators/current-user.decorator';
 import {UserRoleEnum} from '@ezyfs/common/enums/user-role.enum';
 import {Auth} from '@ezyfs/common/decorators/auth.decorator';
-import {UserService} from './user.service';
-import {UpdateUserInput} from './dto/update-user.input';
-import {User} from './entities/user.entity';
-import {EmailVerificationInput} from '../email/dto/email-verification.input';
-import {ResetPasswordEmailInput} from '../email/dto/reset-password-email.input';
-import {ResetPasswordInput} from './dto/reset-password.input';
-import {FirstStageUserInput} from './dto/first-stage-user.input';
-import {SecondStageDTOInput} from './dto/second-stage-user.input';
-import {TokenModel} from '../auth/dto/token.model';
+import {TokenModel} from 'apps/core/src/auth/dto/token.model';
+import {EmailVerificationInput} from 'apps/core/src/email/dto/email-verification.input';
+import {ResetPasswordEmailInput} from 'apps/core/src/email/dto/reset-password-email.input';
+import {FirstStageUserInput} from 'apps/core/src/user/dto/first-stage-user.input';
+import {ResetPasswordInput} from 'apps/core/src/user/dto/reset-password.input';
+import {SecondStageDTOInput} from 'apps/core/src/user/dto/second-stage-user.input';
+import {UpdateUserInput} from 'apps/core/src/user/dto/update-user.input';
+import {UserService} from 'apps/core/src/user/user.service';
+import {User} from 'apps/core/src/user/entities/user.entity';
 
 @Resolver((of) => User)
-export class UserResolver {
+export class UsersResolver {
   constructor(private readonly userService: UserService) {}
 
   // @Mutation((returns) => User)

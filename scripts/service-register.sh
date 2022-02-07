@@ -2,7 +2,7 @@
 # shellcheck disable=SC2207
 PROJECTS=$(jq -r '.projects[] | select(.type == "application") | .root' ./nest-cli.json)
 BOOTSTRAP_PATH=src/consul.bootstrap.yml
-CONFIG_PATH=config.yaml
+CONFIG_PATH=config.json
 
 echo "Service Registration system started"
 
@@ -22,7 +22,7 @@ for PROJECT_DIR in ${PROJECTS} ; do
 
     echo "**** ${PROJECT_DIR}"
     echo " Saving config from path: ./${PROJECT_DIR}/${CONFIG_PATH} to ezyfs/config/${SVC_NAME} "
-  consul kv put ezyfs/config/"${SVC_NAME}" \@./"${PROJECT_DIR}"/${CONFIG_PATH}
+   sudo docker exec -it consul-server /bin/sh -c  "consul kv put ezyfs/config/"${SVC_NAME}" \@/usr/src/app/"${PROJECT_DIR}"/${CONFIG_PATH}"
 done
 
 echo "Service Registration system completed"
