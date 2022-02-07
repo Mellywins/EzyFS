@@ -51,6 +51,33 @@
       "compilerOptions": {
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
+    },
+    "api-gateway": {
+      "type": "application",
+      "root": "apps/api-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
+      }
+    },
+    "internal": {
+      "type": "library",
+      "root": "libs/internal",
+      "entryFile": "index",
+      "sourceRoot": "libs/internal/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/internal/tsconfig.lib.json"
+      }
+    },
+    "proto-schema": {
+      "type": "library",
+      "root": "libs/proto-schema",
+      "entryFile": "index",
+      "sourceRoot": "libs/proto-schema/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/proto-schema/tsconfig.lib.json"
+      }
     }
   }
 }

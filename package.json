@@ -22,6 +22,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.5.4",
+    "@grpc/proto-loader": "^0.6.9",
     "@nestjs-modules/mailer": "^1.6.1",
     "@nestjs/bull": "^0.4.2",
     "@nestjs/common": "^8.2.5",
@@ -29,6 +31,7 @@
     "@nestjs/core": "^8.2.5",
     "@nestjs/graphql": "^9.1.2",
     "@nestjs/jwt": "^8.0.0",
+    "@nestjs/microservices": "^8.2.6",
     "@nestjs/passport": "^8.1.0",
     "@nestjs/platform-express": "^8.2.5",
     "@nestjs/schedule": "^1.0.2",
@@ -124,7 +127,9 @@
     ],
     "moduleNameMapper": {
       "^@crypto/crypto(|/.*)$": "<rootDir>/libs/crypto/src/$1",
-      "^@common/common(|/.*)$": "<rootDir>/libs/common/src/$1"
+      "^@common/common(|/.*)$": "<rootDir>/libs/common/src/$1",
+      "^@ezyfs/internal(|/.*)$": "<rootDir>/libs/internal/src/$1",
+      "^@ezyfs/proto-schema(|/.*)$": "<rootDir>/libs/proto-schema/src/$1"
     }
   },
   "lint-staged": {

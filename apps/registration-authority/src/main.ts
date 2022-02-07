@@ -1,8 +1,14 @@
-import {NestFactory} from '@nestjs/core';
+import {microserviceSetup} from '../../../libs/internal/src/setup/grpc.setup';
 import {RegistrationAuthorityModule} from './registration-authority.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(RegistrationAuthorityModule);
-  await app.listen(3001);
+  microserviceSetup(
+    RegistrationAuthorityModule,
+    'registration-authority.proto',
+    {
+      enableMqtt: false,
+      enableNats: false,
+    },
+  );
 }
 bootstrap();
