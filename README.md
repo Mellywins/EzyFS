@@ -15,6 +15,19 @@
 EzyFS( Easy File System ) is an application that facilitates File system
 operations, making them accessible to non technical users.
 
+## Technologies
+
+<div align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="60" alt="Nest Logo" /></a>
+  <a href="https://graphql.org/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/GraphQL_Logo.svg/512px-GraphQL_Logo.svg.png" width="60" alt="GraphQL Logo" /></a>
+   <a href="https://www.consul.io/" target="blank"><img src="https://www.vectorlogo.zone/logos/consulio/consulio-icon.svg" width="60" alt="Nest Logo" /></a>
+   <a href="https://www.postgresql.org/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/540px-Postgresql_elephant.svg.png" width="60" alt="Nest Logo" /></a>
+   <a href="https://redis.io/" target="blank"><img src="https://www.vectorlogo.zone/logos/redis/redis-icon.svg" width="60" alt="Nest Logo" /></a>
+   <a href="https://www.vaultproject.io/" target="blank"><img src="https://cdn.worldvectorlogo.com/logos/vault-enterprise.svg" width="60" alt="Nest Logo" /></a>
+   <a href="https://grpc.io/" target="blank"><img src="https://www.vectorlogo.zone/logos/grpcio/grpcio-icon.svg" width="60" height="" alt="Nest Logo" /></a>
+   
+</div>
+
 ## Multi-threadded? YES!
 
 Compression And encryption come in really handy, but they also consume alot of
