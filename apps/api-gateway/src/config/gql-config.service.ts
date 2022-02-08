@@ -37,7 +37,10 @@ export class GqlConfigService implements GqlOptionsFactory {
     /* initialize cache */
     const cache = new RedisCache(redisOptions);
     return {
-      autoSchemaFile: join(process.cwd(), 'src/schema.graphql'),
+      autoSchemaFile: join(
+        process.cwd(),
+        'apps/api-gateway/src/schema.graphql',
+      ),
 
       cors: corsApollOptions,
       context: ({req, res, payload, connection}): GqlContext => {

@@ -22,7 +22,7 @@ for PROJECT_DIR in ${PROJECTS} ; do
 
     echo "**** ${PROJECT_DIR}"
     echo " Saving config from path: ./${PROJECT_DIR}/${CONFIG_PATH} to ezyfs/config/${SVC_NAME} "
-   sudo docker exec -it consul-server /bin/sh -c  "consul kv put ezyfs/config/"${SVC_NAME}" \@/usr/src/app/"${PROJECT_DIR}"/${CONFIG_PATH}"
+    docker exec -it consul-server /bin/sh -c  "consul kv put ezyfs/config/"${SVC_NAME}" \@/usr/src/app/"${PROJECT_DIR}"/${CONFIG_PATH}"
 done
 
 echo "Service Registration system completed"
