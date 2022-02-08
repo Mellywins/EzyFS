@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
-import {User} from '../../user/entities/user.entity';
-import {EmailTypeEnum} from './email-type.enum';
+import {EmailTypeEnum} from '@ezyfs/common/enums/email-type.enum';
+import {User} from '@ezyfs/repositories/entities';
 
 export interface EmailBuilder {
   setSender(user: User);

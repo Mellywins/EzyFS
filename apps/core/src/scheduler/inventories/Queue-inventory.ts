@@ -3,7 +3,7 @@ import {Injectable} from '@nestjs/common';
 import {Queue} from 'bull';
 import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
 import {QueueType} from '@ezyfs/common/enums/Queue.enum';
-import {QueuedJob} from '../entities/Job.entity';
+import {QueuedJob} from '@ezyfs/repositories/entities';
 
 @Injectable()
 export class QueueInventory {

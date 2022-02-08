@@ -1,7 +1,8 @@
+/* eslint-disable import/no-unresolved */
 import {ObjectType} from '@nestjs/graphql';
 import {Column, Entity} from 'typeorm';
 import {CompDecompType} from '@ezyfs/common/enums/comp-decomp-type.enum';
-import {QueuedJob} from './Job.entity';
+import {QueuedJob} from './base/job.entity';
 
 @ObjectType()
 @Entity()

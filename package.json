@@ -132,7 +132,8 @@
       "^@crypto/crypto(|/.*)$": "<rootDir>/libs/crypto/src/$1",
       "^@common/common(|/.*)$": "<rootDir>/libs/common/src/$1",
       "^@ezyfs/internal(|/.*)$": "<rootDir>/libs/internal/src/$1",
-      "^@ezyfs/proto-schema(|/.*)$": "<rootDir>/libs/proto-schema/src/$1"
+      "^@ezyfs/proto-schema(|/.*)$": "<rootDir>/libs/proto-schema/src/$1",
+      "^@repositories/repositories(|/.*)$": "<rootDir>/libs/repositories/src/$1"
     }
   },
   "lint-staged": {

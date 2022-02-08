@@ -20,9 +20,9 @@ import {TokenModel} from '../auth/dto/token.model';
 // import {ProfileImgUpload} from '../profile-img-upload/entities/profile-img-upload.entity';
 import {CreateUserInput} from './dto/create-user.input';
 import {UpdateUserInput} from './dto/update-user.input';
-import {User} from './entities/user.entity';
+import {User} from '@ezyfs/repositories/entities';
 import {EmailService} from '../email/email.service';
-import {EmailTypeEnum} from '../email/entities/email-type.enum';
+import {EmailTypeEnum} from '@ezyfs/common/enums/email-type.enum';
 import {EmailVerificationInput} from '../email/dto/email-verification.input';
 import {
   SENDING_EMAIL_ERROR_MESSAGE,

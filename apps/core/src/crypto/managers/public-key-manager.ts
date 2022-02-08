@@ -1,8 +1,8 @@
 import {InjectRepository} from '@nestjs/typeorm';
 import jobCreatorFactory from '../../scheduler/factories/abstract/job-factory';
-import {User} from '../../user/entities/user.entity';
+import {User} from '@ezyfs/repositories/entities';
 import {Repository} from 'typeorm';
-import {AsymKey} from '../entities/AsymKey.entity';
+import {AsymKey} from '@ezyfs/repositories/entities';
 import {fingerprint} from '../helpers/fingerprint.helper';
 
 export class PublicKeyManager {

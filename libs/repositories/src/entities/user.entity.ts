@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {ObjectType, Field, Int, HideField} from '@nestjs/graphql';
 import {
@@ -9,12 +10,12 @@ import {
 } from 'typeorm';
 import {IsEmail, IsPhoneNumber} from 'class-validator';
 import * as bcrypt from 'bcrypt';
-import {TimestampEntites} from '../../generics/timestamp.entity';
-// eslint-disable-next-line import/no-cycle
-import {Email} from '../../email/entities/email.entity';
 import {Gender} from '@ezyfs/common/enums/gender.enum';
 import {UserRoleEnum} from '@ezyfs/common/enums/user-role.enum';
-import {QueuedJob} from '../../scheduler/entities/Job.entity';
+import {TimestampEntites} from './base/timestamp.entity';
+// eslint-disable-next-line import/no-cycle
+import {Email} from '.';
+import {QueuedJob} from './base/job.entity';
 
 @Entity()
 @ObjectType()

@@ -3,9 +3,9 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import {MailerModule} from '@nestjs-modules/mailer';
 import {HandlebarsAdapter} from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import {join} from 'path';
+import {Email} from '@ezyfs/repositories/entities/email.entity';
 import {EmailService} from './email.service';
 import {EmailResolver} from './email.resolver';
-import {Email} from './entities/email.entity';
 // import {UserService} from '../user/user.service';
 import {emailCredentials} from '../config/email-config-service';
 

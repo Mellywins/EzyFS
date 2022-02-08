@@ -7,7 +7,7 @@ import {
   PartialType,
 } from '@nestjs/graphql';
 import {CryptoService} from './crypto.service';
-import {AsymKey} from './entities/AsymKey.entity';
+import {AsymKey} from '@ezyfs/repositories/entities';
 import {CreateKeyPairInput} from './dto/createKeyPair.input';
 import {CreateKeyPairOutput} from './dto/createKeyPair.output';
 

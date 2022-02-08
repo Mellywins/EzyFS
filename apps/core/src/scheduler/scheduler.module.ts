@@ -6,14 +6,14 @@ import {SchedulerService} from './scheduler.service';
 import {SchedulerResolver} from './scheduler.resolver';
 import {QueueType} from '@ezyfs/common/enums/Queue.enum';
 import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
-import {User} from '../user/entities/user.entity';
-import {QueuedJob} from './entities/Job.entity';
+import {User} from '@ezyfs/repositories/entities';
+import {QueuedJob} from '@ezyfs/repositories/entities';
 import {QueueInventory} from './inventories/Queue-inventory';
 import {UserModule} from '../user/user.module';
 import {CryptoModule} from '../crypto/crypto.module';
 import {JobInventory} from './inventories/Job-inventory';
-import {ArchiveJob} from './entities/archiveJob.entity';
-import {CryptographicJob} from './entities/cryptographicJob.entity';
+import {ArchiveJob} from '@ezyfs/repositories/entities';
+import {CryptographicJob} from '@ezyfs/repositories/entities';
 
 @Module({
   providers: [

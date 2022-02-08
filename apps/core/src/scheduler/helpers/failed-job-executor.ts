@@ -1,7 +1,7 @@
 import {Job, Queue} from 'bull';
 import {ExecutionStatusEnum} from '@ezyfs/common/enums/Execution-status.enum';
 import {Repository} from 'typeorm';
-import {QueuedJob} from '../entities/Job.entity';
+import {QueuedJob} from '@ezyfs/repositories/entities';
 
 export default function failedJobExecutor(
   Q: Queue,

@@ -5,7 +5,7 @@ import {EmailModule} from '../email/email.module';
 import {RedisCacheModule} from '../redis-cache/redis-cache.module';
 import {UserResolver} from './user.resolver';
 import {UserService} from './user.service';
-import {User} from './entities/user.entity';
+import {User} from '@ezyfs/repositories/entities';
 
 @Module({
   providers: [UserResolver, UserService],

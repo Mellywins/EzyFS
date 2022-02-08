@@ -1,7 +1,7 @@
 import {InjectRepository} from '@nestjs/typeorm';
-import {User} from '../../user/entities/user.entity';
+import {User} from '@ezyfs/repositories/entities';
 import {Repository} from 'typeorm';
-import {AsymKey} from '../entities/AsymKey.entity';
+import {AsymKey} from '@ezyfs/repositories/entities';
 
 export class KeyOwnershipHelper {
   constructor(

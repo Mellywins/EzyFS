@@ -1,11 +1,11 @@
 import {ConflictException, Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
-import {User} from '../user/entities/user.entity';
+import {User} from '@ezyfs/repositories/entities';
 import {USER_ALREADY_OWNS_KEY} from '../utils/constants';
 import {Repository} from 'typeorm';
 import {keyBuilder} from './builders/asymetric-key.builder';
 import {CreateKeyPairInput} from './dto/createKeyPair.input';
-import {AsymKey} from './entities/AsymKey.entity';
+import {AsymKey} from '@ezyfs/repositories/entities';
 import {KeyOwnershipHelper} from './helpers/key-ownership.helper';
 import {PublicKeyManager} from './managers/public-key-manager';
 import {UserService} from '../user/user.service';
@@ -83,6 +83,5 @@ export class CryptoService {
       decryptionKeys: privateKey,
     });
     return decrypted;
-
   }
 }

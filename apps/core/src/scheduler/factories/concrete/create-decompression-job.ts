@@ -1,6 +1,6 @@
 import {Queue} from 'bull';
 import {CreateJobInput} from '../../../scheduler/dto/create-job.input';
-import {QueuedJob} from '../../../scheduler/entities/Job.entity';
+import {QueuedJob} from '@ezyfs/repositories/entities';
 import failedJobExecutor from '../../../scheduler/helpers/failed-job-executor';
 import successfulJobExecutor from '../../../scheduler/helpers/successful-job-executor';
 import {DecompressionJobPayload} from './../../../scheduler/interfaces/DecomperssionJobPayload.interface';
@@ -9,7 +9,7 @@ import {Repository} from 'typeorm';
 import {v4 as uuidv4} from 'uuid';
 import {CryptoService} from '../../../crypto/crypto.service';
 import {UserService} from '../../../user/user.service';
-import {ArchiveJob} from '../../entities/archiveJob.entity';
+import {ArchiveJob} from '@ezyfs/repositories/entities';
 import {CompDecompType} from '@ezyfs/common/enums/comp-decomp-type.enum';
 import {JobInventory} from '../../inventories/Job-inventory';
 import {RepositoryConstants} from '@ezyfs/common/enums/Repository-inventory.enum';

@@ -11,9 +11,9 @@ import {Repository} from 'typeorm';
 import {join} from 'path';
 import {v4 as uuidv4} from 'uuid';
 import * as dotenv from 'dotenv';
-import {EmailTypeEnum} from './entities/email-type.enum';
-import {Email} from './entities/email.entity';
-import {User} from '../user/entities/user.entity';
+import {EmailTypeEnum} from '@ezyfs/common/enums';
+import {Email} from '@ezyfs/repositories/entities';
+import {User} from '@ezyfs/repositories/entities';
 import {DatesOperations} from '../utils/dates-operation';
 import {
   CONFIRMATION_EMAIL_SUBJECT,

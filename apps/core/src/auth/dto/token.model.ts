@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import {Field, ObjectType} from '@nestjs/graphql';
-import {User} from '../../user/entities/user.entity';
+import {User} from '@ezyfs/repositories/entities';
 
 @ObjectType()
 export class TokenModel {

@@ -2,7 +2,7 @@ import {Resolver, Query, Mutation, Args, Int} from '@nestjs/graphql';
 import {SchedulerService} from './scheduler.service';
 import {CreateJobInput} from './dto/create-job.input';
 import {UpdateSchedulerInput} from './dto/update-scheduler.input';
-import {QueuedJob} from './entities/Job.entity';
+import {QueuedJob} from '@ezyfs/repositories/entities';
 
 @Resolver('Scheduler')
 export class SchedulerResolver {

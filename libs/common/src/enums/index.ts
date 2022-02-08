@@ -8,3 +8,4 @@ export * from './enc-dec-type.enum';
 export * from './gender.enum';
 export * from './generic-jobtype-spec.type';
 export * from './user-role.enum';
+export * from './email-type.enum';

@@ -11,7 +11,7 @@ import {Repository} from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
 import {CredentialsInput} from './dto/credentials.input';
-import {User} from '../user/entities/user.entity';
+import {User} from '@ezyfs/repositories/entities';
 import {PayloadInterface} from './dto/payload.interface';
 import {TokenModel} from './dto/token.model';
 import {

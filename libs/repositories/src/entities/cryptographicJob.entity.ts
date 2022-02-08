@@ -1,17 +1,19 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {Field, HideField, ObjectType} from '@nestjs/graphql';
 import {Column, Entity, ManyToOne, OneToMany} from 'typeorm';
 import {EncDecType} from '@ezyfs/common/enums/enc-dec-type.enum';
-import {QueuedJob} from './Job.entity';
+import {QueuedJob} from './base/job.entity';
 
 @ObjectType()
 @Entity()
 export class CryptographicJob extends QueuedJob {
-  @ManyToOne((type) => CryptographicJob, (job) => job.childJobs)
-  @Field((type) => CryptographicJob, {nullable: true})
+  @ManyToOne((_type) => CryptographicJob, (job) => job.childJobs)
+  @Field((_type) => CryptographicJob, {nullable: true})
   ancestorJob: CryptographicJob;
 
-  @OneToMany((type) => CryptographicJob, (job) => job.ancestorJob)
-  @Field((type) => [CryptographicJob], {nullable: true})
+  @OneToMany((_type) => CryptographicJob, (job) => job.ancestorJob)
+  @Field((_type) => [CryptographicJob], {nullable: true})
   childJobs: CryptographicJob[];
 
   @HideField()
@@ -22,7 +24,7 @@ export class CryptographicJob extends QueuedJob {
   @Column({nullable: true})
   secret?: string;
 
-  @Field((type) => EncDecType)
+  @Field((_type) => EncDecType)
   @Column({nullable: false})
   jobTypeSpec: EncDecType;
 }

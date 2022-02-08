@@ -1,6 +1,6 @@
 import {CryptoService} from '../../../../crypto/crypto.service';
 import {CreateJobInput} from '../../../../scheduler/dto/create-job.input';
-import {QueuedJob} from '../../../../scheduler/entities/Job.entity';
+import {QueuedJob} from '@ezyfs/repositories/entities';
 import failedJobExecutor from '../../../../scheduler/helpers/failed-job-executor';
 import successfulJobExecutor from '../../../../scheduler/helpers/successful-job-executor';
 import {EncryptionJobPayload} from '../../../../scheduler/interfaces/EncryptionJobPayload.interface';
@@ -10,7 +10,7 @@ import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
 import {UserService} from '../../../../user/user.service';
 import {Repository} from 'typeorm';
 import {v4 as uuidv4} from 'uuid';
-import {CryptographicJob} from '../../../entities/cryptographicJob.entity';
+import {CryptographicJob} from '@ezyfs/repositories/entities';
 import {EncDecType} from '@ezyfs/common/enums/enc-dec-type.enum';
 import {JobInventory} from '../../../inventories/Job-inventory';
 import {RepositoryConstants} from '@ezyfs/common/enums/Repository-inventory.enum';

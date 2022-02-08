@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {ObjectType, Field, Int} from '@nestjs/graphql';
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
-import {User} from '../../user/entities/user.entity';
-import {EmailTypeEnum} from './email-type.enum';
-import {EmailBuilder} from './email.builder';
-import {TimestampEntites} from '../../generics/timestamp.entity';
+import {EmailTypeEnum} from '@ezyfs/common/enums/email-type.enum';
+import {User} from './user.entity';
+import {EmailBuilder} from './base/email.builder';
+import {TimestampEntites} from './base/timestamp.entity';
 
 @ObjectType()
 @Entity()

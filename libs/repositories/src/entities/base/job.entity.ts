@@ -1,11 +1,12 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {ObjectType, Field, Int, HideField} from '@nestjs/graphql';
-import {Column, Entity, ManyToOne, OneToMany, PrimaryColumn} from 'typeorm';
-import {User} from '../../user/entities/user.entity';
-import {TimestampEntites} from '../../generics/timestamp.entity';
+import {ObjectType, Field} from '@nestjs/graphql';
+import {Column, Entity, ManyToOne, PrimaryColumn} from 'typeorm';
 import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
 import {SourceTypeEnum} from '@ezyfs/common/enums/Source-Type.enum';
 import {ExecutionStatusEnum} from '@ezyfs/common/enums/Execution-status.enum';
+import {TimestampEntites} from './timestamp.entity';
+import {User} from '../user.entity';
 
 @ObjectType()
 @Entity()

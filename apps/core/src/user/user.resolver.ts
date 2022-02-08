@@ -7,7 +7,7 @@ import {UserRoleEnum} from '@ezyfs/common/enums/user-role.enum';
 import {Auth} from '@ezyfs/common/decorators/auth.decorator';
 import {UserService} from './user.service';
 import {UpdateUserInput} from './dto/update-user.input';
-import {User} from './entities/user.entity';
+import {User} from '@ezyfs/repositories/entities';
 import {EmailVerificationInput} from '../email/dto/email-verification.input';
 import {ResetPasswordEmailInput} from '../email/dto/reset-password-email.input';
 import {ResetPasswordInput} from './dto/reset-password.input';

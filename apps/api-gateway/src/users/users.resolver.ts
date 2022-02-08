@@ -8,7 +8,7 @@ import {Auth} from '@ezyfs/common/decorators/auth.decorator';
 import {TokenModel} from 'apps/core/src/auth/dto/token.model';
 import {FirstStageUserInput} from 'apps/core/src/user/dto/first-stage-user.input';
 
-import {User} from 'apps/core/src/user/entities/user.entity';
+import {User} from '@ezyfs/repositories/entities';
 
 @Resolver((of) => User)
 export class UsersResolver {

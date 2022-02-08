@@ -1,4 +1,4 @@
-import {User} from '../../../user/entities/user.entity';
+import {User} from '@ezyfs/repositories/entities';
 
 export interface KeyBuildingBlock {
   type: 'ecc' | 'rsa';

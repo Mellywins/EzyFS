@@ -10,7 +10,7 @@ import {PassportSubscriptionContext, PassportContext} from 'graphql-passport';
 //   WebhooksRpcClientService,
 // } from '@ultimatebackend/core/services';
 import {Context} from 'apollo-server-core/src/types';
-import {User} from '../../../../apps/core/src/user/entities/user.entity';
+import {User} from '@ezyfs/repositories/entities';
 
 // export interface IRequest extends ExpressRequest {
 //   tenantInfo?: TenantInfo;
