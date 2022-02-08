@@ -14,6 +14,6 @@ import {RepositoriesService} from './repositories.service';
     ]),
   ],
   providers: [RepositoriesService],
-  exports: [RepositoriesService],
+  exports: [TypeOrmModule],
 })
 export class RepositoriesModule {}

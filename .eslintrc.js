@@ -48,4 +48,11 @@ module.exports = {
     'no-plusplus': 'off',
     'no-underscore-dangle': 'off',
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.ts'],
+      },
+    },
+  },
 };
