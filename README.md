@@ -1,8 +1,16 @@
-<center>
+<div align="center">
 
 ![Image](.github/assets/ezyfs_black_wbg.png)
 
-</center>
+</div>
+
+<div align="center">
+
+![Image](https://img.shields.io/github/workflow/status/Mellywins/EzyFS/Multi-version%20Node%20build)
+![Image](https://img.shields.io/github/workflow/status/Mellywins/EzyFS/CodeQL?label=CodeQL)
+![Image](https://img.shields.io/github/workflow/status/Mellywins/EzyFS/Docker%20Image%20CI?label=Docker%20Images)
+
+</div>
 
 EzyFS( Easy File System ) is an application that facilitates File system
 operations, making them accessible to non technical users.
