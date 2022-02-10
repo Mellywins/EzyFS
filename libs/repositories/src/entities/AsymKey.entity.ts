@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import {TimestampEntites} from './base/timestamp.entity';
-import {User} from './user.entity';
+import {User} from './users/user.entity';
 
 @ObjectType()
 @Entity()

@@ -2,6 +2,29 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Email {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+  id: Int
+  sentDate: DateTime!
+  emailType: EmailTypeEnum!
+  sender: User!
+  token: String!
+  verificationToken: String!
+  isExpired: Boolean
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum EmailTypeEnum {
+  CONFIRMATION
+  RESET_PASSWORD
+}
+
 type User {
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -22,11 +45,6 @@ type User {
   gender: Gender
   roles: [UserRoleEnum!]!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 enum Gender {
   MALE
@@ -89,24 +107,6 @@ enum ExecutionStatusEnum {
 enum EncDecType {
   PGP
   HYBRID
-}
-
-type Email {
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  deletedAt: DateTime!
-  id: Int
-  sentDate: DateTime!
-  emailType: EmailTypeEnum!
-  sender: User!
-  token: String!
-  verificationToken: String!
-  isExpired: Boolean
-}
-
-enum EmailTypeEnum {
-  CONFIRMATION
-  RESET_PASSWORD
 }
 
 type Query {

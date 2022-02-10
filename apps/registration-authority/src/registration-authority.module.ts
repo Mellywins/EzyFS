@@ -1,14 +1,24 @@
+import {ConsulConfigModule, ConsulServiceKeys} from '@ezyfs/internal';
+import {dbConnectionFactory, User} from '@ezyfs/repositories';
 import {Module} from '@nestjs/common';
-import {ConfigModule} from '@nestjs/config';
+import {TypeOrmModule} from '@nestjs/typeorm';
+import {ConsulService} from 'nestjs-consul';
 import {RegistrationAuthorityController} from './registration-authority.controller';
 import {RegistrationAuthorityService} from './registration-authority.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: ['apps/registration-authority/.ra.env'],
+    TypeOrmModule.forRootAsync({
+      imports: [ConsulConfigModule],
+      useFactory: (consul) =>
+        dbConnectionFactory(
+          consul,
+          ConsulServiceKeys.REGISTRATION_AUTHORITY,
+          '/dist/apps/registration-authority/libs/repositories/src/**/*.entity{.ts,.js}',
+        ),
+      inject: [ConsulService],
     }),
+    TypeOrmModule.forFeature([User]),
   ],
   controllers: [RegistrationAuthorityController],
   providers: [RegistrationAuthorityService],

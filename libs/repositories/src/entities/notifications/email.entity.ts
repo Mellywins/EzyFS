@@ -2,12 +2,12 @@
 import {ObjectType, Field, Int} from '@nestjs/graphql';
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {EmailTypeEnum} from '@ezyfs/common/enums/email-type.enum';
-import {User} from './user.entity';
-import {EmailBuilder} from './base/email.builder';
-import {TimestampEntites} from './base/timestamp.entity';
+import {User} from '../users/user.entity';
+import {EmailBuilder} from '../base/email.builder';
+import {TimestampEntites} from '../base/timestamp.entity';
 
 @ObjectType()
-@Entity()
+@Entity({database: 'users'})
 export class Email extends TimestampEntites implements EmailBuilder {
   @PrimaryGeneratedColumn()
   @Field((type) => Int, {nullable: true})

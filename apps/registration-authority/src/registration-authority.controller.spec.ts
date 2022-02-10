@@ -1,6 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { RegistrationAuthorityController } from './registration-authority.controller';
-import { RegistrationAuthorityService } from './registration-authority.service';
+import {Test, TestingModule} from '@nestjs/testing';
+import {RegistrationAuthorityController} from './registration-authority.controller';
+import {RegistrationAuthorityService} from './registration-authority.service';
 
 describe('RegistrationAuthorityController', () => {
   let registrationAuthorityController: RegistrationAuthorityController;
@@ -11,7 +11,9 @@ describe('RegistrationAuthorityController', () => {
       providers: [RegistrationAuthorityService],
     }).compile();
 
-    registrationAuthorityController = app.get<RegistrationAuthorityController>(RegistrationAuthorityController);
+    registrationAuthorityController = app.get<RegistrationAuthorityController>(
+      RegistrationAuthorityController,
+    );
   });
 
   describe('root', () => {

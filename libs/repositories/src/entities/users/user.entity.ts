@@ -12,12 +12,12 @@ import {IsEmail, IsPhoneNumber} from 'class-validator';
 import * as bcrypt from 'bcrypt';
 import {Gender} from '@ezyfs/common/enums/gender.enum';
 import {UserRoleEnum} from '@ezyfs/common/enums/user-role.enum';
-import {TimestampEntites} from './base/timestamp.entity';
+import {TimestampEntites} from '../base/timestamp.entity';
 // eslint-disable-next-line import/no-cycle
-import {Email} from '.';
-import {QueuedJob} from './base/job.entity';
+import {Email} from '../notifications/email.entity';
+import {QueuedJob} from '../base/job.entity';
 
-@Entity()
+@Entity('user')
 @ObjectType()
 export class User extends TimestampEntites {
   @PrimaryGeneratedColumn()

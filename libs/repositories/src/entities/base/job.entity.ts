@@ -6,10 +6,10 @@ import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
 import {SourceTypeEnum} from '@ezyfs/common/enums/Source-Type.enum';
 import {ExecutionStatusEnum} from '@ezyfs/common/enums/Execution-status.enum';
 import {TimestampEntites} from './timestamp.entity';
-import {User} from '../user.entity';
+import {User} from '../users/user.entity';
 
 @ObjectType()
-@Entity()
+@Entity({})
 export abstract class QueuedJob extends TimestampEntites {
   @Field({nullable: false})
   @PrimaryColumn()

@@ -3,7 +3,9 @@ import {ConfigService} from '@nestjs/config';
 import {NestFactory} from '@nestjs/core';
 import {Module} from '@nestjs/core/injector/module';
 import {Transport} from '@nestjs/microservices';
+import {ConsulService} from 'nestjs-consul';
 import {join} from 'path';
+import {ConsulServiceKeys} from '..';
 
 interface MicroserviceSetupOptions {
   enableMqtt?: boolean;
@@ -14,14 +16,16 @@ interface MicroserviceSetupOptions {
 export async function microserviceSetup(
   appModule: any,
   protoPath: string,
+  key: ConsulServiceKeys,
   options?: MicroserviceSetupOptions,
 ) {
   const {hostname = '0.0.0.0', enableMqtt, enableNats} = options;
   const app = await NestFactory.create(appModule);
-  const APP_PORT = app.get<ConfigService>(ConfigService).get<number>('port');
-  const pkgName = app
-    .get<ConfigService>(ConfigService)
-    .get<string>('service_name');
+  const appConfig = await app
+    .get<ConsulService<any>>(ConsulService)
+    .get<any>(key);
+  const APP_PORT = appConfig.app.port;
+  const pkgName = appConfig.app.name;
   (await app).connectMicroservice({
     transport: Transport.GRPC,
     options: {

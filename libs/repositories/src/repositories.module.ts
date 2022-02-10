@@ -4,16 +4,8 @@ import {ArchiveJob, AsymKey, CryptographicJob, Email, User} from '.';
 import {RepositoriesService} from './repositories.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      User,
-      CryptographicJob,
-      ArchiveJob,
-      Email,
-      AsymKey,
-    ]),
-  ],
+  imports: [],
   providers: [RepositoriesService],
-  exports: [TypeOrmModule],
+  exports: [],
 })
 export class RepositoriesModule {}

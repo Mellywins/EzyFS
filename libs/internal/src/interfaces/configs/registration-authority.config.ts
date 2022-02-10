@@ -1,4 +1,4 @@
-export interface CoreConfig {
+export interface RegistrationAuthorityConfig {
   app: {
     port: number;
   };
@@ -6,7 +6,11 @@ export interface CoreConfig {
     postgres: {
       uri: string;
       name: string;
+      username: string;
+      password: string;
       options: string;
+      host: string;
+      port: number;
     };
   };
   redis: {
