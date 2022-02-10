@@ -10,9 +10,9 @@ WORKDIR /usr/src/app
 COPY package.json .
 RUN npm install @nestjs/cli -g
 RUN npm install --production=false
-RUN ls
-RUN nest build core
 COPY . .
+
+RUN nest build core
 EXPOSE 3000
 CMD nest start core
 

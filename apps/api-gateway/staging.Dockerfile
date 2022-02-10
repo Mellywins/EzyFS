@@ -10,9 +10,9 @@ WORKDIR /usr/src/app
 COPY package.json .
 RUN npm install @nestjs/cli -g
 RUN npm install --production=false
+COPY . .
 
 RUN nest build api-gateway
-COPY . .
 EXPOSE 3000
 CMD nest start api-gateway
 
