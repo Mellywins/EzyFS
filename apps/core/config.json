@@ -2,7 +2,7 @@
   "app": {
     "port": 3000
   },
-  "database": {
+  "databases": {
     "postgres": {
       "uri": "postgres://postgres:5432/",
       "name": "ezyfs",

@@ -3,7 +3,7 @@
     "port": 3001,
     "name": "registration-authority"
   },
-  "database": {
+  "databases": {
     "postgres": {
       "uri": "postgres://postgres:5432/",
       "name": "ezyfs",

@@ -25,13 +25,12 @@ export class GqlConfigService implements GqlOptionsFactory {
 
   async createGqlOptions(): Promise<GqlModuleOptions> {
     /* Get redis config from consul */
+    const gatewayConfig = await this.consul.get<GatewayConfig>(
+      `${ConsulServiceKeys.API_GATEWAY}`,
+    );
     const redisOptions: RedisOptions = await {
-      host: (
-        await this.consul.get<GatewayConfig>(`${ConsulServiceKeys.API_GATEWAY}`)
-      ).databases.redis.host,
-      port: (
-        await this.consul.get<GatewayConfig>(`${ConsulServiceKeys.API_GATEWAY}`)
-      ).databases.redis.port,
+      host: gatewayConfig.databases.redis.host,
+      port: gatewayConfig.databases.redis.port,
     };
 
     /* initialize cache */
@@ -42,7 +41,7 @@ export class GqlConfigService implements GqlOptionsFactory {
         'apps/api-gateway/src/schema.graphql',
       ),
 
-      cors: corsApollOptions,
+      // cors: corsApollOptions,
       context: ({req, res, payload, connection}): GqlContext => {
         const bc = buildContext({req, res});
 

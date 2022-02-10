@@ -1,7 +1,7 @@
-import {INestApplication, Logger, NestModule} from '@nestjs/common';
-import {ConfigService} from '@nestjs/config';
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {Logger} from '@nestjs/common';
 import {NestFactory} from '@nestjs/core';
-import {Module} from '@nestjs/core/injector/module';
 import {Transport} from '@nestjs/microservices';
 import {ConsulService} from 'nestjs-consul';
 import {join} from 'path';
