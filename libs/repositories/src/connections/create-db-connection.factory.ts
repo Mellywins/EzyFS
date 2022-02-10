@@ -12,11 +12,11 @@ export const dbConnectionFactory = async (
   const config = await consul.get<any>(key);
   const typeORMOptions: TypeOrmModuleOptions = {
     type: 'postgres',
-    host: config.database.postgres.host,
-    port: config.database.postgres.port,
-    username: config.database.postgres.username,
-    password: config.database.postgres.password,
-    database: config.database.postgres.name,
+    host: config.databases.postgres.host,
+    port: config.databases.postgres.port,
+    username: config.databases.postgres.username,
+    password: config.databases.postgres.password,
+    database: config.databases.postgres.name,
     entities: [join(process.cwd() + entityPath)],
     synchronize: true,
   };
