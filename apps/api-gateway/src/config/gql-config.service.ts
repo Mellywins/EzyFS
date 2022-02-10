@@ -28,10 +28,10 @@ export class GqlConfigService implements GqlOptionsFactory {
     const redisOptions: RedisOptions = await {
       host: (
         await this.consul.get<GatewayConfig>(`${ConsulServiceKeys.API_GATEWAY}`)
-      ).database.redis.host,
+      ).databases.redis.host,
       port: (
         await this.consul.get<GatewayConfig>(`${ConsulServiceKeys.API_GATEWAY}`)
-      ).database.redis.port,
+      ).databases.redis.port,
     };
 
     /* initialize cache */

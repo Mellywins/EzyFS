@@ -5,6 +5,7 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import {ConsulService} from 'nestjs-consul';
 import {RegistrationAuthorityController} from './registration-authority.controller';
 import {RegistrationAuthorityService} from './registration-authority.service';
+import {UserModule} from './user/user.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import {RegistrationAuthorityService} from './registration-authority.service';
       inject: [ConsulService],
     }),
     TypeOrmModule.forFeature([User]),
+    UserModule,
   ],
   controllers: [RegistrationAuthorityController],
   providers: [RegistrationAuthorityService],
