@@ -39,7 +39,7 @@ class DatabaseConfigService {
       // url,
       username,
       password,
-      database,
+      database: 'users',
       host,
       port,
       entities: [`${entitiesPath}/**/*.entity{.ts,.js}`],
