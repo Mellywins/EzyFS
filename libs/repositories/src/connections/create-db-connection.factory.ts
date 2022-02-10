@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {ConsulServiceKeys, RegistrationAuthorityConfig} from '@ezyfs/internal';
+import {ConsulServiceKeys} from '@ezyfs/internal';
 import {TypeOrmModuleOptions} from '@nestjs/typeorm';
 import {ConsulService} from 'nestjs-consul';
 import {join} from 'path';

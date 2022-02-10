@@ -31,7 +31,9 @@ jobs:
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: Build the Docker image
-        run: docker-compose --project-directory=. -f docker-compose.yml build
+        run:
+          docker-compose --project-directory=. -f docker-compose.staging.yml
+          build
 
       - name: Docker push
-        run: docker-compose push
+        run: docker-compose -f docker-compose.staging.yml push
