@@ -120,6 +120,7 @@ type Query {
   user(id: Float!): User!
   existByEmail(email: String!): Boolean!
   existByUsername(username: String!): Boolean!
+  refreshToken(refreshToken: String!): TokenModel!
 }
 
 type Mutation {
@@ -130,6 +131,7 @@ type Mutation {
   confirmEmail(emailVerificationInput: EmailVerificationInput!): TokenModel!
   sendResetPasswordEmail(ResetPasswordEmailInput: ResetPasswordEmailInput!): Boolean!
   resetPassword(ResetPasswordInput: ResetPasswordInput!): Boolean!
+  login(credentialsInput: CredentialsInput!): TokenModel!
 }
 
 input FirstStageUserInput {
@@ -176,5 +178,10 @@ input ResetPasswordInput {
   token: String!
   verificationToken: String!
   email: String!
+  password: String!
+}
+
+input CredentialsInput {
+  username: String!
   password: String!
 }

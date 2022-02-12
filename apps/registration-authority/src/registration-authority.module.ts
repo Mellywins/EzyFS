@@ -7,7 +7,6 @@ import {RegistrationAuthorityController} from './registration-authority.controll
 import {RegistrationAuthorityService} from './registration-authority.service';
 import {UserModule} from './user/user.module';
 import {AuthModule} from './auth/auth.module';
-
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({

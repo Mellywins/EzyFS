@@ -2,18 +2,16 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "apps/core/src",
   "options": {
-    "typeFileNameSuffix": [
-      ".input.ts",
-      ".entity.ts",
-      ".model.ts"
-    ],
+    "typeFileNameSuffix": [".input.ts", ".entity.ts", ".model.ts"],
     "introspectComments": true
   },
   "monorepo": true,
   "root": "apps/core",
   "compilerOptions": {
     "webpack": false,
-    "tsConfigPath": "apps/core/tsconfig.app.json"
+    "tsConfigPath": "apps/core/tsconfig.app.json",
+    "assets": ["**/*.proto"],
+    "watchAssets": true
   },
   "projects": {
     "core": {

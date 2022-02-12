@@ -7,6 +7,7 @@ import {
   SecondStageDTOInput,
   UpdateUserInput,
   ResetPasswordInput,
+  CredentialsInput,
 } from '@ezyfs/common/dtos';
 import {User} from '@ezyfs/repositories/entities';
 import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
@@ -89,5 +90,15 @@ export class RegistrationAuthorityResolver {
   @Query((returns) => Boolean)
   existByUsername(@Args('username') username: string) {
     // return this.userService.userExistByUsernam(username);
+  }
+
+  @Mutation((returns) => TokenModel)
+  login(@Args('credentialsInput') credentialsInput: CredentialsInput) {
+    // return this.authService.login(credentialsInput);
+  }
+
+  @Query((returns) => TokenModel)
+  refreshToken(@Args('refreshToken') refreshToken: string) {
+    // return this.authService.refreshToken(refreshToken);
   }
 }

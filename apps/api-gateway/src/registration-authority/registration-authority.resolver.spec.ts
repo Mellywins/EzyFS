@@ -1,6 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { RegistrationAuthorityResolver } from './registration-authority.resolver';
-import { RegistrationAuthorityService } from './registration-authority.service';
+import {Test, TestingModule} from '@nestjs/testing';
+import {RegistrationAuthorityResolver} from './registration-authority.resolver';
+import {RegistrationAuthorityService} from './registration-authority.service';
 
 describe('RegistrationAuthorityResolver', () => {
   let resolver: RegistrationAuthorityResolver;
@@ -10,7 +10,9 @@ describe('RegistrationAuthorityResolver', () => {
       providers: [RegistrationAuthorityResolver, RegistrationAuthorityService],
     }).compile();
 
-    resolver = module.get<RegistrationAuthorityResolver>(RegistrationAuthorityResolver);
+    resolver = module.get<RegistrationAuthorityResolver>(
+      RegistrationAuthorityResolver,
+    );
   });
 
   it('should be defined', () => {
