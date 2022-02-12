@@ -1,5 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { RegistrationAuthorityService } from './registration-authority.service';
+import {Test, TestingModule} from '@nestjs/testing';
+import {RegistrationAuthorityService} from './registration-authority.service';
 
 describe('RegistrationAuthorityService', () => {
   let service: RegistrationAuthorityService;
@@ -9,7 +9,9 @@ describe('RegistrationAuthorityService', () => {
       providers: [RegistrationAuthorityService],
     }).compile();
 
-    service = module.get<RegistrationAuthorityService>(RegistrationAuthorityService);
+    service = module.get<RegistrationAuthorityService>(
+      RegistrationAuthorityService,
+    );
   });
 
   it('should be defined', () => {

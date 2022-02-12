@@ -109,12 +109,72 @@ enum EncDecType {
   HYBRID
 }
 
+type TokenModel {
+  access_token: String!
+  refresh_token: String!
+  user: User!
+}
+
 type Query {
+  users: [User!]!
+  user(id: Float!): User!
+  existByEmail(email: String!): Boolean!
+  existByUsername(username: String!): Boolean!
+}
+
+type Mutation {
   firstStageSignUp(firstStageUserInput: FirstStageUserInput!): User!
+  secondStageSignUp(secondStageDTOInput: SecondStageDTOInput!): User!
+  update(updateUserInput: UpdateUserInput!): User!
+  remove(id: Float!): User!
+  confirmEmail(emailVerificationInput: EmailVerificationInput!): TokenModel!
+  sendResetPasswordEmail(ResetPasswordEmailInput: ResetPasswordEmailInput!): Boolean!
+  resetPassword(ResetPasswordInput: ResetPasswordInput!): Boolean!
 }
 
 input FirstStageUserInput {
   username: String!
+  email: String!
+  password: String!
+}
+
+input SecondStageDTOInput {
+  id: Float!
+  localization: String!
+  telNumber: String!
+  firstname: String!
+  lastname: String!
+  age: Float!
+  gender: Float!
+}
+
+input UpdateUserInput {
+  id: Int!
+  username: String
+  firstname: String
+  lastname: String
+  age: Float
+  email: String
+  localization: String
+  telNumber: String
+  password: String
+  roles: [String!]
+  gender: Gender
+}
+
+input EmailVerificationInput {
+  token: String!
+  verificationToken: String!
+  userId: Float!
+}
+
+input ResetPasswordEmailInput {
+  email: String!
+}
+
+input ResetPasswordInput {
+  token: String!
+  verificationToken: String!
   email: String!
   password: String!
 }
