@@ -17,10 +17,10 @@ services:
       - ${PORT}:${PORT}
     # command: npx nest start --watch
     networks:
-      - webnet
+      webnet:
+        ipv4_address: 172.28.1.1
     depends_on:
       - postgres
-    extra_hosts: *host-gateway
 
   registration_authority:
     container_name: ${APP_NAME}-REGISTRATION_AUTHORITY
@@ -35,8 +35,8 @@ services:
       - 3001:3000
     # command: npx nest start --watch
     networks:
-      - webnet
-    extra_hosts: *host-gateway
+      webnet:
+        ipv4_address: 172.28.1.2
 
   api-gateway:
     container_name: ${APP_NAME}-api-gateway
@@ -47,12 +47,13 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    extra_hosts: *host-gateway
     ports:
       - 3002:3000
+    env_file: .env
     # command: npx nest start --watch
     networks:
-      - webnet
+      webnet:
+        ipv4_address: 172.28.1.3
 
   postgres:
     container_name: postgres
@@ -106,5 +107,9 @@ services:
 
 networks:
   webnet:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
 volumes:
   pgdata:

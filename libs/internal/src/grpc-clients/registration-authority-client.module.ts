@@ -1,5 +1,5 @@
 import {Module} from '@nestjs/common';
-import {ClientsModule, Transport} from '@nestjs/microservices';
+import {ClientsModule, GrpcService, Transport} from '@nestjs/microservices';
 import {join} from 'path';
 
 @Module({
@@ -9,15 +9,15 @@ import {join} from 'path';
         name: 'REGISTRATION_AUTHORITY',
         transport: Transport.GRPC,
         options: {
-          package: 'REGISTRATION_AHTORITY',
+          package: 'REGISTRATION_AUTHORITY',
           protoPath: join(
-            `${process.cwd()}/dist/apps/registration-authority/libs/proto-schema/src/proto/registration-authority.proto`,
+            `${process.cwd()}/dist/apps/api-gateway/registrationAuthority.proto`,
           ),
         },
       },
     ]),
   ],
   providers: [],
-  exports: [ClientsModule],
+  exports: [],
 })
 export class RegistrationAuthorityGRPCClientModule {}

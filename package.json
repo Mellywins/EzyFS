@@ -22,7 +22,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@grpc/grpc-js": "^1.5.4",
+    "@grpc/grpc-js": "^1.5.5",
     "@grpc/proto-loader": "^0.6.9",
     "@nestjs-modules/mailer": "^1.6.1",
     "@nestjs/bull": "^0.4.2",

@@ -1,16 +1,38 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/core/src",
+  "sourceRoot": "apps/api-gateway/src",
   "options": {
     "typeFileNameSuffix": [".input.ts", ".entity.ts", ".model.ts"],
     "introspectComments": true
   },
   "monorepo": true,
-  "root": "apps/core",
+  "root": "apps/api-gateway",
   "compilerOptions": {
     "webpack": false,
-    "tsConfigPath": "apps/core/tsconfig.app.json",
-    "assets": ["**/*.proto"],
+    "tsConfigPath": "apps/api-gateway/tsconfig.app.json",
+    "assets": [
+      {
+        "include": "**/*.graphql"
+      },
+      {
+        "include": "config/*.yml"
+      },
+      {
+        "include": "**/*.yaml"
+      },
+      {
+        "include": "**/*.conf"
+      },
+      {
+        "include": "../../**/*.proto"
+      },
+      {
+        "include": "*.proto"
+      },
+      {
+        "include": "*.conf"
+      }
+    ],
     "watchAssets": true
   },
   "projects": {
@@ -29,7 +51,9 @@
       "entryFile": "main",
       "sourceRoot": "apps/registration-authority/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/registration-authority/tsconfig.app.json"
+        "tsConfigPath": "apps/registration-authority/tsconfig.app.json",
+        "assets": ["**/*.proto"],
+        "watchAssets": true
       }
     },
     "crypto": {

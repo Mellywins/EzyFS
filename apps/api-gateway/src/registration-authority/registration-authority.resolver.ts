@@ -11,8 +11,8 @@ import {
 } from '@ezyfs/common/dtos';
 import {User} from '@ezyfs/repositories/entities';
 import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
-import {EmailVerificationInput} from 'apps/core/src/email/dto/email-verification.input';
-import {ResetPasswordEmailInput} from 'apps/core/src/email/dto/reset-password-email.input';
+// import {EmailVerificationInput} from 'apps/core/src/email/dto/email-verification.input';
+// import {ResetPasswordEmailInput} from 'apps/core/src/email/dto/reset-password-email.input';
 import {RegistrationAuthorityService} from './registration-authority.service';
 
 @Resolver()
@@ -58,21 +58,21 @@ export class RegistrationAuthorityResolver {
     // return this.userService.remove(user, id);
   }
 
-  @Mutation((returns) => TokenModel)
-  confirmEmail(
-    @Args('emailVerificationInput')
-    emailVerificationInput: EmailVerificationInput,
-  ) {
-    // return this.userService.validUserConfirmation(emailVerificationInput);
-  }
+  // @Mutation((returns) => TokenModel)
+  // confirmEmail(
+  //   @Args('emailVerificationInput')
+  //   emailVerificationInput: EmailVerificationInput,
+  // ) {
+  //   // return this.userService.validUserConfirmation(emailVerificationInput);
+  // }
 
-  @Mutation((returns) => Boolean)
-  sendResetPasswordEmail(
-    @Args('ResetPasswordEmailInput')
-    resetPasswordEmailInput: ResetPasswordEmailInput,
-  ) {
-    // return this.userService.sendResetPasswordEmail(resetPasswordEmailInput);
-  }
+  // @Mutation((returns) => Boolean)
+  // sendResetPasswordEmail(
+  //   @Args('ResetPasswordEmailInput')
+  //   resetPasswordEmailInput: ResetPasswordEmailInput,
+  // ) {
+  //   // return this.userService.sendResetPasswordEmail(resetPasswordEmailInput);
+  // }
 
   @Mutation((returns) => Boolean)
   resetPassword(
@@ -83,13 +83,13 @@ export class RegistrationAuthorityResolver {
   }
 
   @Query((returns) => Boolean)
-  existByEmail(@Args('email') email: string) {
-    // return this.userService.userExistByEmail(email);
+  userExistByEmail(@Args('email') email: string) {
+    return this.registrationAuthorityService.userExistByEmail(email);
   }
 
   @Query((returns) => Boolean)
-  existByUsername(@Args('username') username: string) {
-    // return this.userService.userExistByUsernam(username);
+  userExistByUsername(@Args('username') username: string) {
+    return this.registrationAuthorityService.userExistByUsername(username);
   }
 
   @Mutation((returns) => TokenModel)

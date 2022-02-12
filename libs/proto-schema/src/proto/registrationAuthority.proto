@@ -1,0 +1,19 @@
+syntax = "proto3";
+package REGISTRATION_AUTHORITY;
+
+service RegistrationAuthorityService {
+    rpc UserExistByEmail(UserExistByEmailInput) returns (UserExistByEmailResponse){};
+    rpc UserExistByUsername(UserExistByUsernameInput) returns (UserExistByUsernameResponse){};
+}
+message UserExistByEmailInput {
+    string email = 1;
+}
+message UserExistByEmailResponse {
+    bool response = 1;
+}
+message UserExistByUsernameInput {
+    string username = 1;
+}
+message UserExistByUsernameResponse {
+    bool response = 1;
+}

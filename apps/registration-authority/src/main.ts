@@ -5,7 +5,7 @@ import {RegistrationAuthorityModule} from './registration-authority.module';
 async function bootstrap() {
   microserviceSetup(
     RegistrationAuthorityModule,
-    'registration-authority.proto',
+    '/libs/proto-schema/src/proto/registrationAuthority.proto',
     ConsulServiceKeys.REGISTRATION_AUTHORITY,
     {
       enableMqtt: false,

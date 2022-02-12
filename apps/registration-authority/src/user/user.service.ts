@@ -37,6 +37,7 @@ import {RedisCacheService} from '@ezyfs/internal/modules/cache/redis-cache.servi
 import {TokenModel} from '@ezyfs/common/types/token.model';
 // import {ResetPasswordEmailInput} from '@ezyfs/common/dtos/registration-authority';
 import {CreateUserInput} from '@ezyfs/common/dtos/registration-authority';
+import {GrpcMethod} from '@nestjs/microservices';
 import {AuthService} from '../auth/auth.service';
 
 @Injectable()
@@ -58,7 +59,8 @@ export class UserService {
     return false;
   }
 
-  async userExistByUsernam(username: string): Promise<boolean> {
+  @GrpcMethod('RegistrationAuthorityService', 'UserExistByUsername')
+  async userExistByUsername(username: string): Promise<boolean> {
     const user = await this.userRepository.findOne({
       where: {username},
     });

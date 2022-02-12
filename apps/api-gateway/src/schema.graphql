@@ -118,8 +118,8 @@ type TokenModel {
 type Query {
   users: [User!]!
   user(id: Float!): User!
-  existByEmail(email: String!): Boolean!
-  existByUsername(username: String!): Boolean!
+  userExistByEmail(email: String!): Boolean!
+  userExistByUsername(username: String!): Boolean!
   refreshToken(refreshToken: String!): TokenModel!
 }
 
@@ -128,8 +128,6 @@ type Mutation {
   secondStageSignUp(secondStageDTOInput: SecondStageDTOInput!): User!
   update(updateUserInput: UpdateUserInput!): User!
   remove(id: Float!): User!
-  confirmEmail(emailVerificationInput: EmailVerificationInput!): TokenModel!
-  sendResetPasswordEmail(ResetPasswordEmailInput: ResetPasswordEmailInput!): Boolean!
   resetPassword(ResetPasswordInput: ResetPasswordInput!): Boolean!
   login(credentialsInput: CredentialsInput!): TokenModel!
 }
@@ -162,16 +160,6 @@ input UpdateUserInput {
   password: String
   roles: [String!]
   gender: Gender
-}
-
-input EmailVerificationInput {
-  token: String!
-  verificationToken: String!
-  userId: Float!
-}
-
-input ResetPasswordEmailInput {
-  email: String!
 }
 
 input ResetPasswordInput {
