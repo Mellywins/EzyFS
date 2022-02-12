@@ -6,6 +6,7 @@ import {ConsulService} from 'nestjs-consul';
 import {RegistrationAuthorityController} from './registration-authority.controller';
 import {RegistrationAuthorityService} from './registration-authority.service';
 import {UserModule} from './user/user.module';
+import {AuthModule} from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,8 +22,10 @@ import {UserModule} from './user/user.module';
     }),
     TypeOrmModule.forFeature([User]),
     UserModule,
+    AuthModule,
   ],
   controllers: [RegistrationAuthorityController],
   providers: [RegistrationAuthorityService],
+  exports: [TypeOrmModule],
 })
 export class RegistrationAuthorityModule {}

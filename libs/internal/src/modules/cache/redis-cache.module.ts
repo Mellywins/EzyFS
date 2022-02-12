@@ -7,6 +7,7 @@ import {RedisCacheService} from './redis-cache.service';
 @Module({
   providers: [RedisCacheService],
   imports: [
+    ConsulModule,
     CacheModule.registerAsync({
       imports: [ConsulModule],
       inject: [ConsulService],

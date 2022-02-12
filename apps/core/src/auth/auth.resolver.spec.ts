@@ -2,7 +2,7 @@ import {Test, TestingModule} from '@nestjs/testing';
 import {User} from '../user/entities/user.entity';
 import {AuthResolver} from './auth.resolver';
 import {AuthService} from './auth.service';
-import {CredentialsInput} from './dto/credentials.input';
+import {CredentialsInput} from '../../../../libs/common/src/dtos/registration-authority/credentials.input';
 import {TokenModel} from './dto/token.model';
 
 describe('AuthResolver', () => {

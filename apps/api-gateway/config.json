@@ -8,11 +8,7 @@
     "max": 1000
   },
   "auth": {
-    "enableJwtAuth": false,
-    "enableSessionAuth": false,
-    "jwtSettings": {
-      "secret": "eyJhbGciOiJSUzI1NiIsImtpZCI6Im1hYXNfcHJvZF8yMDIwMDMyNiIsInR5cCI6IkpXVCJ9"
-    }
+    "enableJwtAuth": false
   },
   "databases": {
     "redis": {

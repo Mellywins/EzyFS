@@ -9,7 +9,7 @@ import {
 } from '@nestjs/graphql';
 import {AuthService} from './auth.service';
 import {TokenModel} from './dto/token.model';
-import {CredentialsInput} from './dto/credentials.input';
+import {CredentialsInput} from '../../../../libs/common/src/dtos/registration-authority/credentials.input';
 
 @Resolver('Auth')
 export class AuthResolver {

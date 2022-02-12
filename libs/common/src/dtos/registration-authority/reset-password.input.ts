@@ -1,6 +1,6 @@
 import {Field, InputType} from '@nestjs/graphql';
 import {MinLength} from 'class-validator';
-import {TokensInterface} from '../../shared/types/tokens.interface';
+import {TokensInterface} from '@ezyfs/common/types';
 
 @InputType()
 export class ResetPasswordInput extends TokensInterface {

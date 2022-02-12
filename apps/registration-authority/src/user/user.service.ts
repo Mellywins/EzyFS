@@ -23,26 +23,28 @@ import {
   SENDING_EMAIL_ERROR_MESSAGE,
   USER_NOT_FOUND_ERROR_MESSAGE,
 } from '@ezyfs/common';
-import {AuthService} from 'apps/core/src/auth/auth.service';
-import {PayloadInterface} from 'apps/core/src/auth/dto/payload.interface';
-import {TokenTypeEnum} from 'apps/core/src/auth/dto/token-type.enum';
-import {RedisCacheService} from 'apps/core/src/redis-cache/redis-cache.service';
-import {EmailVerificationInput} from '../email/dto/email-verification.input';
-import {EmailService} from '../email/email.service';
-import {TokenModel} from '../auth/dto/token.model';
-import {ResetPasswordEmailInput} from '../email/dto/reset-password-email.input';
-import {CreateUserInput} from './dtos/create-user.input';
-import {FirstStageUserInput} from './dtos/first-stage-user.input';
-import {ResetPasswordInput} from './dtos/reset-password.input';
-import {SecondStageDTOInput} from './dtos/second-stage-user.input';
-import {UpdateUserInput} from './dtos/update-user.input';
+import {
+  PayloadInterface,
+  FirstStageUserInput,
+  ResetPasswordInput,
+  SecondStageDTOInput,
+  UpdateUserInput,
+} from '@ezyfs/common/dtos/registration-authority';
+import {TokenTypeEnum} from '@ezyfs/common/enums';
+import {RedisCacheService} from '@ezyfs/internal/modules/cache/redis-cache.service';
+// import {EmailVerificationInput} from '@ezyfs/common/dtos/registration-authority';
+// import {EmailService} from '../email/email.service';
+import {TokenModel} from '@ezyfs/common/types/token.model';
+// import {ResetPasswordEmailInput} from '@ezyfs/common/dtos/registration-authority';
+import {CreateUserInput} from '@ezyfs/common/dtos/registration-authority';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly redisCacheService: RedisCacheService,
-    private readonly emailService: EmailService,
+    // private readonly emailService: EmailService,
     private readonly authService: AuthService,
   ) {}
 
@@ -91,23 +93,19 @@ export class UserService {
     if (!checkUser) {
       const user = await this.userRepository.create(createUserInput);
       user.lowerCasedUsername = user.username.toLowerCase();
-      await this.userRepository.save(user);
+      return this.userRepository.save(user);
       // send a confirmation to the user
-      const isEmailSent: boolean = await this.emailService.sendEmail(
-        user,
-        EmailTypeEnum.CONFIRMATION,
-      );
-      if (isEmailSent) {
-        return user;
-      }
-      throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
-    } else {
-      // if the user has the same username or email with someone else we throw an exception
-      throw new HttpException(
-        'The User Already Exists',
-        HttpStatus.BAD_REQUEST,
-      );
+      //     const isEmailSent: boolean = await this.emailService.sendEmail(
+      //       user,
+      //       EmailTypeEnum.CONFIRMATION,
+      //     );
+      //     if (isEmailSent) {
+      //       return user;
+      //     }
+      //     throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
     }
+    // if the user has the same username or email with someone else we throw an exception
+    throw new HttpException('The User Already Exists', HttpStatus.BAD_REQUEST);
   }
 
   async firstStageSignUp(firstStageDTO: FirstStageUserInput) {
@@ -126,20 +124,20 @@ export class UserService {
       user.completedSignUp = false;
       await this.userRepository.save(user);
       // send a confirmation to the user
-      const isEmailSent: boolean = await this.emailService.sendEmail(
-        user,
-        EmailTypeEnum.CONFIRMATION,
-      );
-      if (isEmailSent) {
-        return user;
-      }
-      throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
-    } else {
-      // if the user has the same username or email with someone else we throw an exception
-      throw new HttpException(
-        'The User Already Exists',
-        HttpStatus.BAD_REQUEST,
-      );
+      //   const isEmailSent: boolean = await this.emailService.sendEmail(
+      //     user,
+      //     EmailTypeEnum.CONFIRMATION,
+      //   );
+      //   if (isEmailSent) {
+      //     return user;
+      //   }
+      //   throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
+      // } else {
+      //   // if the user has the same username or email with someone else we throw an exception
+      //   throw new HttpException(
+      //     'The User Already Exists',
+      //     HttpStatus.BAD_REQUEST,
+      //   );
     }
   }
 
@@ -223,69 +221,69 @@ export class UserService {
       else we should delete him from database so he could make another registration with the same data (email, username etc..)
     */
   // eslint-disable-next-line consistent-return
-  async validUserConfirmation(
-    emailVerificationInput: EmailVerificationInput,
-  ): Promise<TokenModel> {
-    const {userId, token, verificationToken} = emailVerificationInput;
-    const user: User = await this.userRepository.findOne({where: {id: userId}});
-    if (user) {
-      const emailConfirmation = await this.emailService.confirmEmail(
-        user,
-        token,
-        verificationToken,
-        EmailTypeEnum.CONFIRMATION,
-      );
-      if (emailConfirmation) {
-        user.isConfirmed = true;
-        await this.userRepository.save(user);
-        return this.generateTokenModel(user);
-      }
-      // if the user account is not confirmed we should delete his account so he can try another registration
-      if (user.isConfirmed === false) {
-        await this.userRepository.delete(userId);
-      }
-    } else {
-      throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
-    }
-  }
+  // async validUserConfirmation(
+  //   emailVerificationInput: EmailVerificationInput,
+  // ): Promise<TokenModel> {
+  //   const {userId, token, verificationToken} = emailVerificationInput;
+  //   const user: User = await this.userRepository.findOne({where: {id: userId}});
+  //   if (user) {
+  //     const emailConfirmation = await this.emailService.confirmEmail(
+  //       user,
+  //       token,
+  //       verificationToken,
+  //       EmailTypeEnum.CONFIRMATION,
+  //     );
+  //     if (emailConfirmation) {
+  //       user.isConfirmed = true;
+  //       await this.userRepository.save(user);
+  //       return this.generateTokenModel(user);
+  //     }
+  //     // if the user account is not confirmed we should delete his account so he can try another registration
+  //     if (user.isConfirmed === false) {
+  //       await this.userRepository.delete(userId);
+  //     }
+  //   } else {
+  //     throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
+  //   }
+  // }
 
-  async sendResetPasswordEmail(
-    resetPasswordEmail: ResetPasswordEmailInput,
-  ): Promise<boolean> {
-    const {email} = resetPasswordEmail;
-    const user: User = await this.userRepository.findOne({where: {email}});
-    if (user) {
-      const isEmailSent: boolean = await this.emailService.sendEmail(
-        user,
-        EmailTypeEnum.RESET_PASSWORD,
-      );
-      if (isEmailSent) {
-        return isEmailSent;
-      }
-      throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
-    } else {
-      throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
-    }
-  }
+  // async sendResetPasswordEmail(
+  //   resetPasswordEmail: ResetPasswordEmailInput,
+  // ): Promise<boolean> {
+  //   const {email} = resetPasswordEmail;
+  //   const user: User = await this.userRepository.findOne({where: {email}});
+  //   if (user) {
+  //     const isEmailSent: boolean = await this.emailService.sendEmail(
+  //       user,
+  //       EmailTypeEnum.RESET_PASSWORD,
+  //     );
+  //     if (isEmailSent) {
+  //       return isEmailSent;
+  //     }
+  //     throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
+  //   } else {
+  //     throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
+  //   }
+  // }
 
-  async resetPassword(resetPasswordInput: ResetPasswordInput) {
-    const {email, password, token, verificationToken} = resetPasswordInput;
-    const user: User = await this.userRepository.findOne({where: {email}});
-    if (user) {
-      const emailConfirmation = await this.emailService.confirmEmail(
-        user,
-        token,
-        verificationToken,
-        EmailTypeEnum.RESET_PASSWORD,
-      );
-      if (emailConfirmation) {
-        user.password = await bcrypt.hash(password, user.salt);
-        await this.userRepository.save(user);
-      }
-      return emailConfirmation;
-    }
-    throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
-  }
+  // async resetPassword(resetPasswordInput: ResetPasswordInput) {
+  //   const {email, password, token, verificationToken} = resetPasswordInput;
+  //   const user: User = await this.userRepository.findOne({where: {email}});
+  //   if (user) {
+  //     const emailConfirmation = await this.emailService.confirmEmail(
+  //       user,
+  //       token,
+  //       verificationToken,
+  //       EmailTypeEnum.RESET_PASSWORD,
+  //     );
+  //     if (emailConfirmation) {
+  //       user.password = await bcrypt.hash(password, user.salt);
+  //       await this.userRepository.save(user);
+  //     }
+  //     return emailConfirmation;
+  //   }
+  //   throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
+  // }
 
   async generateTokenModel(user: User): Promise<TokenModel> {
     const payload: PayloadInterface = {

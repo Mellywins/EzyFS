@@ -4,4 +4,13 @@ import {RedisConfig} from './config-blocks/redis.config';
 
 export type RegistrationAuthorityConfig = BaseConfig & {
   database: PostgresConfig & RedisConfig;
+} & {
+  auth: {
+    enableJwtAuth: boolean;
+    enableSessionAuth: boolean;
+    jwtSettings: {
+      secret: string;
+      expiresIn: number;
+    };
+  };
 };

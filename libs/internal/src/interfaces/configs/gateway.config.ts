@@ -6,9 +6,5 @@ export type GatewayConfig = {
 } & BaseConfig & {databases: RedisConfig} & {
     auth: {
       enableJwtAuth: boolean;
-      enableSessionAuth: boolean;
-      jwtSettings: {
-        secret: string;
-      };
     };
   };

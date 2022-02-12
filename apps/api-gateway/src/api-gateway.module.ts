@@ -4,7 +4,7 @@ import {GraphQLModule} from '@nestjs/graphql';
 import {ApiGatewayController} from './api-gateway.controller';
 import {ApiGatewayService} from './api-gateway.service';
 import {GqlConfigService} from './config/gql-config.service';
-import {UsersResolver} from './users/users.resolver';
+import {RegistrationAuthorityModule} from './registration-authority/registration-authority.module';
 
 @Module({
   imports: [
@@ -12,8 +12,9 @@ import {UsersResolver} from './users/users.resolver';
       useClass: GqlConfigService,
     }),
     ConsulConfigModule,
+    RegistrationAuthorityModule,
   ],
   controllers: [ApiGatewayController],
-  providers: [ApiGatewayService, UsersResolver],
+  providers: [ApiGatewayService],
 })
 export class ApiGatewayModule {}

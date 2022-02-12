@@ -17,9 +17,9 @@ import {TokenModel} from '@ezyfs/common/dtos/registration-authority';
 import {
   PASSWORD_LOGIN_MISSMATCH_ERROR_MESSAGE,
   ACCOUNT_NOT_ACTIVATED_ERROR_MESSAGE,
-} from '../utils/constants';
+} from '@ezyfs/common/constants';
 import {TokenTypeEnum} from '@ezyfs/common/enums';
-import {RedisCacheService} from '../redis-cache/redis-cache.service';
+import {RedisCacheService} from '@ezyfs/internal/modules/cache/redis-cache.service';
 
 dotenv.config();
 @Injectable()
