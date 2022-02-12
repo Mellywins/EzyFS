@@ -33,7 +33,7 @@ jobs:
       - name: Build the Docker image
         run:
           docker-compose --project-directory=. -f docker-compose.staging.yml
-          build
+          build api-gateway registration_authority
 
       - name: Docker push
         run:
