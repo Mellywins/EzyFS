@@ -36,4 +36,6 @@ jobs:
           build
 
       - name: Docker push
-        run: docker-compose -f docker-compose.staging.yml push
+        run:
+          docker-compose -f docker-compose.staging.yml push api-gateway
+          registration_authority
