@@ -14,7 +14,6 @@ import {RegistrationAuthorityModule} from './registration-authority/registration
     }),
     ConsulConfigModule,
     RegistrationAuthorityModule,
-    RegistrationAuthorityGRPCClientModule,
   ],
   controllers: [ApiGatewayController],
   providers: [ApiGatewayService],

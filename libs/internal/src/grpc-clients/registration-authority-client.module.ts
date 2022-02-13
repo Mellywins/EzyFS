@@ -1,7 +1,7 @@
-import {Module} from '@nestjs/common';
+import {Global, Module} from '@nestjs/common';
 import {ClientsModule, GrpcService, Transport} from '@nestjs/microservices';
 import {join} from 'path';
-
+@Global()
 @Module({
   imports: [
     ClientsModule.register([
@@ -10,8 +10,9 @@ import {join} from 'path';
         transport: Transport.GRPC,
         options: {
           package: 'REGISTRATION_AUTHORITY',
+          url: '172.28.1.2:3001',
           protoPath: join(
-            `${process.cwd()}/dist/apps/api-gateway/registrationAuthority.proto`,
+            `${process.cwd()}/libs/proto-schema/src/proto/registrationAuthority.proto`,
           ),
         },
       },
