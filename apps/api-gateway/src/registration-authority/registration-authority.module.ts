@@ -1,10 +1,9 @@
 import {Module} from '@nestjs/common';
-import {RegistrationAuthorityGRPCClientModule} from '@ezyfs/internal/grpc-clients/registration-authority-client.module';
-import {ClientsModule, GrpcMethod, Transport} from '@nestjs/microservices';
+import {ClientsModule, Transport} from '@nestjs/microservices';
 import {join} from 'path';
+import {ChannelCredentials} from '@grpc/grpc-js';
 import {RegistrationAuthorityService} from './registration-authority.service';
 import {RegistrationAuthorityResolver} from './registration-authority.resolver';
-import {ChannelCredentials} from '@grpc/grpc-js';
 
 @Module({
   providers: [RegistrationAuthorityResolver, RegistrationAuthorityService],

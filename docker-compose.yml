@@ -4,23 +4,23 @@ x-host-gateway: &host-gateway
   - host.docker.internal:host-gateway
 
 services:
-  core:
-    container_name: ${APP_NAME}-CORE
-    build:
-      context: .
-      dockerfile: apps/core/Dockerfile
-    image: mellywins/ezyfs-core:latest
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - ${PORT}:${PORT}
-    # command: npx nest start --watch
-    networks:
-      webnet:
-        ipv4_address: 172.28.1.1
-    depends_on:
-      - postgres
+  # core:
+  #   container_name: ${APP_NAME}-CORE
+  #   build:
+  #     context: .
+  #     dockerfile: apps/core/Dockerfile
+  #   image: mellywins/ezyfs-core:latest
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   ports:
+  #     - ${PORT}:${PORT}
+  #   # command: npx nest start --watch
+  #   networks:
+  #     webnet:
+  #       ipv4_address: 172.28.1.1
+  #   depends_on:
+  #     - postgres
 
   registration_authority:
     container_name: ${APP_NAME}-REGISTRATION_AUTHORITY

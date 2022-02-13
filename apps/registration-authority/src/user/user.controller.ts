@@ -7,7 +7,12 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @GrpcMethod('RegistrationAuthorityService', 'UserExistByEmail')
-  userExistByEmail(data: {email: string}) {
-    return this.userService.userExistByEmail(data.email);
+  async UserExistByEmail(data: {email: string}) {
+    return this.userService.UserExistByEmail(data.email);
+  }
+
+  @GrpcMethod('RegistrationAuthorityService', 'UserExistByUsername')
+  UserExistByUsername(data: {email: string}) {
+    return this.userService.UserExistByEmail(data.email);
   }
 }

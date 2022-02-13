@@ -115,11 +115,15 @@ type TokenModel {
   user: User!
 }
 
+type BoolValue {
+  value: Boolean!
+}
+
 type Query {
   users: [User!]!
   user(id: Float!): User!
-  userExistByEmail(email: String!): Boolean!
-  userExistByUsername(username: String!): Boolean!
+  userExistByEmail(email: String!): BoolValue!
+  userExistByUsername(username: String!): BoolValue!
   refreshToken(refreshToken: String!): TokenModel!
 }
 

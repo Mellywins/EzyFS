@@ -1,5 +1,4 @@
 import {ConsulConfigModule} from '@ezyfs/internal';
-import {RegistrationAuthorityGRPCClientModule} from '@ezyfs/internal/grpc-clients/registration-authority-client.module';
 import {Module} from '@nestjs/common';
 import {GraphQLModule} from '@nestjs/graphql';
 import {ApiGatewayController} from './api-gateway.controller';

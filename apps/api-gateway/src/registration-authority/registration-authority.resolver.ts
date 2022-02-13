@@ -13,6 +13,7 @@ import {User} from '@ezyfs/repositories/entities';
 import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 // import {EmailVerificationInput} from 'apps/core/src/email/dto/email-verification.input';
 // import {ResetPasswordEmailInput} from 'apps/core/src/email/dto/reset-password-email.input';
+import {BoolValue} from '@ezyfs/proto-schema/google/protobuf/wrappers.type';
 import {RegistrationAuthorityService} from './registration-authority.service';
 
 @Resolver()
@@ -82,12 +83,12 @@ export class RegistrationAuthorityResolver {
     // return this.userService.resetPassword(resetPasswordInput);
   }
 
-  @Query((returns) => Boolean)
-  userExistByEmail(@Args('email') email: string) {
+  @Query((returns) => BoolValue)
+  async userExistByEmail(@Args('email') email: string) {
     return this.registrationAuthorityService.userExistByEmail(email);
   }
 
-  @Query((returns) => Boolean)
+  @Query((returns) => BoolValue)
   userExistByUsername(@Args('username') username: string) {
     return this.registrationAuthorityService.userExistByUsername(username);
   }

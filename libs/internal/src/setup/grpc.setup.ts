@@ -27,15 +27,14 @@ export async function microserviceSetup(
     .get<any>(key);
   const APP_PORT = appConfig.app.port;
   const pkgName = appConfig.app.name;
-  (await app).connectMicroservice({
+  const ms = (await app).connectMicroservice({
     transport: Transport.GRPC,
     options: {
-      url: 'localhost:3001', // APP_PORT=3001
+      url: '172.28.1.2:3001', // APP_PORT=3001
       package: pkgName,
       protoPath: join(process.cwd(), protoPath),
-      credentials: ChannelCredentials.createInsecure(),
     },
   });
-  app.listen(APP_PORT);
+  ms.listen();
   Logger.log(`Microservice ${pkgName} listening on ${hostname}:${APP_PORT}`);
 }

@@ -1,19 +1,15 @@
 syntax = "proto3";
 package REGISTRATION_AUTHORITY;
+import "../google/protobuf/wrappers.proto";
 
 service RegistrationAuthorityService {
-    rpc UserExistByEmail(UserExistByEmailInput) returns (UserExistByEmailResponse){};
-    rpc UserExistByUsername(UserExistByUsernameInput) returns (UserExistByUsernameResponse){};
+    rpc UserExistByEmail(UserExistByEmailInput) returns (google.protobuf.BoolValue){};
+    rpc UserExistByUsername(UserExistByUsernameInput) returns (google.protobuf.BoolValue){};
 }
 message UserExistByEmailInput {
     string email = 1;
 }
-message UserExistByEmailResponse {
-    bool response = 1;
-}
+
 message UserExistByUsernameInput {
     string username = 1;
-}
-message UserExistByUsernameResponse {
-    bool response = 1;
 }

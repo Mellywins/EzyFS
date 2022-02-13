@@ -38,6 +38,7 @@ import {TokenModel} from '@ezyfs/common/types/token.model';
 // import {ResetPasswordEmailInput} from '@ezyfs/common/dtos/registration-authority';
 import {CreateUserInput} from '@ezyfs/common/dtos/registration-authority';
 import {GrpcMethod} from '@nestjs/microservices';
+import {BoolValue} from '@ezyfs/proto-schema';
 import {AuthService} from '../auth/auth.service';
 
 @Injectable()
@@ -49,18 +50,18 @@ export class UserService {
     private readonly authService: AuthService,
   ) {}
 
-  async userExistByEmail(email: string): Promise<boolean> {
+  async UserExistByEmail(email: string): Promise<BoolValue> {
     const user = await this.userRepository.findOne({
       where: {email},
     });
     if (user) {
-      return true;
+      return {value: true};
     }
-    return false;
+    return {value: false};
   }
 
   @GrpcMethod('RegistrationAuthorityService', 'UserExistByUsername')
-  async userExistByUsername(username: string): Promise<boolean> {
+  async UserExistByUsername(username: string): Promise<boolean> {
     const user = await this.userRepository.findOne({
       where: {username},
     });
