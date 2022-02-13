@@ -170,6 +170,10 @@ keep it.
 After declaring the config schema, you can now register the config in the Consul
 server by running the script `scripts/service-register.sh`
 
+Now you can inject the Consul Module in your module factory and fetch your
+microservice config from the server. You can find examples in the api-gateway or
+registration-authority services.
+
 The next time, you can start up the development containers using
 `scripts/start-dev.sh`. It'll run the containers, register the services is
 consul and attach the compose logs to the current terminal.
