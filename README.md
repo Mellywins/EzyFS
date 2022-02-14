@@ -28,7 +28,15 @@ operations, making them accessible to non technical users.
    
 </div>
 
-## Multi-threadded? YES!
+## Architecture
+
+<div align="center">
+
+![Image](./docs/assets/Architecture_overview.png)
+
+</div>
+
+## How we optimized our heavy workload microservice
 
 Compression And encryption come in really handy, but they also consume alot of
 computation power when used on large files. This may lead to performance issues
@@ -37,7 +45,7 @@ CPUs cores, EzyFS introduced Parallel Processors.
 
 ### How it works:
 
-![Image](under_the_hood.png)
+![Image](./docs/assets/under_the_hood.png)
 
 ## Supported Processors
 
