@@ -28,6 +28,13 @@ operations, making them accessible to non technical users.
    
 </div>
 
+## :warning: Project Under Refactoring :warning:
+
+EzyFS is undergoing a major refactoring phase. I stopped new features
+development and decided to move to a new microservice architecture. You can view
+the old one at the `old-architecture`
+[branch](https://github.com/Mellywins/EzyFS/tree/old-architecture).
+
 ## Architecture
 
 <div align="center">

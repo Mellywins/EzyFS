@@ -5,6 +5,7 @@ import "../google/protobuf/wrappers.proto";
 service RegistrationAuthorityService {
     rpc UserExistByEmail(UserExistByEmailInput) returns (google.protobuf.BoolValue){};
     rpc UserExistByUsername(UserExistByUsernameInput) returns (google.protobuf.BoolValue){};
+    rpc CreateUser(CreateUserInput) returns (User){}
 }
 message UserExistByEmailInput {
     string email = 1;
@@ -12,4 +13,22 @@ message UserExistByEmailInput {
 
 message UserExistByUsernameInput {
     string username = 1;
+}
+enum Gender {
+    MALE = 0;
+    FEMALE = 1;
+}
+message CreateUserInput {
+    int32 id = 1;
+    string username = 2;
+    string firstname = 3;
+    string lastname = 4;
+    uint32 age = 5;
+    string email = 6;
+    string password = 7;
+    repeated string roles = 8;
+    Gender gender = 9;
+}
+message User{
+    int32 id = 1;
 }
