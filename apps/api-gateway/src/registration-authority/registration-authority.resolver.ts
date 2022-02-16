@@ -109,12 +109,16 @@ export class RegistrationAuthorityResolver {
   }
 
   @Mutation((returns) => TokenModel)
-  login(@Args('credentialsInput') credentialsInput: CredentialsInput) {
+  login(
+    @Args('credentialsInput') credentialsInput: CredentialsInput,
+  ): Observable<TokenModel> {
     return this.registrationAuthorityService.login(credentialsInput);
   }
 
   @Query((returns) => TokenModel)
-  refreshToken(@Args('refreshToken') refreshToken: string) {
+  refreshToken(
+    @Args('refreshToken') refreshToken: string,
+  ): Observable<TokenModel> {
     return this.registrationAuthorityService.refreshToken(refreshToken);
   }
 }

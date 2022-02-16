@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import {TokenModel} from '@ezyfs/common';
 import {
   CredentialsInput,
   FirstStageUserInput,
@@ -16,11 +17,16 @@ import {Observable} from 'rxjs';
 export class RegistrationAuthorityService implements OnModuleInit {
   private registrationAuthorityRPC: any;
 
+  private AuthServiceRPC: any;
+
   constructor(@Inject('RA') private RA_Client: ClientGrpc) {}
 
   onModuleInit() {
     this.registrationAuthorityRPC = this.RA_Client.getService<any>(
       'RegistrationAuthorityService',
+    );
+    this.AuthServiceRPC = this.RA_Client.getService<any>(
+      'AuthentificationService',
     );
   }
 
@@ -58,5 +64,15 @@ export class RegistrationAuthorityService implements OnModuleInit {
 
   resetPassword(resetPasswordInput: ResetPasswordInput): Observable<User> {
     return this.registrationAuthorityRPC.resetPassword(resetPasswordInput);
+  }
+
+  login(credentials: CredentialsInput): Observable<TokenModel> {
+    return this.AuthServiceRPC.login(credentials).subscribe((e) => {
+      console.log('inside sub', e);
+    });
+  }
+
+  refreshToken(token: string): Observable<TokenModel> {
+    return this.AuthServiceRPC.refreshToken({token});
   }
 }

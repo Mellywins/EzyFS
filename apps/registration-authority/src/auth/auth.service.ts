@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable default-case */
-import {Injectable} from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import {JwtService} from '@nestjs/jwt';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
@@ -28,7 +28,7 @@ export class AuthService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private jwtService: JwtService,
-    private consul: ConsulService<RegistrationAuthorityConfig>,
+    @Inject('ConsulSync') private readonly consul: RegistrationAuthorityConfig,
     private readonly redisCacheService: RedisCacheService,
   ) {}
 
@@ -48,11 +48,7 @@ export class AuthService {
         return this.jwtService.sign(payload);
       case TokenTypeEnum.REFRESH:
         return this.jwtService.sign(payload, {
-          secret: (
-            await this.consul.get<RegistrationAuthorityConfig>(
-              ConsulServiceKeys.REGISTRATION_AUTHORITY,
-            )
-          ).auth.jwtSettings.refreshTokenSecret,
+          secret: this.consul.auth.jwtSettings.refreshTokenSecret,
           expiresIn: '1y',
         });
     }
@@ -60,7 +56,7 @@ export class AuthService {
 
   async verifyRefreshToken(refreshToken: string) {
     const payload = await this.jwtService.verify(refreshToken, {
-      secret: process.env.JWT_REFRESH_TOKEN_SECRET,
+      secret: this.consul.auth.jwtSettings.refreshTokenSecret,
     });
     if (payload) {
       const {iat, exp, ...data} = payload;

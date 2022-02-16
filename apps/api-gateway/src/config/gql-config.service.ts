@@ -1,19 +1,9 @@
 import {Injectable} from '@nestjs/common';
 import {GqlModuleOptions, GqlOptionsFactory} from '@nestjs/graphql';
 import {RedisCache} from 'apollo-server-cache-redis';
-import {corsApollOptions} from '@ezyfs/common';
 import {buildContext} from 'graphql-passport';
 import {ConsulService} from 'nestjs-consul';
 import {ConsulServiceKeys, GatewayConfig, GqlContext} from '@ezyfs/internal';
-// import {
-//   AccessTokenRpcClientService,
-//   AccountsRpcClientService,
-//   BillingsRpcClientService,
-//   GqlContext,
-//   RolesRpcClientService,
-//   TenantsRpcClientService,
-//   WebhooksRpcClientService,
-// } from '@ultimatebackend/core';
 import {RedisOptions} from 'ioredis';
 import {join} from 'path';
 
@@ -53,14 +43,6 @@ export class GqlConfigService implements GqlOptionsFactory {
           req: {
             ...req,
             ...bc.req,
-          },
-          rpc: {
-            // accessToken: this.accessToken,
-            // account: this.account,
-            // billing: this.billing,
-            // role: this.role,
-            // webhook: this.webhook,
-            // tenant: this.tenant,
           },
         };
       },

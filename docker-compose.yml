@@ -96,6 +96,8 @@ services:
     # volumes:
     #   - ./server1.json:/consul/config/server1.json:ro
     #   - ./certs/:/consul/config/certs/:ro
+    logging:
+      driver: none
     networks:
       - webnet
     ports:
