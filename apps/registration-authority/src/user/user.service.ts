@@ -37,7 +37,7 @@ import {RedisCacheService} from '@ezyfs/internal/modules/cache/redis-cache.servi
 import {TokenModel} from '@ezyfs/common/types/token.model';
 // import {ResetPasswordEmailInput} from '@ezyfs/common/dtos/registration-authority';
 import {CreateUserInput} from '@ezyfs/common/dtos/registration-authority';
-import {GrpcMethod} from '@nestjs/microservices';
+import {GrpcMethod, RpcException} from '@nestjs/microservices';
 import {BoolValue} from '@ezyfs/proto-schema';
 import {AuthService} from '../auth/auth.service';
 
@@ -125,7 +125,7 @@ export class UserService {
       const user = await this.userRepository.create(firstStageDTO);
       user.lowerCasedUsername = user.username.toLowerCase();
       user.completedSignUp = false;
-      await this.userRepository.save(user);
+      return this.userRepository.save(user);
       // send a confirmation to the user
       //   const isEmailSent: boolean = await this.emailService.sendEmail(
       //     user,
@@ -135,13 +135,9 @@ export class UserService {
       //     return user;
       //   }
       //   throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
-      // } else {
-      //   // if the user has the same username or email with someone else we throw an exception
-      //   throw new HttpException(
-      //     'The User Already Exists',
-      //     HttpStatus.BAD_REQUEST,
-      //   );
     }
+    // if the user has the same username or email with someone else we throw an exception
+    throw new RpcException('The User Already Exists');
   }
 
   async secondStageSignUp(secondStageDTO: SecondStageDTOInput): Promise<User> {
@@ -159,11 +155,13 @@ export class UserService {
 
       return this.userRepository.save(user);
     }
-    throw new BadRequestException();
+    throw new RpcException('BAD_INCOMING_REQUEST');
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async findAll(): Promise<{users: User[]}> {
+    const users = await this.userRepository.find();
+    console.log(users);
+    return {users};
   }
 
   async findOne(user: User, id: number): Promise<User> {

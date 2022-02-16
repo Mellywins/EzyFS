@@ -1,3 +1,10 @@
+/* eslint-disable import/no-unresolved */
+import {
+  FirstStageUserInput,
+  SecondStageDTOInput,
+  UpdateUserInput,
+} from '@ezyfs/common/dtos';
+import {User} from '@ezyfs/repositories';
 import {Controller} from '@nestjs/common';
 import {GrpcMethod} from '@nestjs/microservices';
 import {UserService} from './user.service';
@@ -14,5 +21,38 @@ export class UserController {
   @GrpcMethod('RegistrationAuthorityService', 'UserExistByUsername')
   UserExistByUsername(data: {email: string}) {
     return this.userService.UserExistByEmail(data.email);
+  }
+
+  @GrpcMethod('RegistrationAuthorityService', 'FirstStageSignUp')
+  async FirstStageSignUp(firstStageDTO: FirstStageUserInput) {
+    return this.userService.firstStageSignUp(firstStageDTO);
+  }
+
+  @GrpcMethod('RegistrationAuthorityService', 'SecondStageSignUp')
+  SecondStageSignUp(secondStageDTO: SecondStageDTOInput) {
+    return this.userService.secondStageSignUp(secondStageDTO);
+  }
+
+  @GrpcMethod('RegistrationAuthorityService', 'FindAllUsers')
+  FindAllUsers() {
+    return this.userService.findAll();
+  }
+
+  @GrpcMethod('RegistrationAuthorityService', 'FindOneUser')
+  FindOneUser(input: {user: User; id: number}) {
+    return this.userService.findOne(input.user, input.id);
+  }
+
+  @GrpcMethod('RegistrationAuthorityService', 'UpdateUser')
+  UpdateUser(input: {
+    currentUser: User;
+    userId: number;
+    updateUserInput: UpdateUserInput;
+  }) {
+    return this.userService.update(
+      input.currentUser,
+      input.userId,
+      input.updateUserInput,
+    );
   }
 }

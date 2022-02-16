@@ -3,8 +3,6 @@ import {dbConnectionFactory, User} from '@ezyfs/repositories';
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {ConsulService} from 'nestjs-consul';
-import {RegistrationAuthorityController} from './registration-authority.controller';
-import {RegistrationAuthorityService} from './registration-authority.service';
 import {UserModule} from './user/user.module';
 import {AuthModule} from './auth/auth.module';
 @Module({
@@ -23,8 +21,8 @@ import {AuthModule} from './auth/auth.module';
     UserModule,
     AuthModule,
   ],
-  controllers: [RegistrationAuthorityController],
-  providers: [RegistrationAuthorityService],
+  controllers: [],
+  providers: [],
   exports: [TypeOrmModule],
 })
 export class RegistrationAuthorityModule {}

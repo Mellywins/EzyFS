@@ -24,7 +24,8 @@
     "enableSessionAuth": false,
     "jwtSettings": {
       "expiresIn": 3600,
-      "secret": "eyJhbGciOiJSUzI1NiIsImtpZCI6Im1hYXNfcHJvZF8yMDIwMDMyNiIsInR5cCI6IkpXVCJ9"
+      "jwtSecret": "eyJhbGciOiJSUzI1NiIsImtpZCI6Im1hYXNfcHJvZF8yMDIwMDMyNiIsInR5cCI6IkpXVCJ9",
+      "refreshTokenSecret": "hNB4BI5hHPUwxes0FQqE0dNXnvqWQXKy"
     }
   }
 }

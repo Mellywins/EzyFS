@@ -9,7 +9,8 @@ export type RegistrationAuthorityConfig = BaseConfig & {
     enableJwtAuth: boolean;
     enableSessionAuth: boolean;
     jwtSettings: {
-      secret: string;
+      jwtSecret: string;
+      refreshTokenSecret: string;
       expiresIn: number;
     };
   };

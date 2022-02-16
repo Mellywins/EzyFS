@@ -14,6 +14,7 @@ import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 // import {EmailVerificationInput} from 'apps/core/src/email/dto/email-verification.input';
 // import {ResetPasswordEmailInput} from 'apps/core/src/email/dto/reset-password-email.input';
 import {BoolValue} from '@ezyfs/proto-schema/google/protobuf/wrappers.type';
+import {map, Observable} from 'rxjs';
 import {RegistrationAuthorityService} from './registration-authority.service';
 
 @Resolver()
@@ -27,22 +28,36 @@ export class RegistrationAuthorityResolver {
   // }
 
   @Mutation((returns) => User)
-  firstStageSignUp(
+  async firstStageSignUp(
     @Args('firstStageUserInput') firstStageUserInput: FirstStageUserInput,
-  ) {}
+  ) {
+    return this.registrationAuthorityService.firstStageSignUp(
+      firstStageUserInput,
+    );
+  }
 
   @Mutation((returns) => User)
   secondStageSignUp(
     @Args('secondStageDTOInput') secondStageDTOInput: SecondStageDTOInput,
-  ) {}
+  ) {
+    return this.registrationAuthorityService.secondStageSignUp(
+      secondStageDTOInput,
+    );
+  }
 
   @Query((returns) => [User], {name: 'users'})
-  @Auth(UserRoleEnum.ADMIN)
-  findAll() {}
+  // @Auth(UserRoleEnum.ADMIN)
+  findAll(): Observable<User[]> {
+    return this.registrationAuthorityService
+      .findAll()
+      .pipe(map((v, i) => v.users));
+  }
 
   @Query((returns) => User, {name: 'user'})
   @Auth(UserRoleEnum.USER)
-  findOne(@CurrentUser() user: User, @Args('id') id: number) {}
+  findOne(@CurrentUser() user: User, @Args('id') id: number) {
+    return this.registrationAuthorityService.findOne(user, id);
+  }
 
   @Mutation((returns) => User)
   @Auth(UserRoleEnum.USER)
@@ -50,13 +65,13 @@ export class RegistrationAuthorityResolver {
     @CurrentUser() user: User,
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ) {
-    // return this.userService.update(user, updateUserInput.id, updateUserInput);
+    return this.registrationAuthorityService.update(user, updateUserInput);
   }
 
   @Mutation((returns) => User)
   @Auth(UserRoleEnum.USER)
   remove(@CurrentUser() user: User, @Args('id') id: number) {
-    // return this.userService.remove(user, id);
+    return this.registrationAuthorityService.remove(user, id);
   }
 
   // @Mutation((returns) => TokenModel)
@@ -80,7 +95,7 @@ export class RegistrationAuthorityResolver {
     @Args('ResetPasswordInput')
     resetPasswordInput: ResetPasswordInput,
   ) {
-    // return this.userService.resetPassword(resetPasswordInput);
+    return this.registrationAuthorityService.resetPassword(resetPasswordInput);
   }
 
   @Query((returns) => BoolValue)
@@ -95,11 +110,11 @@ export class RegistrationAuthorityResolver {
 
   @Mutation((returns) => TokenModel)
   login(@Args('credentialsInput') credentialsInput: CredentialsInput) {
-    // return this.authService.login(credentialsInput);
+    return this.registrationAuthorityService.login(credentialsInput);
   }
 
   @Query((returns) => TokenModel)
   refreshToken(@Args('refreshToken') refreshToken: string) {
-    // return this.authService.refreshToken(refreshToken);
+    return this.registrationAuthorityService.refreshToken(refreshToken);
   }
 }

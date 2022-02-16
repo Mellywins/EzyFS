@@ -5,8 +5,13 @@ import "../google/protobuf/wrappers.proto";
 service RegistrationAuthorityService {
     rpc UserExistByEmail(UserExistByEmailInput) returns (google.protobuf.BoolValue){};
     rpc UserExistByUsername(UserExistByUsernameInput) returns (google.protobuf.BoolValue){};
-    rpc CreateUser(CreateUserInput) returns (User){}
+    rpc FirstStageSignUp(CreateUserInput) returns (User){}
+    rpc SecondStageSignUp(SecondStageSignUpInput) returns (User){}
+    rpc FindAllUsers(EmptyParams) returns (FindAllUsersOutput){}
+    rpc FindOneUser(FindOneUserInput) returns (User){}
+    rpc UpdateUser(UpdateUserInput) returns (User){}
 }
+message EmptyParams {}
 message UserExistByEmailInput {
     string email = 1;
 }
@@ -31,4 +36,46 @@ message CreateUserInput {
 }
 message User{
     int32 id = 1;
+    string username = 2;
+    string firstname = 3;
+    string lastname = 4;
+    bool completedSignUp = 5;
+    int32 age = 6;
+    string email = 7;
+    string localisation=8;
+    string telNumber=9;
+    Gender gender = 10;
+    repeated string roles = 11;
+}
+message SecondStageSignUpInput{
+    int32 id = 1;
+    string localization = 2;
+    string telNumber = 3;
+    string fistname = 4;
+    string lastname = 5;
+    int32 age = 6;
+    Gender gender = 7;
+}
+message FindAllUsersOutput {
+    repeated User users = 1;
+}
+message FindOneUserInput {
+    User user = 1;
+    int32 id = 2;
+}
+message UpdateUserInputDTO {
+    int32 id = 1;
+    string username = 2;
+    string firstname = 3;
+    string lastname = 4;
+    uint32 age = 5;
+    string email = 6;
+    string password = 7;
+    repeated string roles = 8;
+    Gender gender = 9;
+}
+message UpdateUserInput {
+    User currentUser = 1;
+    int32 userId = 2;
+    UpdateUserInputDTO updateUserInput = 3;
 }

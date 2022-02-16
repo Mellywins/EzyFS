@@ -4,14 +4,14 @@ import {User} from '@ezyfs/repositories/entities/users/user.entity';
 import {JwtModule} from '@nestjs/jwt';
 import {PassportModule} from '@nestjs/passport';
 import {RedisCacheModule} from '@ezyfs/internal/modules/cache/redis-cache.module';
-import {AuthController} from './auth.controller';
-import {AuthService} from './auth.service';
 import {
   ConsulConfigModule,
   ConsulServiceKeys,
   RegistrationAuthorityConfig,
 } from '@ezyfs/internal';
 import {ConsulService} from 'nestjs-consul';
+import {AuthController} from './auth.controller';
+import {AuthService} from './auth.service';
 
 @Module({
   imports: [
@@ -26,7 +26,7 @@ import {ConsulService} from 'nestjs-consul';
           ConsulServiceKeys.REGISTRATION_AUTHORITY,
         );
         return {
-          secret: config.auth.jwtSettings.secret,
+          secret: config.auth.jwtSettings.jwtSecret,
           signOptions: {
             expiresIn: config.auth.jwtSettings.expiresIn,
           },
@@ -39,7 +39,17 @@ import {ConsulService} from 'nestjs-consul';
     RedisCacheModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    {
+      provide: 'ConsulSync',
+      useFactory: async (consul: ConsulService<RegistrationAuthorityConfig>) =>
+        consul.get<RegistrationAuthorityConfig>(
+          ConsulServiceKeys.REGISTRATION_AUTHORITY,
+        ),
+      inject: [ConsulService],
+    },
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

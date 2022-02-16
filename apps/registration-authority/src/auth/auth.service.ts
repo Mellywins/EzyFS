@@ -1,25 +1,26 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable default-case */
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {JwtService} from '@nestjs/jwt';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
 import {User} from '@ezyfs/repositories/entities';
-import {CredentialsInput} from '@ezyfs/common/dtos/registration-authority';
-import {PayloadInterface} from '@ezyfs/common/dtos/registration-authority';
-import {TokenModel} from '@ezyfs/common/dtos/registration-authority';
+import {
+  CredentialsInput,
+  PayloadInterface,
+  TokenModel,
+} from '@ezyfs/common/dtos/registration-authority';
 import {
   PASSWORD_LOGIN_MISSMATCH_ERROR_MESSAGE,
   ACCOUNT_NOT_ACTIVATED_ERROR_MESSAGE,
 } from '@ezyfs/common/constants';
 import {TokenTypeEnum} from '@ezyfs/common/enums';
 import {RedisCacheService} from '@ezyfs/internal/modules/cache/redis-cache.service';
+import {RpcException} from '@nestjs/microservices';
+import {ConsulService} from 'nestjs-consul';
+import {ConsulServiceKeys, RegistrationAuthorityConfig} from '@ezyfs/internal';
 
 dotenv.config();
 @Injectable()
@@ -27,6 +28,7 @@ export class AuthService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private jwtService: JwtService,
+    private consul: ConsulService<RegistrationAuthorityConfig>,
     private readonly redisCacheService: RedisCacheService,
   ) {}
 
@@ -46,7 +48,11 @@ export class AuthService {
         return this.jwtService.sign(payload);
       case TokenTypeEnum.REFRESH:
         return this.jwtService.sign(payload, {
-          secret: process.env.JWT_REFRESH_TOKEN_SECRET,
+          secret: (
+            await this.consul.get<RegistrationAuthorityConfig>(
+              ConsulServiceKeys.REGISTRATION_AUTHORITY,
+            )
+          ).auth.jwtSettings.refreshTokenSecret,
           expiresIn: '1y',
         });
     }
@@ -60,7 +66,7 @@ export class AuthService {
       const {iat, exp, ...data} = payload;
       return data;
     }
-    throw new UnauthorizedException();
+    throw new RpcException('UNAUTHORIZED');
   }
 
   async refreshToken(refreshToken: string): Promise<TokenModel> {
@@ -87,9 +93,9 @@ export class AuthService {
           user,
         };
       }
-      throw new UnauthorizedException();
+      throw new RpcException('UNAUTHORIZED');
     } else {
-      throw new UnauthorizedException();
+      throw new RpcException('UNAUTHORIZED');
     }
   }
 
@@ -102,9 +108,9 @@ export class AuthService {
 
     // if the user is null is means that we don't have any user with that email or password
     if (!user) {
-      throw new NotFoundException(PASSWORD_LOGIN_MISSMATCH_ERROR_MESSAGE);
+      throw new RpcException(PASSWORD_LOGIN_MISSMATCH_ERROR_MESSAGE);
     } else if (!user.isConfirmed) {
-      throw new UnauthorizedException(ACCOUNT_NOT_ACTIVATED_ERROR_MESSAGE);
+      throw new RpcException(ACCOUNT_NOT_ACTIVATED_ERROR_MESSAGE);
     } else {
       // if we get the user
       const hashedPassword = await bcrypt.hash(password, user.salt);
@@ -132,7 +138,7 @@ export class AuthService {
         };
       }
       // if the password is not equal to user.password that means that the credentials are not true
-      throw new NotFoundException(PASSWORD_LOGIN_MISSMATCH_ERROR_MESSAGE);
+      throw new RpcException(PASSWORD_LOGIN_MISSMATCH_ERROR_MESSAGE);
     }
   }
 }

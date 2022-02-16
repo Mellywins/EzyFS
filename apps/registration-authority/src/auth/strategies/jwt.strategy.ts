@@ -1,23 +1,25 @@
 import {ExtractJwt, Strategy} from 'passport-jwt';
 import {PassportStrategy} from '@nestjs/passport';
-import {Injectable, UnauthorizedException} from '@nestjs/common';
-import {ConfigService} from '@nestjs/config';
+import {Inject, Injectable} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
-import {EnvironmentVariables} from '@ezyfs/common/types';
 import {PayloadInterface} from '@ezyfs/common/dtos/registration-authority/payload.interface';
 import {User} from '@ezyfs/repositories/entities';
+import {RpcException} from '@nestjs/microservices';
+import {ConsulService} from 'nestjs-consul';
+import {RegistrationAuthorityConfig} from '@ezyfs/internal';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    private readonly configService: ConfigService<EnvironmentVariables>,
+    private readonly consul: ConsulService<RegistrationAuthorityConfig>,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @Inject('ConsulSync') consulSync: RegistrationAuthorityConfig,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get<string>('JWT_ACCESS_TOKEN_SECRET'),
+      secretOrKey: consulSync.auth.jwtSettings.jwtSecret,
     });
   }
 
@@ -32,6 +34,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       return user;
     }
     // if we don't find the user it means that he's unauthorized
-    throw new UnauthorizedException();
+    throw new RpcException('UNAUTHORIZED');
   }
 }
