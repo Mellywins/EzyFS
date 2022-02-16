@@ -14,7 +14,7 @@ export class AuthController {
   }
 
   @GrpcMethod('AuthentificationService', 'RefreshToken')
-  async RefreshToken(input: {refresh_token: string}) {
-    return this.authService.refreshToken(input.refresh_token);
+  async RefreshToken(input: {refreshToken: string}) {
+    return this.authService.refreshToken(input.refreshToken);
   }
 }

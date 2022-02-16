@@ -110,8 +110,8 @@ enum EncDecType {
 }
 
 type TokenModel {
-  access_token: String!
-  refresh_token: String!
+  accessToken: String!
+  refreshToken: String!
   user: User!
 }
 

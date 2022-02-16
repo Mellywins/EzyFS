@@ -21,6 +21,7 @@ import {User} from '@ezyfs/repositories/entities';
 import {EmailTypeEnum} from '@ezyfs/common/enums/email-type.enum';
 import {
   SENDING_EMAIL_ERROR_MESSAGE,
+  TokenModel,
   USER_NOT_FOUND_ERROR_MESSAGE,
 } from '@ezyfs/common';
 import {
@@ -34,7 +35,6 @@ import {TokenTypeEnum} from '@ezyfs/common/enums';
 import {RedisCacheService} from '@ezyfs/internal/modules/cache/redis-cache.service';
 // import {EmailVerificationInput} from '@ezyfs/common/dtos/registration-authority';
 // import {EmailService} from '../email/email.service';
-import {TokenModel} from '@ezyfs/common/types/token.model';
 // import {ResetPasswordEmailInput} from '@ezyfs/common/dtos/registration-authority';
 import {CreateUserInput} from '@ezyfs/common/dtos/registration-authority';
 import {GrpcMethod, RpcException} from '@nestjs/microservices';
@@ -301,6 +301,6 @@ export class UserService {
     );
     // add the new refresh token to the cache
     await this.redisCacheService.set(user.username, refreshToken);
-    return {user, access_token: accessToken, refresh_token: refreshToken};
+    return {user, accessToken, refreshToken};
   }
 }

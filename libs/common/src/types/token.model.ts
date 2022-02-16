@@ -5,10 +5,10 @@ import {User} from '@ezyfs/repositories/entities';
 @ObjectType()
 export class TokenModel {
   @Field()
-  access_token: string;
+  accessToken: string;
 
   @Field()
-  refresh_token: string;
+  refreshToken: string;
 
   @Field(() => User)
   user: User;

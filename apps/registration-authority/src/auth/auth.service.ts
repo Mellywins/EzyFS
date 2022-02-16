@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-unused-vars */
 /* eslint-disable default-case */
 import {Inject, Injectable} from '@nestjs/common';
@@ -10,7 +12,6 @@ import {User} from '@ezyfs/repositories/entities';
 import {
   CredentialsInput,
   PayloadInterface,
-  TokenModel,
 } from '@ezyfs/common/dtos/registration-authority';
 import {
   PASSWORD_LOGIN_MISSMATCH_ERROR_MESSAGE,
@@ -21,6 +22,7 @@ import {RedisCacheService} from '@ezyfs/internal/modules/cache/redis-cache.servi
 import {RpcException} from '@nestjs/microservices';
 import {ConsulService} from 'nestjs-consul';
 import {ConsulServiceKeys, RegistrationAuthorityConfig} from '@ezyfs/internal';
+import {TokenModel} from '@ezyfs/common/types';
 
 dotenv.config();
 @Injectable()
@@ -84,8 +86,8 @@ export class AuthService {
         });
         await this.redisCacheService.set(username, newRefreshToken);
         return {
-          access_token: newAccessToken,
-          refresh_token: newRefreshToken,
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken,
           user,
         };
       }
@@ -128,8 +130,8 @@ export class AuthService {
         await this.redisCacheService.set(user.username, refreshToken);
         // return result
         return {
-          access_token: accessToken,
-          refresh_token: refreshToken,
+          accessToken,
+          refreshToken,
           user,
         };
       }

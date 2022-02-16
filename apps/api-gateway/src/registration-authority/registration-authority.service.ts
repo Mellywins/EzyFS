@@ -67,9 +67,7 @@ export class RegistrationAuthorityService implements OnModuleInit {
   }
 
   login(credentials: CredentialsInput): Observable<TokenModel> {
-    return this.AuthServiceRPC.login(credentials).subscribe((e) => {
-      console.log('inside sub', e);
-    });
+    return this.AuthServiceRPC.login(credentials);
   }
 
   refreshToken(token: string): Observable<TokenModel> {
