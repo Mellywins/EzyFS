@@ -1,7 +1,17 @@
 syntax = "proto3";
 package NOTIFICATIONS;
 import "../google/protobuf/wrappers.proto";
-service NotificationsService {
-    rpc dummy (Empty) returns (Empty);
+import "../reusables/user.proto";
+
+service EmailNotificationService {
+    rpc SendEmail (SendEmailInput) returns (google.protobuf.BoolValue);
 }
 message Empty {}
+enum EmailType {
+    CONFIRMATION = 0;
+    RESET_PASSWORD = 1;
+}
+message SendEmailInput{
+    User user = 1;
+    EmailType emailType = 2;
+}

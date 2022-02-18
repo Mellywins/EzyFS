@@ -1,5 +1,4 @@
 import {ConsulServiceKeys, microserviceSetup} from '@ezyfs/internal';
-import {NestFactory} from '@nestjs/core';
 import {NotificationsModule} from './notifications.module';
 
 async function bootstrap() {

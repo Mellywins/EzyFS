@@ -1,6 +1,7 @@
 syntax = "proto3";
 package REGISTRATION_AUTHORITY;
 import "../google/protobuf/wrappers.proto";
+import "../reusables/user.proto";
 
 service RegistrationAuthorityService {
     rpc UserExistByEmail(UserExistByEmailInput) returns (google.protobuf.BoolValue){};
@@ -23,10 +24,7 @@ message UserExistByEmailInput {
 message UserExistByUsernameInput {
     string username = 1;
 }
-enum Gender {
-    MALE = 0;
-    FEMALE = 1;
-}
+
 message CreateUserInput {
     int32 id = 1;
     string username = 2;
@@ -38,19 +36,7 @@ message CreateUserInput {
     repeated string roles = 8;
     Gender gender = 9;
 }
-message User{
-    int32 id = 1;
-    string username = 2;
-    string firstname = 3;
-    string lastname = 4;
-    bool completedSignUp = 5;
-    int32 age = 6;
-    string email = 7;
-    string localisation=8;
-    string telNumber=9;
-    Gender gender = 10;
-    repeated string roles = 11;
-}
+
 message SecondStageSignUpInput{
     int32 id = 1;
     string localization = 2;
