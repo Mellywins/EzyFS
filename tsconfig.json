@@ -19,17 +19,40 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@ezyfs/crypto": ["libs/crypto/src"],
-      "@ezyfs/crypto/*": ["libs/crypto/src/*"],
-      "@ezyfs/common": ["libs/common/src"],
-      "@ezyfs/common/*": ["libs/common/src/*"],
-      "@ezyfs/internal": ["libs/internal/src"],
-      "@ezyfs/internal/*": ["libs/internal/src/*"],
-      "@ezyfs/proto-schema": ["libs/proto-schema/src"],
-      "@ezyfs/proto-schema/*": ["libs/proto-schema/src/*"],
-      "@ezyfs/repositories": ["libs/repositories/src"],
-      "@ezyfs/repositories/*": ["libs/repositories/src/*"]
+      "@ezyfs/crypto": [
+        "libs/crypto/src"
+      ],
+      "@ezyfs/crypto/*": [
+        "libs/crypto/src/*"
+      ],
+      "@ezyfs/common": [
+        "libs/common/src"
+      ],
+      "@ezyfs/common/*": [
+        "libs/common/src/*"
+      ],
+      "@ezyfs/internal": [
+        "libs/internal/src"
+      ],
+      "@ezyfs/internal/*": [
+        "libs/internal/src/*"
+      ],
+      "@ezyfs/proto-schema": [
+        "libs/proto-schema/src"
+      ],
+      "@ezyfs/proto-schema/*": [
+        "libs/proto-schema/src/*"
+      ],
+      "@ezyfs/repositories": [
+        "libs/repositories/src"
+      ],
+      "@ezyfs/repositories/*": [
+        "libs/repositories/src/*"
+      ]
     }
   },
-  "exclude": ["node_modules", "dist"]
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

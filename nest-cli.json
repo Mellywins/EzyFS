@@ -2,7 +2,11 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "apps/api-gateway/src",
   "options": {
-    "typeFileNameSuffix": [".input.ts", ".entity.ts", ".model.ts"],
+    "typeFileNameSuffix": [
+      ".input.ts",
+      ".entity.ts",
+      ".model.ts"
+    ],
     "introspectComments": true
   },
   "monorepo": true,
@@ -52,7 +56,9 @@
       "sourceRoot": "apps/registration-authority/src",
       "compilerOptions": {
         "tsConfigPath": "apps/registration-authority/tsconfig.app.json",
-        "assets": ["**/*.proto"],
+        "assets": [
+          "**/*.proto"
+        ],
         "watchAssets": true
       }
     },
@@ -108,6 +114,15 @@
       "sourceRoot": "libs/repositories/src",
       "compilerOptions": {
         "tsConfigPath": "libs/repositories/tsconfig.lib.json"
+      }
+    },
+    "notifications": {
+      "type": "application",
+      "root": "apps/notifications",
+      "entryFile": "main",
+      "sourceRoot": "apps/notifications/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/notifications/tsconfig.app.json"
       }
     }
   }

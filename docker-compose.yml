@@ -38,6 +38,22 @@ services:
       webnet:
         ipv4_address: 172.28.1.2
 
+  notifications:
+    container_name: ${APP_NAME}-NOTIFICATIONS
+    build:
+      context: .
+      dockerfile: apps/notifications/Dockerfile
+    image: mellywins/ezyfs-notifications:latest
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3005:3000
+    # command: npx nest start --watch
+    networks:
+      webnet:
+        ipv4_address: 172.28.1.4
+
   api-gateway:
     container_name: ${APP_NAME}-api-gateway
     build:

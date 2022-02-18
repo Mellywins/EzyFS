@@ -1,0 +1,7 @@
+syntax = "proto3";
+package NOTIFICATIONS;
+import "../google/protobuf/wrappers.proto";
+service NotificationsService {
+    rpc dummy (Empty) returns (Empty);
+}
+message Empty {}

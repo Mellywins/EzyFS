@@ -1,8 +1,6 @@
 import {ConsulConfigModule} from '@ezyfs/internal';
 import {Module} from '@nestjs/common';
 import {GraphQLModule} from '@nestjs/graphql';
-import {ApiGatewayController} from './api-gateway.controller';
-import {ApiGatewayService} from './api-gateway.service';
 import {GqlConfigService} from './config/gql-config.service';
 import {RegistrationAuthorityModule} from './registration-authority/registration-authority.module';
 
@@ -14,7 +12,7 @@ import {RegistrationAuthorityModule} from './registration-authority/registration
     ConsulConfigModule,
     RegistrationAuthorityModule,
   ],
-  controllers: [ApiGatewayController],
-  providers: [ApiGatewayService],
+  controllers: [],
+  providers: [],
 })
 export class ApiGatewayModule {}

@@ -20,17 +20,18 @@ export async function microserviceSetup(
   key: ConsulServiceKeys,
   options?: MicroserviceSetupOptions,
 ) {
-  const {hostname = '172.28.1.2', enableMqtt, enableNats} = options;
+  // const {hostname = '172.28.1.2', enableMqtt, enableNats} = options;
   const app = await NestFactory.create(appModule);
   const appConfig = await app
     .get<ConsulService<any>>(ConsulService)
     .get<any>(key);
   const APP_PORT = appConfig.app.port;
   const pkgName = appConfig.app.name;
+  const hostname = appConfig.app.host;
   const ms = (await app).connectMicroservice({
     transport: Transport.GRPC,
     options: {
-      url: '172.28.1.2:3001', // APP_PORT=3001
+      url: `${hostname}:${APP_PORT}`, // APP_PORT=3001
       package: pkgName,
       protoPath: join(process.cwd(), protoPath),
     },
