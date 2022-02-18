@@ -20,8 +20,7 @@ import {
 import {TokenTypeEnum} from '@ezyfs/common/enums';
 import {RedisCacheService} from '@ezyfs/internal/modules/cache/redis-cache.service';
 import {RpcException} from '@nestjs/microservices';
-import {ConsulService} from 'nestjs-consul';
-import {ConsulServiceKeys, RegistrationAuthorityConfig} from '@ezyfs/internal';
+import {RegistrationAuthorityConfig} from '@ezyfs/internal';
 import {TokenModel} from '@ezyfs/common/types';
 
 dotenv.config();
@@ -127,7 +126,8 @@ export class AuthService {
           TokenTypeEnum.REFRESH,
         );
         // add the new refresh token to the cache
-        await this.redisCacheService.set(user.username, refreshToken);
+        const x = await this.redisCacheService.set(user.username, refreshToken);
+        console.log(x);
         // return result
         return {
           accessToken,

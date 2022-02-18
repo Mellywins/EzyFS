@@ -3,6 +3,7 @@ import {dbConnectionFactory, User} from '@ezyfs/repositories';
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {ConsulService} from 'nestjs-consul';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import {ConsulService} from 'nestjs-consul';
       inject: [ConsulService],
     }),
     TypeOrmModule.forFeature([User]),
+    EmailModule,
   ],
   controllers: [],
   providers: [],
