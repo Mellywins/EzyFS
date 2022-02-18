@@ -1,11 +1,5 @@
 import {MailerService} from '@nestjs-modules/mailer';
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import {BadRequestException, Injectable, Logger} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {join} from 'path';
@@ -24,6 +18,7 @@ import {
   RESET_PASSWORD_EMAIL_TEMPLATE_NAME,
   SENDING_EMAIL_ERROR_MESSAGE,
 } from '@ezyfs/common/constants';
+import {RpcException} from '@nestjs/microservices';
 
 dotenv.config();
 @Injectable()
@@ -68,7 +63,7 @@ export class EmailService {
         templateName = RESET_PASSWORD_EMAIL_TEMPLATE_NAME;
         break;
       default:
-        throw new NotFoundException('Email type not found');
+        throw new RpcException('Email type not found');
     }
     // create a new email and register it in the database
 
@@ -87,7 +82,7 @@ export class EmailService {
       .sendMail({
         to: user.email,
         subject,
-        template: join(process.cwd(), `src/templates/${templateName}`),
+        template: join(__dirname, `../templates/${templateName}`),
         context: {
           userId: user.id,
           token,
@@ -98,7 +93,7 @@ export class EmailService {
       .then(() => true)
       .catch((err) => {
         Logger.log(err, 'SENDING EMAIL ERROR!');
-        throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
+        throw new RpcException(SENDING_EMAIL_ERROR_MESSAGE);
       });
     return true;
   }
@@ -131,7 +126,7 @@ export class EmailService {
     if (email) {
       const {isExpired, sentDate} = email;
       if (isExpired) {
-        throw new BadRequestException(EMAIL_EXPIRED_ERROR_MESSAGE);
+        throw new RpcException(EMAIL_EXPIRED_ERROR_MESSAGE);
       } else {
         const emailSendingDate: Date = sentDate;
         const confirmationDate: Date = new Date();
@@ -143,13 +138,13 @@ export class EmailService {
         const expiredEmail = email.setExpired(true);
         await this.emailRepository.save(expiredEmail);
         if (duration > 2) {
-          throw new BadRequestException(EMAIL_EXPIRED_ERROR_MESSAGE);
+          throw new RpcException(EMAIL_EXPIRED_ERROR_MESSAGE);
         } else {
           return true;
         }
       }
     }
 
-    throw new BadRequestException(EMAIL_NOT_FOUND_ERROR_MESSAGE);
+    throw new RpcException(EMAIL_NOT_FOUND_ERROR_MESSAGE);
   }
 }
