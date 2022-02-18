@@ -1,9 +1,9 @@
 import {ConsulConfigModule, ConsulServiceKeys} from '@ezyfs/internal';
-import {dbConnectionFactory, User} from '@ezyfs/repositories';
+import {dbConnectionFactory, Email, User} from '@ezyfs/repositories';
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {ConsulService} from 'nestjs-consul';
-import { EmailModule } from './email/email.module';
+import {EmailModule} from './email/email.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { EmailModule } from './email/email.module';
         ),
       inject: [ConsulService],
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Email]),
     EmailModule,
   ],
   controllers: [],
