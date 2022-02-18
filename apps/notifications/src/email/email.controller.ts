@@ -12,4 +12,24 @@ export class EmailController {
   async SendEmail(data: {user: User; emailType: EmailTypeEnum}) {
     return this.emailService.sendEmail(data.user, data.emailType);
   }
+
+  @GrpcMethod('EmailNotificationService', 'ConfirmEmail')
+  async confirmEmail(input: {
+    user: User;
+    token: string;
+    verificationToken: string;
+    emailType: EmailTypeEnum;
+  }) {
+    return this.emailService.confirmEmail(
+      input.user,
+      input.token,
+      input.verificationToken,
+      input.emailType,
+    );
+  }
+
+  @GrpcMethod('EmailNotificationService', 'ResetPassword')
+  findAllByUserId(input: {userId: number}) {
+    return this.emailService.findAllByUserId(input.userId);
+  }
 }
