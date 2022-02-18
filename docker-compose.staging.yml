@@ -19,6 +19,19 @@ services:
       - postgres
     extra_hosts: *host-gateway
 
+  notifications:
+    container_name: ${APP_NAME}-NOTIFICATIONS
+    build:
+      context: .
+      dockerfile: apps/notifications/staging.Dockerfile
+    image: mellywins/ezyfs-notifications:latest
+    ports:
+      - 3005:3000
+    # command: npx nest start --watch
+    networks:
+      - webnet
+    extra_hosts: *host-gateway
+
   registration_authority:
     container_name: ${APP_NAME}-REGISTRATION_AUTHORITY
     build:
