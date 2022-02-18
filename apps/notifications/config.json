@@ -6,15 +6,16 @@
   },
   "notification": {
     "email": {
-      "transport":{
+      "transport": {
         "host": "smtp.gmail.com",
         "port": 587,
-        "user":"ezyfs2022@gmail.com",
-        "password":"e1b28ca9"
+        "user": "ezyfs2022@gmail.com",
+        "password": "e1b28ca9"
       },
-      "defaults":{
-        "from":"ezyfs2022@gmail.com"
+      "defaults": {
+        "from": "ezyfs2022@gmail.com"
       }
+    }
   },
   "databases": {
     "postgres": {
