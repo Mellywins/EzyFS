@@ -50,6 +50,9 @@ export class EmailService {
   }
 
   async sendEmail(user: User, emailType: EmailTypeEnum): Promise<boolean> {
+    console.log('inside the send email');
+    console.log(emailType);
+    console.log(user);
     let subject;
     let templateName;
 

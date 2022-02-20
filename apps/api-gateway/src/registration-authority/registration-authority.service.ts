@@ -40,6 +40,7 @@ export class RegistrationAuthorityService implements OnModuleInit {
   }
 
   firstStageSignUp(firstStageDTO: FirstStageUserInput): Observable<User> {
+    console.log(this.registrationAuthorityRPC);
     return this.registrationAuthorityRPC.firstStageSignUp(firstStageDTO);
   }
 

@@ -3,25 +3,10 @@ version: '3.7'
 x-host-gateway: &host-gateway
   - host.docker.internal:host-gateway
 
+x-grpc-debug-envs: &grc-debug-envs
+  - GRPC_TRACE=call_stream
+  - GRPC_VERBOSITY=DEBUG
 services:
-  # core:
-  #   container_name: ${APP_NAME}-CORE
-  #   build:
-  #     context: .
-  #     dockerfile: apps/core/Dockerfile
-  #   image: mellywins/ezyfs-core:latest
-  #   volumes:
-  #     - .:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   ports:
-  #     - ${PORT}:${PORT}
-  #   # command: npx nest start --watch
-  #   networks:
-  #     webnet:
-  #       ipv4_address: 172.28.1.1
-  #   depends_on:
-  #     - postgres
-
   registration_authority:
     container_name: ${APP_NAME}-REGISTRATION_AUTHORITY
     build:
@@ -33,6 +18,7 @@ services:
       - /usr/src/app/node_modules
     ports:
       - 3001:3000
+    environment: *grc-debug-envs
     # command: npx nest start --watch
     networks:
       webnet:
@@ -49,6 +35,8 @@ services:
       - /usr/src/app/node_modules
     ports:
       - 3005:3000
+    environment: *grc-debug-envs
+
     # command: npx nest start --watch
     networks:
       webnet:

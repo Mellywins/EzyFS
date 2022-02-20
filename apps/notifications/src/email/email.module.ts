@@ -6,7 +6,6 @@ import {Email} from '@ezyfs/repositories';
 import {MailerModule, MailerOptions} from '@nestjs-modules/mailer';
 import {join} from 'path';
 import {HandlebarsAdapter} from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import {emailCredentials} from 'apps/core/src/config/email-config-service';
 import {ConsulConfigModule, ConsulServiceKeys} from '@ezyfs/internal';
 import {ConsulService} from 'nestjs-consul';
 import {NotificationsConfig} from '@ezyfs/internal/interfaces/configs/notifications.config';
@@ -34,7 +33,7 @@ import {NotificationsConfig} from '@ezyfs/internal/interfaces/configs/notificati
             from: config.notification.email.defaults.from,
           },
           template: {
-            dir: join(__dirname, '../templates'),
+            dir: join(process.cwd(), 'dist/apps/notifications/templates'),
             adapter: new HandlebarsAdapter(),
           },
         };

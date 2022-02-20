@@ -10,6 +10,7 @@ export class EmailController {
 
   @GrpcMethod('EmailNotificationService', 'SendEmail')
   async SendEmail(data: {user: User; emailType: EmailTypeEnum}) {
+    console.log('Sending Email to user ', data.user.username);
     return this.emailService.sendEmail(data.user, data.emailType);
   }
 

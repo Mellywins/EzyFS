@@ -4,10 +4,12 @@ import {
   BadRequestException,
   HttpException,
   HttpStatus,
+  Inject,
   Injectable,
   InternalServerErrorException,
   // Logger,
   NotFoundException,
+  OnModuleInit,
   UnauthorizedException,
 } from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
@@ -37,18 +39,25 @@ import {RedisCacheService} from '@ezyfs/internal/modules/cache/redis-cache.servi
 // import {EmailService} from '../email/email.service';
 // import {ResetPasswordEmailInput} from '@ezyfs/common/dtos/registration-authority';
 import {CreateUserInput} from '@ezyfs/common/dtos/registration-authority';
-import {GrpcMethod, RpcException} from '@nestjs/microservices';
+import {ClientGrpc, GrpcMethod, RpcException} from '@nestjs/microservices';
 import {BoolValue} from '@ezyfs/proto-schema';
 import {AuthService} from '../auth/auth.service';
 
 @Injectable()
 export class UserService {
+  private emailNotificationsRPC: any;
+
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly redisCacheService: RedisCacheService,
     // private readonly emailService: EmailService,
     private readonly authService: AuthService,
-  ) {}
+    @Inject('NOTIFICATIONS') private notificationsClient: ClientGrpc,
+  ) {
+    this.emailNotificationsRPC = this.notificationsClient.getService<any>(
+      'EmailNotificationService',
+    );
+  }
 
   async UserExistByEmail(email: string): Promise<BoolValue> {
     const user = await this.userRepository.findOne({
@@ -60,7 +69,6 @@ export class UserService {
     return {value: false};
   }
 
-  @GrpcMethod('RegistrationAuthorityService', 'UserExistByUsername')
   async UserExistByUsername(username: string): Promise<boolean> {
     const user = await this.userRepository.findOne({
       where: {username},
@@ -125,16 +133,20 @@ export class UserService {
       const user = await this.userRepository.create(firstStageDTO);
       user.lowerCasedUsername = user.username.toLowerCase();
       user.completedSignUp = false;
-      return this.userRepository.save(user);
+      // this.userRepository.save(user);
+
       // send a confirmation to the user
-      //   const isEmailSent: boolean = await this.emailService.sendEmail(
-      //     user,
-      //     EmailTypeEnum.CONFIRMATION,
-      //   );
-      //   if (isEmailSent) {
-      //     return user;
-      //   }
-      //   throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
+      const isEmailSent: boolean = await this.emailNotificationsRPC
+        .sendEmail({
+          user,
+          emailType: EmailTypeEnum.CONFIRMATION,
+        })
+        .toPromise();
+      console.log(isEmailSent);
+      if (isEmailSent) {
+        return user;
+      }
+      throw new RpcException(SENDING_EMAIL_ERROR_MESSAGE);
     }
     // if the user has the same username or email with someone else we throw an exception
     throw new RpcException('The User Already Exists');

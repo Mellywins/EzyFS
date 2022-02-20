@@ -6,7 +6,6 @@ import "../reusables/user.proto";
 service EmailNotificationService {
     rpc SendEmail (SendEmailInput) returns (google.protobuf.BoolValue);
 }
-message Empty {}
 enum EmailType {
     CONFIRMATION = 0;
     RESET_PASSWORD = 1;
