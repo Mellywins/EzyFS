@@ -4,5 +4,5 @@ import {PostgresConfig} from './config-blocks/postgres.config';
 import {RedisConfig} from './config-blocks/redis.config';
 
 export type NotificationsConfig = BaseConfig & {
-  database: PostgresConfig & RedisConfig;
+  databases: PostgresConfig & RedisConfig;
 } & {notification: {email: EmailConfig}};

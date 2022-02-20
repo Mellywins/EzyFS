@@ -1,4 +1,4 @@
-import {Module} from '@nestjs/common';
+import {Inject, Module} from '@nestjs/common';
 import {EmailService} from './email.service';
 import {EmailController} from './email.controller';
 import {TypeOrmModule} from '@nestjs/typeorm';
@@ -9,6 +9,7 @@ import {HandlebarsAdapter} from '@nestjs-modules/mailer/dist/adapters/handlebars
 import {ConsulConfigModule, ConsulServiceKeys} from '@ezyfs/internal';
 import {ConsulService} from 'nestjs-consul';
 import {NotificationsConfig} from '@ezyfs/internal/interfaces/configs/notifications.config';
+import {BullModule, BullModuleOptions} from '@nestjs/bull';
 
 @Module({
   imports: [
@@ -38,6 +39,25 @@ import {NotificationsConfig} from '@ezyfs/internal/interfaces/configs/notificati
           },
         };
         return mailOptions;
+      },
+    }),
+    BullModule.registerQueueAsync({
+      name: 'EMAIL-QUEUE',
+      imports: [ConsulConfigModule],
+      inject: [ConsulService],
+      useFactory: async (
+        consul: ConsulService<NotificationsConfig>,
+      ): Promise<BullModuleOptions> => {
+        const config = await consul.get<NotificationsConfig>(
+          ConsulServiceKeys.NOTIFICATIONS,
+        );
+        return {
+          name: 'EMAIL-QUEUE',
+          redis: {
+            host: config.databases.redis.host,
+            port: config.databases.redis.port,
+          },
+        };
       },
     }),
   ],
