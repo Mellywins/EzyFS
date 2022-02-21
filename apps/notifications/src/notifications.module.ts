@@ -1,7 +1,6 @@
 import {ConsulConfigModule, ConsulServiceKeys} from '@ezyfs/internal';
 import {NotificationsConfig} from '@ezyfs/internal/interfaces/configs/notifications.config';
 import {dbConnectionFactory, Email, User} from '@ezyfs/repositories';
-import {BullModule} from '@nestjs/bull';
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {ConsulService} from 'nestjs-consul';
@@ -20,7 +19,7 @@ import {EmailModule} from './email/email.module';
       inject: [ConsulService],
     }),
 
-    TypeOrmModule.forFeature([User, Email]),
+    TypeOrmModule.forFeature([Email]),
     EmailModule,
   ],
   controllers: [],

@@ -28,7 +28,7 @@ export class EmailService {
   constructor(
     @InjectRepository(Email)
     private readonly emailRepository: Repository<Email>,
-    @InjectQueue('emails') private emailQueue: Queue,
+    @InjectQueue('emailQueue') private emailQueue: Queue,
   ) {}
 
   async create(createEmailInput: Email): Promise<Email> {
@@ -54,7 +54,6 @@ export class EmailService {
   async sendEmail(user: User, emailType: EmailTypeEnum): Promise<boolean> {
     let subject;
     let templateName;
-
     switch (emailType) {
       case EmailTypeEnum.CONFIRMATION:
         subject = CONFIRMATION_EMAIL_SUBJECT;
@@ -68,7 +67,7 @@ export class EmailService {
         throw new RpcException('Email type not found');
     }
     // create a new email and register it in the database
-    const job = await this.emailQueue.add('confirmation', {
+    const job = await this.emailQueue.add({
       subject,
       templateName,
       user,

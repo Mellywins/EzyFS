@@ -1,4 +1,4 @@
-import {Inject, Module} from '@nestjs/common';
+import {Module} from '@nestjs/common';
 import {EmailService} from './email.service';
 import {EmailController} from './email.controller';
 import {TypeOrmModule} from '@nestjs/typeorm';
@@ -9,8 +9,8 @@ import {HandlebarsAdapter} from '@nestjs-modules/mailer/dist/adapters/handlebars
 import {ConsulConfigModule, ConsulServiceKeys} from '@ezyfs/internal';
 import {ConsulService} from 'nestjs-consul';
 import {NotificationsConfig} from '@ezyfs/internal/interfaces/configs/notifications.config';
-import {BullModule, BullModuleOptions} from '@nestjs/bull';
-import {MailProcessor} from './processor/mail.processor';
+import {BullModule} from '@nestjs/bull';
+import {EmailProcessor} from './processor/email.processor';
 
 @Module({
   imports: [
@@ -58,7 +58,7 @@ import {MailProcessor} from './processor/mail.processor';
       },
     }),
     BullModule.registerQueue({
-      name: 'emails',
+      name: 'emailQueue',
       defaultJobOptions: {
         attempts: 3,
         removeOnComplete: true,
@@ -67,6 +67,6 @@ import {MailProcessor} from './processor/mail.processor';
     }),
   ],
   controllers: [EmailController],
-  providers: [EmailService, MailProcessor],
+  providers: [EmailService, EmailProcessor],
 })
 export class EmailModule {}
