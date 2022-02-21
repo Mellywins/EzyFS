@@ -19,6 +19,8 @@ import {
   SENDING_EMAIL_ERROR_MESSAGE,
 } from '@ezyfs/common/constants';
 import {RpcException} from '@nestjs/microservices';
+import {InjectQueue} from '@nestjs/bull';
+import {Queue} from 'bull';
 
 dotenv.config();
 @Injectable()
@@ -26,7 +28,7 @@ export class EmailService {
   constructor(
     @InjectRepository(Email)
     private readonly emailRepository: Repository<Email>,
-    private readonly mailerService: MailerService,
+    @InjectQueue('emails') private emailQueue: Queue,
   ) {}
 
   async create(createEmailInput: Email): Promise<Email> {
@@ -66,35 +68,12 @@ export class EmailService {
         throw new RpcException('Email type not found');
     }
     // create a new email and register it in the database
-
-    const email = new Email()
-      .setSender(user)
-      .setEmailType(emailType)
-      .setDate(new Date())
-      .setToken(uuidv4())
-      .setVerificationToken(uuidv4());
-
-    await this.create(email);
-    const {token, verificationToken} = email;
-    const url = `${process.env.FRONT_END_BASE_URL}?sign_up_token=${token}&sign_up_verification_token=${verificationToken}&sign_up_user_id=${user.id}`;
-    // build the email and send it
-    this.mailerService
-      .sendMail({
-        to: user.email,
-        subject,
-        template: join(__dirname, `../templates/${templateName}`),
-        context: {
-          userId: user.id,
-          token,
-          verificationToken,
-          url,
-        },
-      })
-      .then(() => true)
-      .catch((err) => {
-        Logger.log(err, 'SENDING EMAIL ERROR!');
-        throw new RpcException(SENDING_EMAIL_ERROR_MESSAGE);
-      });
+    const job = await this.emailQueue.add('confirmation', {
+      subject,
+      templateName,
+      user,
+    });
+    console.log(job);
     return true;
   }
 

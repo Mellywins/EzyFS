@@ -142,7 +142,6 @@ export class UserService {
           emailType: EmailTypeEnum.CONFIRMATION,
         })
         .toPromise();
-      console.log(isEmailSent);
       if (isEmailSent) {
         return user;
       }

@@ -10,6 +10,7 @@ import {ConsulConfigModule, ConsulServiceKeys} from '@ezyfs/internal';
 import {ConsulService} from 'nestjs-consul';
 import {NotificationsConfig} from '@ezyfs/internal/interfaces/configs/notifications.config';
 import {BullModule, BullModuleOptions} from '@nestjs/bull';
+import {MailProcessor} from './processor/mail.processor';
 
 @Module({
   imports: [
@@ -41,18 +42,14 @@ import {BullModule, BullModuleOptions} from '@nestjs/bull';
         return mailOptions;
       },
     }),
-    BullModule.registerQueueAsync({
-      name: 'EMAIL-QUEUE',
+    BullModule.forRootAsync({
       imports: [ConsulConfigModule],
       inject: [ConsulService],
-      useFactory: async (
-        consul: ConsulService<NotificationsConfig>,
-      ): Promise<BullModuleOptions> => {
+      useFactory: async (consul: ConsulService<NotificationsConfig>) => {
         const config = await consul.get<NotificationsConfig>(
           ConsulServiceKeys.NOTIFICATIONS,
         );
         return {
-          name: 'EMAIL-QUEUE',
           redis: {
             host: config.databases.redis.host,
             port: config.databases.redis.port,
@@ -60,8 +57,16 @@ import {BullModule, BullModuleOptions} from '@nestjs/bull';
         };
       },
     }),
+    BullModule.registerQueue({
+      name: 'emails',
+      defaultJobOptions: {
+        attempts: 3,
+        removeOnComplete: true,
+        removeOnFail: false,
+      },
+    }),
   ],
   controllers: [EmailController],
-  providers: [EmailService],
+  providers: [EmailService, MailProcessor],
 })
 export class EmailModule {}
