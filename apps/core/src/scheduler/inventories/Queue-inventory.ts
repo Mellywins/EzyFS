@@ -3,7 +3,7 @@ import {Injectable} from '@nestjs/common';
 import {Queue} from 'bull';
 import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
 import {QueueType} from '@ezyfs/common/enums/Queue.enum';
-import {QueuedJob} from '@ezyfs/repositories/entities';
+import {RpcException} from '@nestjs/microservices';
 
 @Injectable()
 export class QueueInventory {
@@ -14,7 +14,8 @@ export class QueueInventory {
     @InjectQueue(QueueType.ENCRYPTION) private encryptionQueue: Queue<any>,
     @InjectQueue(QueueType.DECRYPTION) private decryptionQueue: Queue<any>,
   ) {}
-  get(jobType: ProcessorType): Queue<any> {
+
+  get(jobType: ProcessorType): Queue<any> | RpcException {
     switch (jobType) {
       case ProcessorType.COMPRESSION:
         return this.compressionQueue;
@@ -24,6 +25,8 @@ export class QueueInventory {
         return this.encryptionQueue;
       case ProcessorType.DECRYPTION:
         return this.decryptionQueue;
+      default:
+        return new RpcException('Invalid job type');
     }
   }
 }

@@ -7,9 +7,11 @@ import {Repository} from 'typeorm';
 import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
 import {QueueType} from '@ezyfs/common/enums/Queue.enum';
 import {RepositoryConstants} from '@ezyfs/common/enums/Repository-inventory.enum';
-import {ArchiveJob} from '@ezyfs/repositories/entities';
-import {CryptographicJob} from '@ezyfs/repositories/entities';
-import {QueuedJob} from '@ezyfs/repositories/entities';
+import {
+  ArchiveJob,
+  CryptographicJob,
+  QueuedJob,
+} from '@ezyfs/repositories/entities';
 
 @Injectable()
 export class JobInventory {
@@ -19,6 +21,7 @@ export class JobInventory {
     @InjectRepository(ArchiveJob)
     private readonly archiveJobRepository: Repository<ArchiveJob>,
   ) {}
+
   get(
     repositoryType: RepositoryConstants,
   ): Repository<ArchiveJob | CryptographicJob> {
