@@ -3,14 +3,14 @@ import {EmailTypeEnum, SENDING_EMAIL_ERROR_MESSAGE} from '@ezyfs/common';
 import {Email, User} from '@ezyfs/repositories';
 import {MailerService} from '@nestjs-modules/mailer';
 import {OnQueueActive, OnQueueStalled, Process, Processor} from '@nestjs/bull';
-import {Logger} from '@nestjs/common';
+import {Logger, Scope} from '@nestjs/common';
 import {RpcException} from '@nestjs/microservices';
 import {Job} from 'bull';
 import {join} from 'path';
 import {v4 as uuidv4} from 'uuid';
 import {EmailService} from '../email.service';
 
-@Processor('emailQueue')
+@Processor('emails')
 export class EmailProcessor {
   private readonly logger = new Logger(this.constructor.name);
 
@@ -21,10 +21,8 @@ export class EmailProcessor {
     this.logger.log('MailProcessor initialized');
   }
 
-  @Process()
-  async handleConfirmation(
-    job: Job<{user: User; subject: string; templateName: string}>,
-  ) {
+  @Process('confirmation')
+  async confirmation(job: Job<unknown>) {
     this.logger.log('Sending confirmation email');
     // const {user, subject, templateName} = job.data;
     // const email = new Email()

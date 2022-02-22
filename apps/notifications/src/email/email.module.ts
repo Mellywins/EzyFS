@@ -42,31 +42,13 @@ import {EmailProcessor} from './processor/email.processor';
         return mailOptions;
       },
     }),
-    BullModule.forRootAsync({
-      imports: [ConsulConfigModule],
-      inject: [ConsulService],
-      useFactory: async (consul: ConsulService<NotificationsConfig>) => {
-        const config = await consul.get<NotificationsConfig>(
-          ConsulServiceKeys.NOTIFICATIONS,
-        );
-        return {
-          redis: {
-            host: config.databases.redis.host,
-            port: config.databases.redis.port,
-          },
-        };
-      },
-    }),
+
     BullModule.registerQueue({
-      name: 'emailQueue',
-      defaultJobOptions: {
-        attempts: 3,
-        removeOnComplete: true,
-        removeOnFail: false,
-      },
+      name: 'emails',
     }),
   ],
   controllers: [EmailController],
-  providers: [EmailService, EmailProcessor],
+  providers: [EmailProcessor, EmailService],
+  exports: [BullModule],
 })
 export class EmailModule {}
