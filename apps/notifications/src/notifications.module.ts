@@ -5,7 +5,7 @@ import {BullModule} from '@nestjs/bull';
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {ConsulService} from 'nestjs-consul';
-import {EmailModule} from './email/email.module';
+import {EmailsModule} from './email/email.module';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import {EmailModule} from './email/email.module';
     }),
 
     TypeOrmModule.forFeature([Email]),
-    EmailModule,
+    EmailsModule,
     BullModule.forRoot({
       redis: {
         host: 'redis',

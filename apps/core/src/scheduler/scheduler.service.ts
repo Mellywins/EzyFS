@@ -11,7 +11,6 @@ import {QueuedJob} from '@ezyfs/repositories/entities';
 import {User} from '@ezyfs/repositories/entities';
 import jobCreatorFactory from './factories/abstract/job-factory';
 import {QueueInventory} from './inventories/Queue-inventory';
-import {UserService} from '../user/user.service';
 import {CryptoService} from '../crypto/crypto.service';
 import {JobInventory} from './inventories/Job-inventory';
 

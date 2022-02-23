@@ -10,7 +10,7 @@ import {ConsulConfigModule, ConsulServiceKeys} from '@ezyfs/internal';
 import {ConsulService} from 'nestjs-consul';
 import {NotificationsConfig} from '@ezyfs/internal/interfaces/configs/notifications.config';
 import {BullModule} from '@nestjs/bull';
-import {EmailProcessor} from './processor/email.processor';
+import {EmailBullQueue} from './providers/bull-queue.service';
 
 @Module({
   imports: [
@@ -48,7 +48,7 @@ import {EmailProcessor} from './processor/email.processor';
     }),
   ],
   controllers: [EmailController],
-  providers: [EmailProcessor, EmailService],
-  exports: [BullModule],
+  providers: [EmailService, EmailBullQueue],
+  exports: [],
 })
-export class EmailModule {}
+export class EmailsModule {}

@@ -1,13 +1,18 @@
 import {MailerService} from '@nestjs-modules/mailer';
-import {BadRequestException, Injectable, Logger} from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {join} from 'path';
 import {v4 as uuidv4} from 'uuid';
 import * as dotenv from 'dotenv';
 import {EmailTypeEnum} from '@ezyfs/common/enums';
-import {Email} from '@ezyfs/repositories/entities';
-import {User} from '@ezyfs/repositories/entities';
+import {Email, User} from '@ezyfs/repositories/entities';
 import {DatesOperations} from '@ezyfs/common/utils';
 import {
   CONFIRMATION_EMAIL_SUBJECT,
@@ -19,17 +24,16 @@ import {
   SENDING_EMAIL_ERROR_MESSAGE,
 } from '@ezyfs/common/constants';
 import {RpcException} from '@nestjs/microservices';
-import {InjectQueue} from '@nestjs/bull';
-import {Queue} from 'bull';
+import {EmailBullQueue} from './providers/bull-queue.service';
 
 @Injectable()
 export class EmailService {
+  private sendEmailsQueue: any;
+
   constructor(
     @InjectRepository(Email)
     private readonly emailRepository: Repository<Email>,
-    private readonly mailerService: MailerService,
-
-    @InjectQueue('emails') private emailQueue: Queue,
+    private readonly emailQueue: EmailBullQueue,
   ) {}
 
   async create(createEmailInput: Email): Promise<Email> {
@@ -67,40 +71,27 @@ export class EmailService {
       default:
         throw new RpcException('Email type not found');
     }
-    // create a new email and register it in the database
-    const job = await this.emailQueue.add('confirmation', {
-      subject,
-      templateName,
-      user,
-    });
-    console.log(job);
     const email = new Email()
-      .setSender(job.data.user)
+      .setSender(user)
       .setEmailType(EmailTypeEnum.CONFIRMATION)
       .setDate(new Date())
       .setToken(uuidv4())
       .setVerificationToken(uuidv4());
+    // create a new email and register it in the database
     await this.create(email);
-    const {token, verificationToken} = email;
-    const url = `${process.env.FRONT_END_BASE_URL}?sign_up_token=${token}&sign_up_verification_token=${verificationToken}&sign_up_user_id=${user.id}`;
-    // build the email and send it
-    this.mailerService
-      .sendMail({
-        to: user.email,
-        subject,
-        template: join(__dirname, `../templates/${templateName}`),
-        context: {
-          userId: user.id,
-          token,
-          verificationToken,
-          url,
-        },
-      })
-      .then(() => true)
-      .catch((err) => {
-        Logger.log(err, 'SENDING EMAIL ERROR!');
-        throw new RpcException(SENDING_EMAIL_ERROR_MESSAGE);
-      });
+
+    const mailQ = await this.emailQueue.pushMailJob({
+      user,
+      subject,
+      templateName,
+      email,
+    });
+    console.log(mailQ);
+    // .add({
+    //   user,
+    //   subject,
+    //   templateName,
+    // });
     return true;
   }
 
