@@ -53,6 +53,14 @@ module.exports = {
       node: {
         extensions: ['.js', '.ts'],
       },
+      alias: [
+        ['@ezyfs/crypto', 'libs/crypto/src'],
+        ['@ezyfs/common', 'libs/common/src'],
+        ['@ezyfs/internal', 'libs/internal/src'],
+        ['@ezyfs/proto-schema', 'libs/proto-schema/src'],
+        ['@ezyfs/repositories', 'libs/repositories/src'],
+        ['@ezyfs/repositories/*', 'libs/repositories/src/*'],
+      ],
     },
   },
 };
