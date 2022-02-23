@@ -6,3 +6,5 @@ export * from './update-user.input';
 export * from './credentials.input';
 export * from './payload.interface';
 export * from './token-type.enum';
+export * from './email-verification.input';
+export * from './reset-password-email.input';

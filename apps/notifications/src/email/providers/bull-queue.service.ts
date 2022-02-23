@@ -28,6 +28,11 @@ export class EmailBullQueue {
             host: data.databases.redis.host,
             port: data.databases.redis.port,
           },
+          defaultJobOptions: {
+            attempts: 3,
+            removeOnComplete: true,
+            removeOnFail: false,
+          },
         });
         this.attachJobProcess(this.emailsQueue);
         this.logger.log('Finished Instantiating the Emails Queue');
@@ -66,7 +71,7 @@ export class EmailBullQueue {
             done(null, 'SUCCESS');
           })
           .catch((err) => {
-            Logger.log(err, 'SENDING EMAIL ERROR!');
+            Logger.error(err, 'SENDING EMAIL ERROR!');
             done(new RpcException(SENDING_EMAIL_ERROR_MESSAGE));
             throw new RpcException(SENDING_EMAIL_ERROR_MESSAGE);
           });
@@ -80,8 +85,7 @@ export class EmailBullQueue {
     templateName: string;
     email: Email;
   }): Promise<void> {
-    const newJob = await this.emailsQueue.add(job);
-    console.log(newJob);
+    await this.emailsQueue.add(job);
     this.logger.log('Added a new mail job to the Queue');
   }
 }

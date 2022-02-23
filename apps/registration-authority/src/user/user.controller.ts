@@ -1,9 +1,14 @@
 /* eslint-disable import/no-unresolved */
+import {TokenModel} from '@ezyfs/common';
 import {
+  EmailVerificationInput,
   FirstStageUserInput,
+  ResetPasswordEmailInput,
+  ResetPasswordInput,
   SecondStageDTOInput,
   UpdateUserInput,
 } from '@ezyfs/common/dtos';
+import {BoolValue} from '@ezyfs/proto-schema';
 import {User} from '@ezyfs/repositories';
 import {Controller} from '@nestjs/common';
 import {GrpcMethod} from '@nestjs/microservices';
@@ -54,5 +59,24 @@ export class UserController {
       input.userId,
       input.updateUserInput,
     );
+  }
+
+  @GrpcMethod('RegistrationAuthorityService', 'ValidUserConfirmation')
+  validUserConfirmation(
+    emailVerificationInput: EmailVerificationInput,
+  ): Promise<TokenModel> {
+    return this.userService.validUserConfirmation(emailVerificationInput);
+  }
+
+  @GrpcMethod('RegistrationAuthorityService', 'SendResetPasswordEmail')
+  sendResetPasswordEmail(
+    resetPasswordemail: ResetPasswordEmailInput,
+  ): Promise<BoolValue> {
+    return this.userService.sendResetPasswordEmail(resetPasswordemail);
+  }
+
+  @GrpcMethod('RegistrationAuthorityService', 'ResetPassword')
+  resetPassword(resetPasswordInput: ResetPasswordInput) {
+    return this.userService.resetPassword(resetPasswordInput);
   }
 }

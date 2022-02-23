@@ -35,9 +35,9 @@ import {
 } from '@ezyfs/common/dtos/registration-authority';
 import {TokenTypeEnum} from '@ezyfs/common/enums';
 import {RedisCacheService} from '@ezyfs/internal/modules/cache/redis-cache.service';
-// import {EmailVerificationInput} from '@ezyfs/common/dtos/registration-authority';
+import {EmailVerificationInput} from '@ezyfs/common/dtos/registration-authority';
 // import {EmailService} from '../email/email.service';
-// import {ResetPasswordEmailInput} from '@ezyfs/common/dtos/registration-authority';
+import {ResetPasswordEmailInput} from '@ezyfs/common/dtos/registration-authority';
 import {CreateUserInput} from '@ezyfs/common/dtos/registration-authority';
 import {ClientGrpc, GrpcMethod, RpcException} from '@nestjs/microservices';
 import {BoolValue} from '@ezyfs/proto-schema';
@@ -57,6 +57,7 @@ export class UserService {
     this.emailNotificationsRPC = this.notificationsClient.getService<any>(
       'EmailNotificationService',
     );
+    console.log(this.emailNotificationsRPC);
   }
 
   async UserExistByEmail(email: string): Promise<BoolValue> {
@@ -133,7 +134,7 @@ export class UserService {
       const user = await this.userRepository.create(firstStageDTO);
       user.lowerCasedUsername = user.username.toLowerCase();
       user.completedSignUp = false;
-      // this.userRepository.save(user);
+      this.userRepository.save(user);
 
       // send a confirmation to the user
       const isEmailSent: boolean = await this.emailNotificationsRPC
@@ -233,69 +234,71 @@ export class UserService {
       else we should delete him from database so he could make another registration with the same data (email, username etc..)
     */
   // eslint-disable-next-line consistent-return
-  // async validUserConfirmation(
-  //   emailVerificationInput: EmailVerificationInput,
-  // ): Promise<TokenModel> {
-  //   const {userId, token, verificationToken} = emailVerificationInput;
-  //   const user: User = await this.userRepository.findOne({where: {id: userId}});
-  //   if (user) {
-  //     const emailConfirmation = await this.emailService.confirmEmail(
-  //       user,
-  //       token,
-  //       verificationToken,
-  //       EmailTypeEnum.CONFIRMATION,
-  //     );
-  //     if (emailConfirmation) {
-  //       user.isConfirmed = true;
-  //       await this.userRepository.save(user);
-  //       return this.generateTokenModel(user);
-  //     }
-  //     // if the user account is not confirmed we should delete his account so he can try another registration
-  //     if (user.isConfirmed === false) {
-  //       await this.userRepository.delete(userId);
-  //     }
-  //   } else {
-  //     throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
-  //   }
-  // }
+  async validUserConfirmation(
+    emailVerificationInput: EmailVerificationInput,
+  ): Promise<TokenModel> {
+    const {userId, token, verificationToken} = emailVerificationInput;
+    const user: User = await this.userRepository.findOne({where: {id: userId}});
+    if (user) {
+      const emailConfirmation = await this.emailNotificationsRPC.confirmEmail({
+        user,
+        token,
+        verificationToken,
+        emailType: EmailTypeEnum.CONFIRMATION,
+      });
+      if (emailConfirmation) {
+        user.isConfirmed = true;
+        await this.userRepository.save(user);
+        return this.generateTokenModel(user);
+      }
+      // if the user account is not confirmed we should delete his account so he can try another registration
+      if (user.isConfirmed === false) {
+        await this.userRepository.delete(userId);
+      }
+    } else {
+      throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
+    }
+  }
 
-  // async sendResetPasswordEmail(
-  //   resetPasswordEmail: ResetPasswordEmailInput,
-  // ): Promise<boolean> {
-  //   const {email} = resetPasswordEmail;
-  //   const user: User = await this.userRepository.findOne({where: {email}});
-  //   if (user) {
-  //     const isEmailSent: boolean = await this.emailService.sendEmail(
-  //       user,
-  //       EmailTypeEnum.RESET_PASSWORD,
-  //     );
-  //     if (isEmailSent) {
-  //       return isEmailSent;
-  //     }
-  //     throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
-  //   } else {
-  //     throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
-  //   }
-  // }
+  async sendResetPasswordEmail(
+    resetPasswordEmail: ResetPasswordEmailInput,
+  ): Promise<BoolValue> {
+    const {email} = resetPasswordEmail;
+    const user: User = await this.userRepository.findOne({where: {email}});
+    if (user) {
+      const isEmailSent: boolean = await this.emailNotificationsRPC.sendEmail({
+        user,
+        emailType: EmailTypeEnum.RESET_PASSWORD,
+      });
+      if (isEmailSent) {
+        return {value: isEmailSent};
+      }
+      throw new InternalServerErrorException(SENDING_EMAIL_ERROR_MESSAGE);
+    } else {
+      throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
+    }
+  }
 
-  // async resetPassword(resetPasswordInput: ResetPasswordInput) {
-  //   const {email, password, token, verificationToken} = resetPasswordInput;
-  //   const user: User = await this.userRepository.findOne({where: {email}});
-  //   if (user) {
-  //     const emailConfirmation = await this.emailService.confirmEmail(
-  //       user,
-  //       token,
-  //       verificationToken,
-  //       EmailTypeEnum.RESET_PASSWORD,
-  //     );
-  //     if (emailConfirmation) {
-  //       user.password = await bcrypt.hash(password, user.salt);
-  //       await this.userRepository.save(user);
-  //     }
-  //     return emailConfirmation;
-  //   }
-  //   throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
-  // }
+  async resetPassword(
+    resetPasswordInput: ResetPasswordInput,
+  ): Promise<BoolValue> {
+    const {email, password, token, verificationToken} = resetPasswordInput;
+    const user: User = await this.userRepository.findOne({where: {email}});
+    if (user) {
+      const emailConfirmation = await this.emailNotificationsRPC.confirmEmail({
+        user,
+        token,
+        verificationToken,
+        emailType: EmailTypeEnum.RESET_PASSWORD,
+      });
+      if (emailConfirmation) {
+        user.password = await bcrypt.hash(password, user.salt);
+        await this.userRepository.save(user);
+      }
+      return {value: emailConfirmation};
+    }
+    throw new NotFoundException(USER_NOT_FOUND_ERROR_MESSAGE);
+  }
 
   async generateTokenModel(user: User): Promise<TokenModel> {
     const payload: PayloadInterface = {

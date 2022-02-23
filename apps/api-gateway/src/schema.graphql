@@ -132,7 +132,9 @@ type Mutation {
   secondStageSignUp(secondStageDTOInput: SecondStageDTOInput!): User!
   update(updateUserInput: UpdateUserInput!): User!
   remove(id: Float!): User!
-  resetPassword(ResetPasswordInput: ResetPasswordInput!): Boolean!
+  confirmEmail(emailVerificationInput: EmailVerificationInput!): TokenModel!
+  sendResetPasswordEmail(ResetPasswordEmailInput: ResetPasswordEmailInput!): BoolValue!
+  resetPassword(ResetPasswordInput: ResetPasswordInput!): BoolValue!
   login(credentialsInput: CredentialsInput!): TokenModel!
 }
 
@@ -164,6 +166,16 @@ input UpdateUserInput {
   password: String
   roles: [String!]
   gender: Gender
+}
+
+input EmailVerificationInput {
+  token: String!
+  verificationToken: String!
+  userId: Float!
+}
+
+input ResetPasswordEmailInput {
+  email: String!
 }
 
 input ResetPasswordInput {

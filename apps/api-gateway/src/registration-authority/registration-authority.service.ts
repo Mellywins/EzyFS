@@ -3,7 +3,9 @@
 import {TokenModel} from '@ezyfs/common';
 import {
   CredentialsInput,
+  EmailVerificationInput,
   FirstStageUserInput,
+  ResetPasswordEmailInput,
   ResetPasswordInput,
   SecondStageDTOInput,
   UpdateUserInput,
@@ -26,6 +28,7 @@ export class RegistrationAuthorityService implements OnModuleInit {
     this.registrationAuthorityRPC = this.RA_Client.getService<any>(
       'RegistrationAuthorityService',
     );
+    console.log(this.registrationAuthorityRPC);
     this.AuthServiceRPC = this.RA_Client.getService<any>(
       'AuthentificationService',
     );
@@ -64,7 +67,7 @@ export class RegistrationAuthorityService implements OnModuleInit {
     return this.registrationAuthorityRPC.removeUser({user, id});
   }
 
-  resetPassword(resetPasswordInput: ResetPasswordInput): Observable<User> {
+  resetPassword(resetPasswordInput: ResetPasswordInput): Observable<BoolValue> {
     return this.registrationAuthorityRPC.resetPassword(resetPasswordInput);
   }
 
@@ -74,5 +77,19 @@ export class RegistrationAuthorityService implements OnModuleInit {
 
   refreshToken(token: string): Observable<TokenModel> {
     return this.AuthServiceRPC.refreshToken({token});
+  }
+
+  validUserConfirmation(emailVerificationInput: EmailVerificationInput) {
+    return this.registrationAuthorityRPC.validUserConfirmation(
+      emailVerificationInput,
+    );
+  }
+
+  sendResetPasswordEmail(
+    resetPasswordEmailInput: ResetPasswordEmailInput,
+  ): Observable<BoolValue> {
+    return this.registrationAuthorityRPC.sendResetPasswordEmail(
+      resetPasswordEmailInput,
+    );
   }
 }

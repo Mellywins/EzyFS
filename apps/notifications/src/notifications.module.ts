@@ -22,12 +22,6 @@ import {EmailsModule} from './email/email.module';
 
     TypeOrmModule.forFeature([Email]),
     EmailsModule,
-    BullModule.forRoot({
-      redis: {
-        host: 'redis',
-        port: 6379,
-      },
-    }),
   ],
   controllers: [],
   providers: [],

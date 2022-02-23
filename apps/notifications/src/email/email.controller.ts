@@ -28,7 +28,7 @@ export class EmailController {
     );
   }
 
-  @GrpcMethod('EmailNotificationService', 'ResetPassword')
+  @GrpcMethod('EmailNotificationService', 'FindAllByUserId')
   findAllByUserId(input: {userId: number}) {
     return this.emailService.findAllByUserId(input.userId);
   }

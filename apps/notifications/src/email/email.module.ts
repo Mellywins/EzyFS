@@ -9,7 +9,6 @@ import {HandlebarsAdapter} from '@nestjs-modules/mailer/dist/adapters/handlebars
 import {ConsulConfigModule, ConsulServiceKeys} from '@ezyfs/internal';
 import {ConsulService} from 'nestjs-consul';
 import {NotificationsConfig} from '@ezyfs/internal/interfaces/configs/notifications.config';
-import {BullModule} from '@nestjs/bull';
 import {EmailBullQueue} from './providers/bull-queue.service';
 
 @Module({
@@ -41,10 +40,6 @@ import {EmailBullQueue} from './providers/bull-queue.service';
         };
         return mailOptions;
       },
-    }),
-
-    BullModule.registerQueue({
-      name: 'emails',
     }),
   ],
   controllers: [EmailController],

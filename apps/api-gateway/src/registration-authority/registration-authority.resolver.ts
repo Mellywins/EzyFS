@@ -8,6 +8,8 @@ import {
   UpdateUserInput,
   ResetPasswordInput,
   CredentialsInput,
+  ResetPasswordEmailInput,
+  EmailVerificationInput,
 } from '@ezyfs/common/dtos';
 import {User} from '@ezyfs/repositories/entities';
 import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
@@ -74,23 +76,29 @@ export class RegistrationAuthorityResolver {
     return this.registrationAuthorityService.remove(user, id);
   }
 
-  // @Mutation((returns) => TokenModel)
-  // confirmEmail(
-  //   @Args('emailVerificationInput')
-  //   emailVerificationInput: EmailVerificationInput,
-  // ) {
-  //   // return this.userService.validUserConfirmation(emailVerificationInput);
-  // }
+  @Mutation((returns) => TokenModel)
+  confirmEmail(
+    @Args('emailVerificationInput')
+    emailVerificationInput: EmailVerificationInput,
+  ) {
+    return this.registrationAuthorityService.validUserConfirmation(
+      emailVerificationInput,
+    );
+  }
 
-  // @Mutation((returns) => Boolean)
-  // sendResetPasswordEmail(
-  //   @Args('ResetPasswordEmailInput')
-  //   resetPasswordEmailInput: ResetPasswordEmailInput,
-  // ) {
-  //   // return this.userService.sendResetPasswordEmail(resetPasswordEmailInput);
-  // }
+  @Mutation((returns) => BoolValue)
+  async sendResetPasswordEmail(
+    @Args('ResetPasswordEmailInput')
+    resetPasswordEmailInput: ResetPasswordEmailInput,
+  ) {
+    const x = await this.registrationAuthorityService
+      .sendResetPasswordEmail(resetPasswordEmailInput)
+      .toPromise();
+    console.log('Return is ', x);
+    return x;
+  }
 
-  @Mutation((returns) => Boolean)
+  @Mutation((returns) => BoolValue)
   resetPassword(
     @Args('ResetPasswordInput')
     resetPasswordInput: ResetPasswordInput,

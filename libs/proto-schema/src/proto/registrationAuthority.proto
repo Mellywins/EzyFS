@@ -11,6 +11,9 @@ service RegistrationAuthorityService {
     rpc FindAllUsers(EmptyParams) returns (FindAllUsersOutput){}
     rpc FindOneUser(FindOneUserInput) returns (User){}
     rpc UpdateUser(UpdateUserInput) returns (User){}
+    rpc ValidUserConfirmation(ValidUserConfirmationInput) returns (TokenModel){}
+    rpc SendResetPasswordEmail(SendResetPasswordEmailInput) returns (google.protobuf.BoolValue){}
+    rpc ResetPassword(ResetPasswordInput) returns (google.protobuf.BoolValue){}
 }
 service AuthentificationService {
     rpc Login(LoginInput) returns (TokenModel){}
@@ -80,4 +83,18 @@ message TokenModel {
 }
 message RefreshTokenInput {
     string refresh_token = 1;
+}
+message ValidUserConfirmationInput {
+    string token = 1;
+    string verificationToken = 2;
+    int32 userId = 3;
+}
+message SendResetPasswordEmailInput {
+    string email = 1;
+}
+message ResetPasswordInput {
+    string token = 1;
+    string verificationToken = 2;    
+    string email = 3;
+    string password = 4;
 }
