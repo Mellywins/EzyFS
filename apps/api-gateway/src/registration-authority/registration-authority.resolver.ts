@@ -13,8 +13,6 @@ import {
 } from '@ezyfs/common/dtos';
 import {User} from '@ezyfs/repositories/entities';
 import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
-// import {EmailVerificationInput} from 'apps/core/src/email/dto/email-verification.input';
-// import {ResetPasswordEmailInput} from 'apps/core/src/email/dto/reset-password-email.input';
 import {BoolValue} from '@ezyfs/proto-schema/google/protobuf/wrappers.type';
 import {map, Observable} from 'rxjs';
 import {RegistrationAuthorityService} from './registration-authority.service';
