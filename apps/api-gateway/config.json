@@ -1,7 +1,7 @@
 {
   "app": {
     "port": 3002,
-    "name": "api-gateway"
+    "name": "io.ezyfs.api-gateway"
   },
   "caching": {
     "ttl": 5,

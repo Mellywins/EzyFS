@@ -1,7 +1,7 @@
 {
   "app": {
     "port": 3001,
-    "name": "REGISTRATION_AUTHORITY",
+    "name": "io.ezyfs.registration-authority",
     "host": "172.28.1.2"
   },
   "databases": {

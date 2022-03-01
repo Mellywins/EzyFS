@@ -1,7 +1,7 @@
 {
   "app": {
     "port": 3005,
-    "name": "NOTIFICATIONS",
+    "name": "io.ezyfs.notifications",
     "host": "172.28.1.4"
   },
   "notification": {
