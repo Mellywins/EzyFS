@@ -9,6 +9,6 @@ COPY apps/registration-authority/config.json ./registration-authority/config.jso
 COPY k8s/consul/service-register.sh ./service-register.sh
 RUN chmod +x ./service-register.sh
 RUN ls -l ./service-register.sh
-ENTRYPOINT ["bash","/usr/tmp/consul/configs/service-register.sh"]
+ENTRYPOINT ["/usr/tmp/consul/configs/service-register.sh"]
 CMD ["agent", "-dev", "-client", "0.0.0.0"]
 
