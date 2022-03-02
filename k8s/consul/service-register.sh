@@ -1,6 +1,5 @@
 #!/bin/bash
 # shellcheck disable=SC2207
-echo "HIII"
 exec /usr/local/bin/docker-entrypoint.sh "$@" &
 sleep 3
 CONFIG_DIR="/usr/tmp/consul/configs"
