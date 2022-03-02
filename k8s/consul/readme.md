@@ -27,3 +27,4 @@ Detailed installation instructions for Consul on Kubernetes are found
 Please see the many options supported in the `values.yaml` file. These are also
 fully documented directly on the
 [Consul website](https://www.consul.io/docs/platform/k8s/helm.html).
+
