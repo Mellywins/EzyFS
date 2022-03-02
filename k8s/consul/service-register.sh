@@ -1,5 +1,6 @@
 #!/bin/bash
 # shellcheck disable=SC2207
+echo "Initiating Consul server startup and config registration"
 exec /usr/local/bin/docker-entrypoint.sh "$@" &
 sleep 3
 CONFIG_DIR="/usr/tmp/consul/configs"
