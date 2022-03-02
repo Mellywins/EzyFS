@@ -5,6 +5,10 @@ on:
       - master
     paths:
       - 'k8s/consul/**'
+
+env:
+  DOCKER_USER: ${{secrets.DOCKER_USER}}
+  DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
 jobs:
   build:
     runs-on: ubuntu-latest
