@@ -21,7 +21,7 @@ Detailed installation instructions for Consul on Kubernetes are found
     create a `consul` Kubernetes namespace if not already present, and install
     Consul on the dedicated namespace.
 
-         $ helm install consul hashicorp/consul --set global.name=consul --create-namespace -n consul
+         $ helm install consul hashicorp/consul --value=k8s/consul/values.yaml --create-namespace -n consul
          NAME: consul
 
 Please see the many options supported in the `values.yaml` file. These are also
