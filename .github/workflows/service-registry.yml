@@ -4,7 +4,7 @@ on:
     branches:
       - master
     paths:
-      - 'k8s/consul'
+      - 'k8s/consul/**'
 jobs:
   build:
     runs-on: ubuntu-latest
