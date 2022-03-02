@@ -1,5 +1,14 @@
 #!/bin/bash
 # shellcheck disable=SC2207
+
+set -m
+
+trap '
+  echo "Error: Script $0 is exiting. Exit code: $?"
+  exit 0
+' INT
+
+
 echo "Initiating Consul server startup and config registration"
 exec /usr/local/bin/docker-entrypoint.sh "$@" &
 sleep 3
@@ -23,4 +32,4 @@ for PROJECT_NAME in ${PROJECTS} ; do
     echo " Saving config from path: ${CONFIG_DIR}/${PROJECT_NAME}/${CONFIG_PATH} to ezyfs/config/${SVC_NAME} "
     consul kv put ezyfs/config/"${SVC_NAME}" \@"${CONFIG_DIR}/"${PROJECT_NAME}"/config.json"
 done
-consul monitor
+fg %1
