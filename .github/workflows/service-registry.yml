@@ -1,8 +1,10 @@
 name: EzyFS Service Registry Image
 on:
   push:
-    branches: [master]
-    paths: [k8s/consul]
+    branches:
+      - master
+    paths:
+      - 'k8s/consul'
 jobs:
   build:
     runs-on: ubuntu-latest
