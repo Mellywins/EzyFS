@@ -7,22 +7,22 @@ x-grpc-debug-envs: &grc-debug-envs
   - GRPC_TRACE=call_stream
   - GRPC_VERBOSITY=DEBUG
 services:
-  scheduler:
-    container_name: ${APP_NAME}-SCHEDULER
-    build:
-      context: .
-      dockerfile: apps/core/Dockerfile
-    image: mellywins/ezyfs-scheduler:latest
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - 3006:3000
-    environment: *grc-debug-envs
-    # command: npx nest start --watch
-    networks:
-      webnet:
-        ipv4_address: 172.28.1.7
+  # scheduler:
+  #   container_name: ${APP_NAME}-SCHEDULER
+  #   build:
+  #     context: .
+  #     dockerfile: apps/core/Dockerfile
+  #   image: mellywins/ezyfs-scheduler:latest
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   ports:
+  #     - 3006:3000
+  #   environment: *grc-debug-envs
+  #   # command: npx nest start --watch
+  #   networks:
+  #     webnet:
+  #       ipv4_address: 172.28.1.7
 
   registration_authority:
     container_name: ${APP_NAME}-REGISTRATION_AUTHORITY

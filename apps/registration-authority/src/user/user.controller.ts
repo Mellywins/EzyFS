@@ -79,4 +79,9 @@ export class UserController {
   resetPassword(resetPasswordInput: ResetPasswordInput) {
     return this.userService.resetPassword(resetPasswordInput);
   }
+  // ---------- INTERNAL SERVICES ---------- //
+  @GrpcMethod('RegistrationAuthorityInternalService', 'InternalFindOne')
+  internalFindOne(input: {id: number}) {
+    return this.userService.internalFindOne(input.id);
+  }
 }

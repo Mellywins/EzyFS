@@ -9,6 +9,7 @@ WORKDIR /usr/src/app
 COPY package.json .
 RUN npm install @nestjs/cli -g
 RUN npm install --production=false
+COPY . .
 
 RUN nest build notifications
 # COPY . .

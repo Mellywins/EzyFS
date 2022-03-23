@@ -26,7 +26,6 @@ export class CryptoService {
   constructor(
     private readonly publicKeyManager: PublicKeyManager,
     private readonly keyOwnershipHelper: KeyOwnershipHelper,
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(AsymKey)
     private readonly keyRepository: Repository<AsymKey>,
     private readonly userService: UserService,

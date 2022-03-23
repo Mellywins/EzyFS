@@ -9,9 +9,8 @@ WORKDIR /usr/src/app
 COPY package.json .
 RUN npm install @nestjs/cli -g
 RUN npm install --production=false
-
+COPY . .
 RUN nest build registration-authority
-# COPY . .
 EXPOSE 3001
 # CMD ["node", "dist/apps/registration-authority/main.js"]
 CMD nest start registration-authority --watch

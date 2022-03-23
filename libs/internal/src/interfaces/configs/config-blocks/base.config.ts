@@ -3,5 +3,6 @@ export interface BaseConfig {
     port: number;
     name: string;
     host: string;
+    protoPackage: string;
   };
 }

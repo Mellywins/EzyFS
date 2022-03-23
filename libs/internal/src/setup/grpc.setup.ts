@@ -32,7 +32,7 @@ export async function microserviceSetup(
     transport: Transport.GRPC,
     options: {
       url: `${hostname}:${APP_PORT}`, // APP_PORT=3001
-      package: pkgName,
+      package: appConfig.app.protoPackage,
       protoPath: join(process.cwd(), protoPath),
     },
   });
