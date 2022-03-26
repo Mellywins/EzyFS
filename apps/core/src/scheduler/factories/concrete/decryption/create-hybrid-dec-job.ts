@@ -3,7 +3,6 @@ import {CryptoService} from '../../../../crypto/crypto.service';
 import {CreateJobInput} from '../../../../scheduler/dto/create-job.input';
 import {QueuedJob} from '@ezyfs/repositories/entities';
 import {QueueInventory} from '../../../../scheduler/inventories/Queue-inventory';
-import {UserService} from '../../../../user/user.service';
 import {Repository} from 'typeorm';
 import {v4 as uuidv4} from 'uuid';
 import {EncDecType} from '@ezyfs/common/enums/enc-dec-type.enum';
@@ -15,15 +14,18 @@ import failedJobExecutor from '../../../helpers/failed-job-executor';
 import successfulJobExecutor from '../../../helpers/successful-job-executor';
 import {DecryptionJobPayload} from '../../../interfaces/DecryptionJobPayload.interface';
 import {JobInventory} from '../../../inventories/Job-inventory';
+import {RegistrationAuthorityInternalServiceRPC} from '@ezyfs/common/types/rpc/registration-authority/internal-service.rpc.interface';
 
 export const createHybridDecryptionJob = async (
   createJobInput: CreateJobInput,
-  userService: UserService,
+  userService: RegistrationAuthorityInternalServiceRPC,
   JI: JobInventory,
   QI: QueueInventory,
   cryptoService: CryptoService,
 ): Promise<QueuedJob> => {
-  const user = await userService.internalFindOne(createJobInput.userId);
+  const user = await userService
+    .internalFindOne(createJobInput.userId)
+    .toPromise();
   const Q = QI.get(createJobInput.jobType);
   const {privateKey, outputPath, sourcePath, ancestorJobId} = createJobInput;
 

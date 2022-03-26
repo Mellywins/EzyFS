@@ -1,17 +1,8 @@
-import {InjectQueue} from '@nestjs/bull';
 import {Injectable, NotAcceptableException} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
-import {Queue} from 'bull';
-import {get} from 'http';
 import {Repository} from 'typeorm';
-import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
-import {QueueType} from '@ezyfs/common/enums/Queue.enum';
 import {RepositoryConstants} from '@ezyfs/common/enums/Repository-inventory.enum';
-import {
-  ArchiveJob,
-  CryptographicJob,
-  QueuedJob,
-} from '@ezyfs/repositories/entities';
+import {ArchiveJob, CryptographicJob} from '@ezyfs/repositories/entities';
 
 @Injectable()
 export class JobInventory {

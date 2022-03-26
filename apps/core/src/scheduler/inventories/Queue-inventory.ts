@@ -15,7 +15,7 @@ export class QueueInventory {
     @InjectQueue(QueueType.DECRYPTION) private decryptionQueue: Queue<any>,
   ) {}
 
-  get(jobType: ProcessorType): Queue<any> | RpcException {
+  get(jobType: ProcessorType): Queue<any> {
     switch (jobType) {
       case ProcessorType.COMPRESSION:
         return this.compressionQueue;
@@ -26,7 +26,7 @@ export class QueueInventory {
       case ProcessorType.DECRYPTION:
         return this.decryptionQueue;
       default:
-        return new RpcException('Invalid job type');
+        throw new RpcException('Invalid job type');
     }
   }
 }

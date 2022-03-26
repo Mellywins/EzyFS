@@ -76,12 +76,12 @@ export class CryptoService implements OnModuleInit {
   }
   async encryptString(data: string, pubKey: string): Promise<string> {
     const pKey = await readKey({armoredKey: pubKey});
-    const encrypted = await encrypt({
+    const encrypted = (await encrypt({
       message: await createMessage({
         text: data,
       }),
       encryptionKeys: pKey,
-    });
+    })) as string;
     return encrypted;
   }
   async decryptString(data: string, privKey: string): Promise<string> {
@@ -93,6 +93,6 @@ export class CryptoService implements OnModuleInit {
       message: msg,
       decryptionKeys: privateKey,
     });
-    return decrypted;
+    return decrypted.toString();
   }
 }

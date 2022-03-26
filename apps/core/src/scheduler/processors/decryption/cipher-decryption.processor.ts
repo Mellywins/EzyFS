@@ -1,8 +1,9 @@
 import {Job, DoneCallback} from 'bull';
 import {createReadStream, createWriteStream, writeFileSync} from 'fs';
-import {DecryptionJobPayload} from '../../interfaces/DecryptionJobPayload.interface';
 import {createDecipheriv} from 'crypto';
 import {createUnzip} from 'zlib';
+import {DecryptionJobPayload} from '../../interfaces/DecryptionJobPayload.interface';
+
 export default async function (
   job: Job<DecryptionJobPayload>,
   cb: DoneCallback,
@@ -12,7 +13,7 @@ export default async function (
   );
   const {sourcePath, outputPath, cipherKey} = job.data;
   const readInitVect = createReadStream(sourcePath, {end: 15});
-  var initVect;
+  let initVect;
   console.log(Buffer.from(cipherKey).length);
   readInitVect.on('data', (chunk) => {
     initVect = chunk;
@@ -25,7 +26,7 @@ export default async function (
       initVect,
     );
     const unzip = createUnzip();
-    const writeStream = createWriteStream(outputPath + '.unenc');
+    const writeStream = createWriteStream(`${outputPath}.unenc`);
 
     readStream
       .pipe(decipher)

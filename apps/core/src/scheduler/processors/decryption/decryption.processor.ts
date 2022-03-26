@@ -1,7 +1,7 @@
 import {Job, DoneCallback} from 'bull';
-import {createReadStream, createWriteStream, writeFileSync} from 'fs';
-import {DecryptionJobPayload} from '../../interfaces/DecryptionJobPayload.interface';
+import {createReadStream, createWriteStream} from 'fs';
 import * as opengpg from 'openpgp';
+import {DecryptionJobPayload} from '../../interfaces/DecryptionJobPayload.interface';
 
 export default async function (
   job: Job<DecryptionJobPayload>,
@@ -21,12 +21,14 @@ export default async function (
     })
     .then(async (M) => {
       (
-        await opengpg.decrypt({
-          message: M,
-          decryptionKeys: pKey,
-          format: 'binary',
-        })
-      ).data.pipe(outputStream);
+        (
+          await opengpg.decrypt({
+            message: M,
+            decryptionKeys: pKey,
+            format: 'binary',
+          })
+        ).data as any
+      ).pipe(outputStream);
       cb(null, 'SUCCESS');
     })
     .catch((err) => cb(err, 'FAILED'));

@@ -1,7 +1,5 @@
-import {InputType, Int, Field} from '@nestjs/graphql';
-import {isNotEmpty, IsNotEmpty, IsOptional} from 'class-validator';
-import {CompDecompType} from '@ezyfs/common/enums/comp-decomp-type.enum';
-import {EncDecType} from '@ezyfs/common/enums/enc-dec-type.enum';
+import {InputType, Field} from '@nestjs/graphql';
+import {IsNotEmpty, IsOptional} from 'class-validator';
 import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
 import {SourceTypeEnum} from '@ezyfs/common/enums/Source-Type.enum';
 import {GenericJobTypeSpec} from '@ezyfs/common/enums/generic-jobtype-spec.type';
@@ -43,6 +41,7 @@ export class CreateJobInput {
   @Field({nullable: true})
   @IsOptional()
   endDate?: Date;
+
   @Field({nullable: true})
   @IsOptional()
   privateKey?: string;

@@ -102,3 +102,6 @@ message ResetPasswordInput {
     string email = 3;
     string password = 4;
 }
+message InternalFindOneInput {
+    int32 id = 1;
+}

@@ -13,6 +13,8 @@ import {CryptoModule} from '../crypto/crypto.module';
 import {JobInventory} from './inventories/Job-inventory';
 import {ArchiveJob} from '@ezyfs/repositories/entities';
 import {CryptographicJob} from '@ezyfs/repositories/entities';
+import {ChannelCredentials} from '@grpc/grpc-js';
+import {ClientsModule, Transport} from '@nestjs/microservices';
 
 @Module({
   providers: [
@@ -69,6 +71,20 @@ import {CryptographicJob} from '@ezyfs/repositories/entities';
     }),
     TypeOrmModule.forFeature([User, ArchiveJob, CryptographicJob]),
     CryptoModule,
+    ClientsModule.register([
+      {
+        name: 'RA',
+        transport: Transport.GRPC,
+        options: {
+          url: '172.28.1.2:3001',
+          package: 'REGISTRATION_AUTHORITY',
+          protoPath: join(
+            `${process.cwd()}/libs/proto-schema/src/proto/registrationAuthority.proto`,
+          ),
+          credentials: ChannelCredentials.createInsecure(),
+        },
+      },
+    ]),
   ],
   exports: [BullModule],
 })

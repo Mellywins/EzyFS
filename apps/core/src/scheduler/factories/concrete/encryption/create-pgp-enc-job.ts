@@ -7,22 +7,24 @@ import {EncryptionJobPayload} from '../../../../scheduler/interfaces/EncryptionJ
 import {QueueInventory} from '../../../../scheduler/inventories/Queue-inventory';
 import {ExecutionStatusEnum} from '@ezyfs/common/enums/Execution-status.enum';
 import {ProcessorType} from '@ezyfs/common/enums/Processor-types.enum';
-import {UserService} from '../../../../user/user.service';
 import {Repository} from 'typeorm';
 import {v4 as uuidv4} from 'uuid';
 import {CryptographicJob} from '@ezyfs/repositories/entities';
 import {EncDecType} from '@ezyfs/common/enums/enc-dec-type.enum';
 import {JobInventory} from '../../../inventories/Job-inventory';
 import {RepositoryConstants} from '@ezyfs/common/enums/Repository-inventory.enum';
+import {RegistrationAuthorityInternalServiceRPC} from '@ezyfs/common/types/rpc/registration-authority/internal-service.rpc.interface';
 
 export const createPgpEncryptionJob = async (
   createJobInput: CreateJobInput,
-  userService: UserService,
+  userService: RegistrationAuthorityInternalServiceRPC,
   JI: JobInventory,
   QI: QueueInventory,
   cryptoService: CryptoService,
 ): Promise<QueuedJob> => {
-  const user = await userService.internalFindOne(createJobInput.userId);
+  const user = await userService
+    .internalFindOne(createJobInput.userId)
+    .toPromise();
   const {publicKey, fingerprint} = await cryptoService.getUserKey(user);
   if (publicKey === undefined) throw new Error('No public key found');
   const Q = QI.get(createJobInput.jobType);
