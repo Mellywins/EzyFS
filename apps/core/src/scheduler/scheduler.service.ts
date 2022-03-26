@@ -13,11 +13,12 @@ import jobCreatorFactory from './factories/abstract/job-factory';
 import {QueueInventory} from './inventories/Queue-inventory';
 import {CryptoService} from '../crypto/crypto.service';
 import {JobInventory} from './inventories/Job-inventory';
+import {RegistrationAuthorityInternalServiceRPC} from '@ezyfs/common/types/rpc/registration-authority/internal-service.rpc.interface';
 
 @Injectable()
 export class SchedulerService {
   constructor(
-    private readonly userService: UserService,
+    private readonly userService: RegistrationAuthorityInternalServiceRPC,
     private readonly cryptoService: CryptoService,
     private readonly jobInventory: JobInventory,
     private readonly QI: QueueInventory,

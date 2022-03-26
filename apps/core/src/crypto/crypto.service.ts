@@ -1,4 +1,9 @@
-import {ConflictException, Injectable} from '@nestjs/common';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  OnModuleInit,
+} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {User} from '@ezyfs/repositories/entities';
 import {USER_ALREADY_OWNS_KEY} from '../utils/constants';
@@ -8,33 +13,40 @@ import {CreateKeyPairInput} from './dto/createKeyPair.input';
 import {AsymKey} from '@ezyfs/repositories/entities';
 import {KeyOwnershipHelper} from './helpers/key-ownership.helper';
 import {PublicKeyManager} from './managers/public-key-manager';
-import {UserService} from '../user/user.service';
-import {createCipheriv, createHash, publicEncrypt, randomBytes} from 'crypto';
+import {createHash, randomBytes} from 'crypto';
 import {
   createMessage,
   decrypt,
-  decryptKey,
   encrypt,
-  PublicKey,
-  readCleartextMessage,
   readKey,
   readMessage,
   readPrivateKey,
 } from 'openpgp';
+import {ClientGrpc} from '@nestjs/microservices';
+import {Observable} from 'rxjs';
 @Injectable()
-export class CryptoService {
+export class CryptoService implements OnModuleInit {
+  private userServiceRPC: {
+    internalFindOne(id: number): Observable<User>;
+  };
+
   constructor(
     private readonly publicKeyManager: PublicKeyManager,
     private readonly keyOwnershipHelper: KeyOwnershipHelper,
     @InjectRepository(AsymKey)
     private readonly keyRepository: Repository<AsymKey>,
-    private readonly userService: UserService,
+    @Inject('RA') private RA_Client: ClientGrpc,
   ) {}
+  onModuleInit() {
+    this.userServiceRPC = this.RA_Client.getService(
+      'RegistrationAuthorityInternalService',
+    );
+  }
   async createKeyPair(
     createCryptoInput: CreateKeyPairInput,
   ): Promise<{privateKey: string; fingerprint: string} | ConflictException> {
     const {algorithm, passphrase, ownerId} = createCryptoInput;
-    const user = await this.userService.internalFindOne(ownerId);
+    const user = await this.userServiceRPC.internalFindOne(ownerId).toPromise();
     const userOwnsKey = await this.keyOwnershipHelper.hasKey(user);
     if (userOwnsKey) {
       return new ConflictException(USER_ALREADY_OWNS_KEY);
