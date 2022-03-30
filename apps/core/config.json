@@ -1,7 +1,7 @@
 {
   "app": {
     "port": 3000,
-    "name": "io.ezyfs.scheduler",
+    "name": "io.ezyfs.core",
     "host": "172.28.1.7",
     "protoPackage": "SCHEDULER"
   },
@@ -9,6 +9,10 @@
     "postgres": {
       "uri": "postgres://postgres:5432/",
       "name": "ezyfs",
+      "username": "postgres",
+      "password": "postgres",
+      "host": "postgres",
+      "port": 5432,
       "options": ""
     },
     "redis": {

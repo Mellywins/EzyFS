@@ -17,7 +17,7 @@ import {TimestampEntites} from '../base/timestamp.entity';
 import {Email} from '../notifications/email.entity';
 import {QueuedJob} from '../base/job.entity';
 
-@Entity('user')
+@Entity()
 @ObjectType()
 export class User extends TimestampEntites {
   @PrimaryGeneratedColumn()

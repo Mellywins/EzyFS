@@ -15,8 +15,8 @@ import {ConsulService} from 'nestjs-consul';
       useFactory: (consul) =>
         dbConnectionFactory(
           consul,
-          ConsulServiceKeys.NOTIFICATIONS,
-          '/dist/apps/notifications/libs/repositories/src/**/*.entity{.ts,.js}',
+          ConsulServiceKeys.SCHEDULER,
+          '/dist/apps/core/libs/repositories/src/**/*.entity{.ts,.js}',
         ),
       inject: [ConsulService],
     }),

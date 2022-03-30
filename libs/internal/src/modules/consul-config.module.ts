@@ -10,7 +10,7 @@ import {ConsulServiceKeys} from '../enums';
           key: ConsulServiceKeys.REGISTRATION_AUTHORITY as string,
         },
         {
-          key: ConsulServiceKeys.CORE as string,
+          key: ConsulServiceKeys.SCHEDULER as string,
         },
         {key: ConsulServiceKeys.API_GATEWAY as string},
       ],
