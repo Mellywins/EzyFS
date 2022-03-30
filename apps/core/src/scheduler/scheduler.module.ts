@@ -12,6 +12,8 @@ import {ArchiveJob, User} from '@ezyfs/repositories/entities';
 import {CryptographicJob} from '@ezyfs/repositories/entities';
 import {ChannelCredentials} from '@grpc/grpc-js';
 import {ClientsModule, Transport} from '@nestjs/microservices';
+import {GrpcGenericClientModule} from '@ezyfs/internal/grpc-clients/grpc-generic-client.module';
+import {GrpcToken} from '@ezyfs/internal/grpc-clients/types';
 
 @Module({
   providers: [
@@ -82,6 +84,9 @@ import {ClientsModule, Transport} from '@nestjs/microservices';
         },
       },
     ]),
+    GrpcGenericClientModule.registerAsync({
+      servicesList: [GrpcToken.NOTIFICATIONS, GrpcToken.REGISTRATION_AUTHORITY],
+    }),
   ],
   exports: [BullModule],
 })

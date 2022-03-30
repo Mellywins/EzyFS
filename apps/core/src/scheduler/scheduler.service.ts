@@ -8,6 +8,8 @@ import {CryptoService} from '../crypto/crypto.service';
 import {JobInventory} from './inventories/Job-inventory';
 import {RegistrationAuthorityInternalServiceRPC} from '@ezyfs/common/types/rpc/registration-authority/internal-service.rpc.interface';
 import {ClientGrpc} from '@nestjs/microservices';
+import {GrpcGenericClientService} from '@ezyfs/internal/grpc-clients/grpc-generic-client.service';
+import {GrpcToken} from '@ezyfs/internal/grpc-clients/types';
 
 @Injectable()
 export class SchedulerService implements OnModuleInit {
@@ -17,7 +19,11 @@ export class SchedulerService implements OnModuleInit {
     private readonly jobInventory: JobInventory,
     private readonly QI: QueueInventory,
     @Inject('RA') private RA_Client: ClientGrpc,
-  ) {}
+    private readonly grpcGenericService: GrpcGenericClientService,
+  ) {
+    const client = this.grpcGenericService.getService(GrpcToken.NOTIFICATIONS);
+    console.log('client: ', client);
+  }
   onModuleInit() {
     this.registrationAuthorityRPC =
       this.RA_Client.getService<RegistrationAuthorityInternalServiceRPC>(

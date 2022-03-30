@@ -10,7 +10,7 @@ import {User} from '@ezyfs/repositories/entities';
 import {Observable} from 'rxjs';
 import {TokenModel} from '../..';
 
-export interface RegistrationAuthorityInternalServiceRPC {
+export interface RegistrationAuthorityServiceRPC {
   userExistByEmail(input: {email: string}): Observable<{value: boolean}>;
   userExistByUsername(input: {username: string}): Observable<{value: boolean}>;
   firstStageSignUp(input: CreateUserInput): Observable<User>;
