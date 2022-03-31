@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@nestjs/common';
+import {Inject, Injectable, Logger} from '@nestjs/common';
 import {ClientGrpc} from '@nestjs/microservices';
 
 @Injectable()
@@ -6,6 +6,8 @@ export class GrpcGenericClientService {
   allowedServices: {token: string; client: ClientGrpc}[] = [];
 
   private availableServices: {token: string; client: ClientGrpc}[] = [];
+
+  private readonly logger = new Logger(GrpcGenericClientService.name);
 
   constructor(
     @Inject('REGISTRATION_AUTHORITY')
@@ -22,15 +24,23 @@ export class GrpcGenericClientService {
       client: this.notificationsClient,
       token: 'NOTIFICATIONS',
     });
-    console.log(this.serviceList);
     this.allowedServices = this.availableServices.filter((service) =>
       this.serviceList.servicesList.includes(service.token),
     );
-    console.log(this.allowedServices);
+    this.logger.log(
+      `Microservices within reach: ${this.stringifyAvailableServices(
+        serviceList.servicesList,
+      )}`,
+    );
   }
 
   public getService(token: string): ClientGrpc {
     return this.allowedServices.find((service) => service.token === token)
       .client;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  private stringifyAvailableServices(services: string[]) {
+    return services.map((service) => `${service}`).join(', ');
   }
 }

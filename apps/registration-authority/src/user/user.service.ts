@@ -42,6 +42,8 @@ import {CreateUserInput} from '@ezyfs/common/dtos/registration-authority';
 import {ClientGrpc, GrpcMethod, RpcException} from '@nestjs/microservices';
 import {BoolValue} from '@ezyfs/proto-schema';
 import {AuthService} from '../auth/auth.service';
+import {GrpcGenericClientService} from '@ezyfs/internal/grpc-clients/grpc-generic-client.service';
+import {GrpcToken} from '@ezyfs/internal/grpc-clients/types';
 
 @Injectable()
 export class UserService {
@@ -50,13 +52,12 @@ export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly redisCacheService: RedisCacheService,
-    // private readonly emailService: EmailService,
     private readonly authService: AuthService,
-    @Inject('NOTIFICATIONS') private notificationsClient: ClientGrpc,
+    private readonly rpcService: GrpcGenericClientService,
   ) {
-    this.emailNotificationsRPC = this.notificationsClient.getService<any>(
-      'EmailNotificationService',
-    );
+    this.emailNotificationsRPC = this.rpcService
+      .getService(GrpcToken.NOTIFICATIONS)
+      .getService<any>('EmailNotificationService');
     console.log(this.emailNotificationsRPC);
   }
 

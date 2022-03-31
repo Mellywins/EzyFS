@@ -1,7 +1,11 @@
 import {ChannelCredentials} from '@grpc/grpc-js';
 import {DynamicModule, Global, Module} from '@nestjs/common';
 import {ClientsModule, Transport} from '@nestjs/microservices';
+import {ConsulService} from 'nestjs-consul';
 import {join} from 'path';
+import {ConsulServiceKeys, RegistrationAuthorityConfig} from '..';
+import {NotificationsConfig} from '../interfaces/configs/notifications.config';
+import {ConsulConfigModule} from '../modules/consul-config.module';
 import {GrpcGenericClientService} from './grpc-generic-client.service';
 import {GrpcToken} from './types';
 
@@ -9,7 +13,6 @@ export interface GrpcGenericClientModuleAsyncOptions {
   servicesList: GrpcToken[];
 }
 
-@Global()
 @Module({})
 export class GrpcGenericClientModule {
   //   private static registerAsync();
@@ -28,31 +31,50 @@ export class GrpcGenericClientModule {
         GrpcGenericClientService,
       ],
       imports: [
-        ClientsModule.register([
+        ClientsModule.registerAsync([
           {
+            useFactory: async (consul: ConsulService<any>) => {
+              const RegistrationAuthConfig =
+                await consul.get<RegistrationAuthorityConfig>(
+                  ConsulServiceKeys.REGISTRATION_AUTHORITY,
+                );
+              return {
+                name: RegistrationAuthConfig.app.protoPackage,
+                transport: Transport.GRPC,
+                options: {
+                  package: RegistrationAuthConfig.app.protoPackage,
+                  url: `${RegistrationAuthConfig.app.host}:${RegistrationAuthConfig.app.port}`,
+                  protoPath: join(
+                    `${process.cwd()}/libs/proto-schema/src/proto/registrationAuthority.proto`,
+                  ),
+                },
+              };
+            },
             name: 'REGISTRATION_AUTHORITY',
-            transport: Transport.GRPC,
-            options: {
-              package: 'REGISTRATION_AUTHORITY',
-              url: '172.28.1.2:3001',
-              protoPath: join(
-                `${process.cwd()}/libs/proto-schema/src/proto/registrationAuthority.proto`,
-              ),
-            },
+            inject: [ConsulService],
+            imports: [ConsulConfigModule],
           },
-        ]),
-        ClientsModule.register([
           {
-            name: 'NOTIFICATIONS',
-            transport: Transport.GRPC,
-            options: {
-              package: 'NOTIFICATIONS',
-              url: '172.28.1.4:3005',
-              protoPath: join(
-                `${process.cwd()}/libs/proto-schema/src/proto/notifications.proto`,
-              ),
-              credentials: ChannelCredentials.createInsecure(),
+            useFactory: async (consul: ConsulService<any>) => {
+              const NotificationsConfig = await consul.get<NotificationsConfig>(
+                ConsulServiceKeys.NOTIFICATIONS,
+              );
+              return {
+                name: NotificationsConfig.app.protoPackage,
+                transport: Transport.GRPC,
+                options: {
+                  package: NotificationsConfig.app.protoPackage,
+                  url: `${NotificationsConfig.app.host}:${NotificationsConfig.app.port}`,
+                  protoPath: join(
+                    `${process.cwd()}/libs/proto-schema/src/proto/notifications.proto`,
+                  ),
+                  credentials: ChannelCredentials.createInsecure(),
+                },
+              };
             },
+            name: 'NOTIFICATIONS',
+            inject: [ConsulService],
+            imports: [ConsulConfigModule],
           },
         ]),
       ],
