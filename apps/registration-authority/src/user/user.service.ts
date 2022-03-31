@@ -22,6 +22,7 @@ import {UserRoleEnum} from '@ezyfs/common/enums/user-role.enum';
 import {User} from '@ezyfs/repositories/entities';
 import {EmailTypeEnum} from '@ezyfs/common/enums/email-type.enum';
 import {
+  CurrentUser,
   SENDING_EMAIL_ERROR_MESSAGE,
   TokenModel,
   USER_NOT_FOUND_ERROR_MESSAGE,
@@ -190,6 +191,7 @@ export class UserService {
   }
 
   async update(
+    @CurrentUser()
     currentUser: User,
     userId: number,
     updateUserInput: UpdateUserInput,

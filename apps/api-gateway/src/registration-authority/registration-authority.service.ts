@@ -10,6 +10,9 @@ import {
   SecondStageDTOInput,
   UpdateUserInput,
 } from '@ezyfs/common/dtos';
+import {RegistrationAuthorityServiceRPC} from '@ezyfs/common/types/rpc/registration-authority';
+import {GrpcGenericClientService} from '@ezyfs/internal/grpc-clients/grpc-generic-client.service';
+import {GrpcToken} from '@ezyfs/internal/grpc-clients/types';
 import {BoolValue} from '@ezyfs/proto-schema';
 import {User} from '@ezyfs/repositories/entities';
 import {Inject, Injectable, OnModuleInit} from '@nestjs/common';
@@ -18,28 +21,32 @@ import {Observable} from 'rxjs';
 
 @Injectable()
 export class RegistrationAuthorityService implements OnModuleInit {
-  private registrationAuthorityRPC: any;
+  private registrationAuthorityRPC: RegistrationAuthorityServiceRPC;
 
   private AuthServiceRPC: any;
 
-  constructor(@Inject('RA') private RA_Client: ClientGrpc) {}
+  constructor(private readonly grpcService: GrpcGenericClientService) {}
 
   onModuleInit() {
-    this.registrationAuthorityRPC = this.RA_Client.getService<any>(
-      'RegistrationAuthorityService',
-    );
+    this.registrationAuthorityRPC = this.grpcService
+      .getService(GrpcToken.REGISTRATION_AUTHORITY)
+      .getService<RegistrationAuthorityServiceRPC>(
+        'RegistrationAuthorityService',
+      );
     console.log(this.registrationAuthorityRPC);
-    this.AuthServiceRPC = this.RA_Client.getService<any>(
-      'AuthentificationService',
-    );
+    this.AuthServiceRPC = this.grpcService
+      .getService(GrpcToken.REGISTRATION_AUTHORITY)
+      .getService<any>('AuthentificationService');
   }
 
   async userExistByEmail(email: string): Promise<BoolValue> {
-    return this.registrationAuthorityRPC.userExistByEmail({email});
+    return this.registrationAuthorityRPC.userExistByEmail({email}).toPromise();
   }
 
   userExistByUsername(username: string): Promise<BoolValue> {
-    return this.registrationAuthorityRPC.userExistByUsername({username});
+    return this.registrationAuthorityRPC
+      .userExistByUsername({username})
+      .toPromise();
   }
 
   firstStageSignUp(firstStageDTO: FirstStageUserInput): Observable<User> {

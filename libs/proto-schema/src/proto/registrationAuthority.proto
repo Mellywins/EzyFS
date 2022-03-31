@@ -14,7 +14,8 @@ service RegistrationAuthorityService {
     rpc ValidUserConfirmation(ValidUserConfirmationInput) returns (TokenModel){}
     rpc SendResetPasswordEmail(SendResetPasswordEmailInput) returns (google.protobuf.BoolValue){}
     rpc ResetPassword(ResetPasswordInput) returns (google.protobuf.BoolValue){}
-}
+    rpc Remove(RemoveInput) returns (User){}
+}   
 service RegistrationAuthorityInternalService {
     rpc InternalFindOne(InternalFindOneInput) returns (User){}
 
@@ -104,4 +105,8 @@ message ResetPasswordInput {
 }
 message InternalFindOneInput {
     int32 id = 1;
+}
+message RemoveInput {
+    User user = 1;
+    int32 id = 2;
 }

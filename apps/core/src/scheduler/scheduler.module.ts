@@ -10,8 +10,6 @@ import {CryptoModule} from '../crypto/crypto.module';
 import {JobInventory} from './inventories/Job-inventory';
 import {ArchiveJob, User} from '@ezyfs/repositories/entities';
 import {CryptographicJob} from '@ezyfs/repositories/entities';
-import {ChannelCredentials} from '@grpc/grpc-js';
-import {ClientsModule, Transport} from '@nestjs/microservices';
 import {GrpcGenericClientModule} from '@ezyfs/internal/grpc-clients/grpc-generic-client.module';
 import {GrpcToken} from '@ezyfs/internal/grpc-clients/types';
 

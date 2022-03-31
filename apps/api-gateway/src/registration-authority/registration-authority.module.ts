@@ -4,6 +4,8 @@ import {join} from 'path';
 import {ChannelCredentials} from '@grpc/grpc-js';
 import {RegistrationAuthorityService} from './registration-authority.service';
 import {RegistrationAuthorityResolver} from './registration-authority.resolver';
+import {GrpcGenericClientModule} from '@ezyfs/internal/grpc-clients/grpc-generic-client.module';
+import {GrpcToken} from '@ezyfs/internal/grpc-clients/types';
 
 @Module({
   providers: [RegistrationAuthorityResolver, RegistrationAuthorityService],
@@ -22,6 +24,9 @@ import {RegistrationAuthorityResolver} from './registration-authority.resolver';
         },
       },
     ]),
+    GrpcGenericClientModule.registerAsync({
+      servicesList: [GrpcToken.REGISTRATION_AUTHORITY],
+    }),
   ],
 })
 export class RegistrationAuthorityModule {}
