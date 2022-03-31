@@ -18,15 +18,14 @@ export class SchedulerService implements OnModuleInit {
     private readonly cryptoService: CryptoService,
     private readonly jobInventory: JobInventory,
     private readonly QI: QueueInventory,
-    @Inject('RA') private RA_Client: ClientGrpc,
     private readonly grpcGenericService: GrpcGenericClientService,
-  ) {
-    const client = this.grpcGenericService.getService(GrpcToken.NOTIFICATIONS);
-    console.log('client: ', client);
-  }
+  ) {}
   onModuleInit() {
+    const client = this.grpcGenericService.getService(
+      GrpcToken.REGISTRATION_AUTHORITY,
+    );
     this.registrationAuthorityRPC =
-      this.RA_Client.getService<RegistrationAuthorityInternalServiceRPC>(
+      client.getService<RegistrationAuthorityInternalServiceRPC>(
         'RegistrationAuthorityInternalService',
       );
     console.log(this.registrationAuthorityRPC);

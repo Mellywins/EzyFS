@@ -70,20 +70,6 @@ import {GrpcToken} from '@ezyfs/internal/grpc-clients/types';
     }),
     TypeOrmModule.forFeature([User, ArchiveJob, CryptographicJob]),
     CryptoModule,
-    ClientsModule.register([
-      {
-        name: 'RA',
-        transport: Transport.GRPC,
-        options: {
-          url: '172.28.1.2:3001',
-          package: 'REGISTRATION_AUTHORITY',
-          protoPath: join(
-            `${process.cwd()}/libs/proto-schema/src/proto/registrationAuthority.proto`,
-          ),
-          credentials: ChannelCredentials.createInsecure(),
-        },
-      },
-    ]),
     GrpcGenericClientModule.registerAsync({
       servicesList: [GrpcToken.NOTIFICATIONS, GrpcToken.REGISTRATION_AUTHORITY],
     }),
