@@ -34,7 +34,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/microservices": "^8.2.6",
     "@nestjs/passport": "^8.1.0",
-    "@nestjs/platform-express": "^8.2.5",
+    "@nestjs/platform-express": "^8.4.7",
     "@nestjs/schedule": "^1.0.2",
     "@nestjs/typeorm": "^8.0.3",
     "@types/crypto-js": "^4.1.0",
